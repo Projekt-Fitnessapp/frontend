@@ -21,8 +21,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo',
-        //theme: ThemeData() --> TODO
+    return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          backgroundColor: Colors.white,
+          primaryColor: const Color(0xff003050),
+          //please add the colors you need for your views in this theme
+        ),
         routes: {
           '/': (context) => const DevView(),
           '/home': (context) => const HomeView(),
@@ -30,7 +35,7 @@ class MyApp extends StatelessWidget {
           '/myStatistics': (context) => const StatisticsView(),
           '/socialSpace': (context) => const SocialSpaceView(),
           '/myProfile': (context) => const ProfileView(),
-          '/testTracking': (context) => const TrackingView(), 
+          '/testTracking': (context) => const TrackingView(),
           '/testEditPlan': (context) => const EditPlanView(),
         });
   }
