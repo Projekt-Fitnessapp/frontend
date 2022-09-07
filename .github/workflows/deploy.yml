@@ -30,4 +30,4 @@ jobs:
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S \
             docker pull ghcr.io/projekt-fitnessapp/frontend:latest
             # Replace the container
-            docker-compose -f ./hosting/docker-compose.yml up -d --no-deps frontend
+            docker-compose -f ./hosting/docker-compose.yml up -d --no-deps fitness-frontend

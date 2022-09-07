@@ -3,7 +3,7 @@ name: Bug report
 about: Tickets für Fehler und Bugs
 title: "[BUG] Dein Titel"
 labels: bug, help wanted
-assignees: lumaghg, STAT1C-Sy
+assignees: binhdich, MatthiasBiermanns, steffenhls
 
 ---
 
