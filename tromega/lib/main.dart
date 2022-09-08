@@ -24,10 +24,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          backgroundColor: Colors.white,
-          primaryColor: const Color(0xff003050),
-          //please add the colors you need for your views in this theme
-        ),
+            backgroundColor: Colors.white,
+            primaryColor: const Color(0xff003050),
+            primaryColorLight: const Color(0xff5cbffb),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                Color(0xff003050),
+              )),
+            ),
+            iconTheme: const IconThemeData(
+              color: Color(0xff003050),
+            ),
+            textTheme: const TextTheme(
+                headline1: TextStyle(
+                    fontSize: 35,
+                    fontFamily: 'Proxima Nova Bold',
+                    color: Color(0xff003050),
+                    letterSpacing: -0.5))
+            //please add the colors you need for your views in this theme
+            ),
         routes: {
           '/': (context) => const DevView(),
           '/home': (context) => const HomeView(),
