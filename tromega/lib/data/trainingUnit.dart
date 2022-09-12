@@ -1,14 +1,14 @@
-class Exercise {
-  late String _id, name, description, gifURL, muscle, equipment;
+class TrainingUnit {
+  late String _id, trainingDayId;
+  late DateTime date;
+  late List<String> exercises;
 
-  Exercise(this._id, this.name, this.description, this.gifURL, this.muscle, this.equipment);
+  TrainingUnit(this._id, this.trainingDayId, this.date, this.exercises);
 
-  Exercise.fromJSON(Map<String, dynamic> importMap) {
-    _id = importMap['_id'];
-    name = importMap['name'];
-    description = importMap['description'];
-    gifURL = importMap['gifURL'];
-    muscle = importMap['muscle'];
-    equipment = importMap['equipment'];
+  TrainingUnit.fromJSON(Map<String, dynamic> importMap) {
+    _id = importMap['_id'] ?? '';
+    trainingDayId = importMap['trainingDayId'] ?? '';
+    date = DateTime.parse(importMap['date']);
+    exercises = List<String>.from(importMap['exercises']);
   }
 }
