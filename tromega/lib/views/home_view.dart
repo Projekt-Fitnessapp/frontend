@@ -1,17 +1,44 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tromega/views/traindayview.dart';
 import '../widgets/bottom_menu.dart';
 import '../views/social_space_view.dart';
 import '../views/plans/plan_overview.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  late DateTime dateToday;
+  late Color colorDot;
+
+  @override
+  void initState() {
+    dateToday = DateTime.now();
+    colorDot = Color.fromARGB(1000, 4, 146, 240);
+    super.initState();
+  }
+
+  var trainigsDaten = Trainweek("week", [
+    Trainday(DateTime.now().subtract(const Duration(days: 1)), true),
+    Trainday(DateTime.now().subtract(const Duration(days: 2)), false),
+    Trainday(DateTime.now().subtract(const Duration(days: 3)), true),
+    Trainday(DateTime.now().subtract(const Duration(days: 4)), false),
+    Trainday(DateTime.now().subtract(const Duration(days: 5)), false),
+    Trainday(DateTime.now().subtract(const Duration(days: 6)), false),
+    Trainday(DateTime.now().subtract(const Duration(days: 7)), true)
+  ]);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(1000, 0, 48, 80),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(120.0),
           child: Column(children: [
@@ -30,14 +57,35 @@ class HomeView extends StatelessWidget {
                   ],
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: CalendarTimeline(
-                initialDate: DateTime.now(),
+                initialDate: dateToday,
                 firstDate: DateTime.now().subtract(const Duration(days: 7)),
                 lastDate: DateTime.now().add(const Duration(days: 7)),
+                dayColor: Colors.black,
+                activeBackgroundDayColor:
+                    Color.fromARGB(1000, 4, 146, 240), //rgba(4,146,240,1.000)
                 onDateSelected: (date) {
-                  print(date);
+                  var daysBack = DateTime.now().day - date.day;
+                  if (daysBack > 0) {
+                    if (trainigsDaten.days[daysBack - 1].trained) {
+                      colorDot = Color.fromARGB(1000, 240, 157, 2);
+                    } else {
+                      colorDot = Color.fromARGB(1000, 4, 146, 240);
+                    }
+                  } else {
+                    colorDot = Color.fromARGB(1000, 4, 146, 240);
+                  }
+                  dateToday = date;
+                  //DateTime myDate = DateTime.parse('2022-09-15 00:00:00Z');
+                  //if (date.year == myDate.year &&
+                  //date.month == myDate.month &&
+                  //date.day == myDate.day) {
+                  //prüfen ob selectedDate in json true hat
+                  //colorDot = Colors.amber;
+                  //}
+                  setState(() {});
                 },
-                leftMargin: MediaQuery.of(context).size.width / 6,
-                dotsColor: Colors.amber,
+                leftMargin: 0,
+                dotsColor: colorDot,
               ),
             )
           ]),
@@ -91,6 +139,7 @@ class HomeView extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(200, 50),
                         maximumSize: const Size(200, 50),
+                        primary: Color.fromARGB(1000, 0, 48, 80),
                       ),
                       onPressed: () {
                         Navigator.push(
