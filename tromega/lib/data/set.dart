@@ -1,14 +1,13 @@
 class Set {
-  late String type;
-  late int reps;
-  late double weight, tenRM;
+  late String executionType;
+  late double reps, weight, tenRM;
 
-  Set(this.type, this.reps, this.weight, this.tenRM);
+  Set(this.executionType, this.reps, this.weight, this.tenRM);
 
   Set.fromJSON(Map<String, dynamic> importMap) {
-    type = importMap['type'];
-    reps = importMap['reps'];
-    weight = importMap['weight'];
-    tenRM = importMap['tenRM'];
+    executionType = importMap['executionType'] ?? '';
+    reps = importMap['reps'] ?? 0;
+    weight = importMap['weight'] ?? 0;
+    tenRM = importMap['tenRM'] ?? 0;
   }
 }

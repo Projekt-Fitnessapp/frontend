@@ -4,9 +4,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gif/gif.dart';
 import '../../data/exercise.dart';
-import '../../data/exerciseUnit.dart';
-import '../../data/trainingUnit.dart';
+import '../../data/execution.dart';
+import '../../data/trainingSession.dart';
+import '../../data/tracking_http_helper.dart';
 
 class TrackingView extends StatefulWidget {
   const TrackingView({Key? key}) : super(key: key);
@@ -15,14 +17,18 @@ class TrackingView extends StatefulWidget {
   State<TrackingView> createState() => _TrackingViewState();
 }
 
-class _TrackingViewState extends State<TrackingView> {
+class _TrackingViewState extends State<TrackingView> with TickerProviderStateMixin {
   // later from api request
-  late List<Exercise> mockData;
+  late TrainingSession lastSession;
+  late TrackingHttpHelper trackingHttpHelper;
+  bool fetching = true;
+
+  final PageController _pageController = PageController();
 
   @override
   initState() {
-    getMockData();
-    mockData = [];
+    trackingHttpHelper = TrackingHttpHelper();
+    fetchData();
     super.initState();
   }
 
@@ -30,33 +36,70 @@ class _TrackingViewState extends State<TrackingView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Hier Icon einfügen')),
-        body: PageView.builder(
-            itemCount: mockData.length,
-            itemBuilder: (BuildContext context, int index) {
-              return TrackExercise(mockData[index]);
-            }));
+        backgroundColor: Colors.blue[100],
+        body: fetching
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  SizedBox(
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: false,
+                      itemCount: lastSession.executions.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ExerciseThumbnail(lastSession.executions[index].exercise);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: PageView.builder(
+                      controller: _pageController,
+                      scrollDirection: Axis.horizontal,
+                      physics: const PageScrollPhysics(),
+                      itemCount: lastSession.executions.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ExecutionPage(lastSession.executions[index]);
+                      },
+                    ),
+                  )
+                ],
+              ));
   }
 
-  Widget TrackExercise(Exercise e) {
-    return Text(e.name);
+  Widget ExerciseThumbnail(Exercise exercise) {
+    GifController gifController = GifController(vsync: this);
+
+    print(exercise.gifUrl);
+    return Card(
+      color: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Gif(
+          image: Image.network(
+            exercise.gifUrl,
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ).image,
+          controller: gifController,
+          autostart: Autostart.no,
+          placeholder: (context) => const CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 
-  Future<List<Exercise>> getMockData() async {
-    String response1 = await rootBundle.loadString('lib/views/in_training/testExercise.json');
-    String response2 = await rootBundle.loadString('lib/views/in_training/testExerciseUnit.json');
-    String response3 = await rootBundle.loadString('lib/views/in_training/testTrainingsUnit.json');
-    dynamic data1 = json.decode(response1);
-    dynamic data2 = json.decode(response2);
-    dynamic data3 = json.decode(response3);
+  Widget ExecutionPage(Execution exec) {
+    return Text(exec.exercise.name);
+  }
 
-    TrainingUnit unit = TrainingUnit.fromJSON(data3);
-
-    print(unit);
-
-    //print('data:');
-    //print(data);
-    //print('Ende');
-
-    return [];
+  void fetchData() async {
+    TrainingSession initSession = await trackingHttpHelper.getMockSession();
+    setState(() {
+      lastSession = initSession;
+      fetching = false;
+    });
   }
 }
