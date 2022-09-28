@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../views/plans/classes.dart';
+import '../data/classes.dart';
 
 class ExerciseContainerAdding extends StatelessWidget {
   const ExerciseContainerAdding(

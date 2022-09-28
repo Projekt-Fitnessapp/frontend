@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../views/plans/classes.dart';
-import 'package:numberpicker/numberpicker.dart';
+import '../data/classes.dart';
+import 'package:gif/gif.dart';
+import '../widgets/sets_dialog.dart';
+import '../widgets/reps_dialog.dart';
 
 class ExerciseContainer extends StatefulWidget {
   const ExerciseContainer(
@@ -17,7 +19,16 @@ class ExerciseContainer extends StatefulWidget {
   State<ExerciseContainer> createState() => _ExerciseContainerState();
 }
 
-class _ExerciseContainerState extends State<ExerciseContainer> {
+class _ExerciseContainerState extends State<ExerciseContainer>
+    with TickerProviderStateMixin {
+  void _changeSets(int sets) {
+    setState(() => widget.exercises[widget.indexExercise].sets = sets);
+  }
+
+  void _changeReps(int reps) {
+    setState(() => widget.exercises[widget.indexExercise].reps = reps);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.indexExercise < widget.exercises.length) {
@@ -41,12 +52,7 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Row(children: <Widget>[
-                Image.network(
-                  exercise.gif,
-                  fit: BoxFit.cover,
-                  height: 110,
-                  alignment: Alignment.center,
-                ),
+                gifWidget(exercise.gif),
                 Expanded(
                     child: Column(children: <Widget>[
                   Row(children: <Widget>[
@@ -69,75 +75,32 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: ElevatedButton(
-                              child: Text("${exercise.sets} Sätze"),
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => StatefulBuilder(
-                                            builder: (context, setState) {
-                                          return Dialog(
-                                              insetPadding:
-                                                  const EdgeInsets.all(150),
-                                              backgroundColor: Theme.of(context)
-                                                  .backgroundColor,
-                                              child: SizedBox(
-                                                width: double.minPositive,
-                                                child: NumberPicker(
-                                                  textStyle: const TextStyle(
-                                                      fontFamily:
-                                                          "Proxima Nova",
-                                                      color: Colors.white),
-                                                  minValue: 0,
-                                                  maxValue: 10,
-                                                  value: exercise.sets,
-                                                  onChanged: (int value) {
-                                                    exercise.sets = value;
-                                                    setState(() {});
-                                                    this.setState(() {});
-                                                  },
-                                                ),
-                                              ));
-                                        }));
-                              },
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: ElevatedButton(
-                              child: Text("${exercise.reps} Wdh"),
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => StatefulBuilder(
-                                            builder: (context, setState) {
-                                          return Dialog(
-                                              insetPadding:
-                                                  const EdgeInsets.all(150),
-                                              backgroundColor: Theme.of(context)
-                                                  .backgroundColor,
-                                              child: NumberPicker(
-                                                textStyle: const TextStyle(
-                                                    fontFamily: "Proxima Nova",
-                                                    color: Colors.white),
-                                                minValue: 0,
-                                                maxValue: 100,
-                                                value: exercise.reps,
-                                                onChanged: (int value) {
-                                                  exercise.reps = value;
-                                                  setState(() {});
-                                                  this.setState(() {});
-                                                },
-                                              ));
-                                        }));
-                              },
-                            ))
+                        SetsDialog(
+                            sets: widget.exercises[widget.indexExercise].sets,
+                            changeSets: _changeSets),
+                        RepsDialog(
+                            reps: widget.exercises[widget.indexExercise].reps,
+                            changeReps: _changeReps),
                       ])),
                 ])),
               ])));
     } else {
       return Container();
     }
+  }
+
+  Widget gifWidget(String gif) {
+    //GifController gifController = GifController(vsync: this);
+
+    return Gif(
+      image: Image.network(
+        gif,
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+        height: 110,
+      ).image,
+      autostart: Autostart.no,
+      //controller: gifController,
+    );
   }
 }

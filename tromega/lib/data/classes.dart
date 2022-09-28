@@ -8,6 +8,7 @@ class Exercise {
 
   Exercise(
       this.name, this.muscle, this.equipment, this.sets, this.reps, this.gif);
+  Exercise.fromJSON();
 }
 
 class Day {

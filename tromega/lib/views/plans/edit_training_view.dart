@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/edit_plan_view_column.dart';
-import 'classes.dart';
+import '../../data/classes.dart';
 
 class EditPlanView extends StatefulWidget {
   EditPlanView({Key? key}) : super(key: key);

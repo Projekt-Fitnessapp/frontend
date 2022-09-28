@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'exercise_container.dart';
-import '../views/plans/classes.dart';
+import '../data/classes.dart';
 import '../views/plans/add_exercise.dart';
 
 class EditPlanViewColumn extends StatefulWidget {

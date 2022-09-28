@@ -5,7 +5,7 @@ import 'package:tromega/widgets/exercise_container_adding.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/edit_plan_view_column.dart';
-import 'classes.dart';
+import '../../data/classes.dart';
 
 class AddExercise extends StatefulWidget {
   final Day day;
