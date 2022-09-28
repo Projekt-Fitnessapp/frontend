@@ -16,6 +16,7 @@ class Day {
   late List<Exercise> exercises;
 
   Day(this.name, this.exercises);
+  Day.fromJSON();
 }
 
 class Training {
@@ -23,4 +24,5 @@ class Training {
   late List<Day> days;
 
   Training(this.name, this.days);
+  Training.fromJSON();
 }

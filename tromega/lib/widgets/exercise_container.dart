@@ -3,6 +3,7 @@ import '../data/classes.dart';
 import 'package:gif/gif.dart';
 import '../widgets/sets_dialog.dart';
 import '../widgets/reps_dialog.dart';
+import '../widgets/exercise_gif.dart';
 
 class ExerciseContainer extends StatefulWidget {
   const ExerciseContainer(
@@ -52,7 +53,7 @@ class _ExerciseContainerState extends State<ExerciseContainer>
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Row(children: <Widget>[
-                gifWidget(exercise.gif),
+                ExerciseGif(gif: exercise.gif),
                 Expanded(
                     child: Column(children: <Widget>[
                   Row(children: <Widget>[
@@ -87,20 +88,5 @@ class _ExerciseContainerState extends State<ExerciseContainer>
     } else {
       return Container();
     }
-  }
-
-  Widget gifWidget(String gif) {
-    //GifController gifController = GifController(vsync: this);
-
-    return Gif(
-      image: Image.network(
-        gif,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-        height: 110,
-      ).image,
-      autostart: Autostart.no,
-      //controller: gifController,
-    );
   }
 }
