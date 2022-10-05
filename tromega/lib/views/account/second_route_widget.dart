@@ -56,10 +56,7 @@ class _SecondRouteWidget extends State<SecondRouteWidget> {
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll<Color>(color)),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileView()),
-            );
+            Navigator.pushNamed(context, '/myProfile');
           },
           child: const Text('Registrieren'),
         ),
