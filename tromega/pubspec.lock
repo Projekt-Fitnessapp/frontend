@@ -69,6 +69,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_gif:
+    dependency: "direct main"
+    description:
+      name: flutter_gif
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
+  flutter_gifimage:
+    dependency: "direct main"
+    description:
+      name: flutter_gifimage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -81,6 +95,7 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -128,6 +143,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+=======
+  gif:
+    dependency: "direct main"
+    description:
+      name: gif
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
+  infinite_listview:
+    dependency: transitive
+    description:
+      name: infinite_listview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+>>>>>>> 2586ff24ab1bc5e4cbd1e18f6fbde52e3198bafe
   lints:
     dependency: transitive
     description:
@@ -155,7 +186,14 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.7.0"
+  numberpicker:
+    dependency: "direct main"
+    description:
+      name: numberpicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   path:
     dependency: transitive
     description:
@@ -233,4 +271,8 @@ packages:
     version: "2.1.2"
 sdks:
   dart: ">=2.17.6 <3.0.0"
+<<<<<<< HEAD
   flutter: ">=2.10.0"
+=======
+  flutter: ">=2.5.0"
+>>>>>>> 2586ff24ab1bc5e4cbd1e18f6fbde52e3198bafe
