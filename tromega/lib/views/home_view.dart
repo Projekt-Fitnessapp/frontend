@@ -40,56 +40,61 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(1000, 0, 48, 80),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(120.0),
-          child: Column(children: [
-            Container(
-              height: 120,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: CalendarTimeline(
-                initialDate: dateToday,
-                firstDate: DateTime.now().subtract(const Duration(days: 7)),
-                lastDate: DateTime.now().add(const Duration(days: 7)),
-                dayColor: Colors.black,
-                activeBackgroundDayColor:
-                    Color.fromARGB(1000, 4, 146, 240), //rgba(4,146,240,1.000)
-                onDateSelected: (date) {
-                  var daysBack = DateTime.now().day - date.day;
-                  if (daysBack > 0) {
-                    if (trainigsDaten.days[daysBack - 1].trained) {
-                      colorDot = Color.fromARGB(1000, 240, 157, 2);
-                    } else {
-                      colorDot = Color.fromARGB(1000, 4, 146, 240);
-                    }
-                  } else {
-                    colorDot = Color.fromARGB(1000, 4, 146, 240);
-                  }
-                  dateToday = date;
-                  //DateTime myDate = DateTime.parse('2022-09-15 00:00:00Z');
-                  //if (date.year == myDate.year &&
-                  //date.month == myDate.month &&
-                  //date.day == myDate.day) {
-                  //prüfen ob selectedDate in json true hat
-                  //colorDot = Colors.amber;
-                  //}
-                  setState(() {});
-                },
-                leftMargin: 0,
-                dotsColor: colorDot,
-              ),
-            )
-          ]),
-        ),
+            preferredSize: const Size.fromHeight(152.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
+                Container(
+                    height: 135,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 5,
+                            blurRadius: 10,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CalendarTimeline(
+                        initialDate: dateToday,
+                        firstDate:
+                            DateTime.now().subtract(const Duration(days: 7)),
+                        lastDate: DateTime.now().add(const Duration(days: 7)),
+                        dayColor: Colors.black,
+                        activeBackgroundDayColor: Color.fromARGB(
+                            1000, 4, 146, 240), //rgba(4,146,240,1.000)
+                        onDateSelected: (date) {
+                          var daysBack = DateTime.now().day - date.day;
+                          if (daysBack > 0) {
+                            if (trainigsDaten.days[daysBack - 1].trained) {
+                              colorDot = Color.fromARGB(1000, 240, 157, 2);
+                            } else {
+                              colorDot = Color.fromARGB(1000, 4, 146, 240);
+                            }
+                          } else {
+                            colorDot = Color.fromARGB(1000, 4, 146, 240);
+                          }
+                          dateToday = date;
+                          //DateTime myDate = DateTime.parse('2022-09-15 00:00:00Z');
+                          //if (date.year == myDate.year &&
+                          //date.month == myDate.month &&
+                          //date.day == myDate.day) {
+                          //prüfen ob selectedDate in json true hat
+                          //colorDot = Colors.amber;
+                          //}
+                          setState(() {});
+                        },
+                        leftMargin: 0,
+                        dotsColor: colorDot,
+                      ),
+                    ))
+              ]),
+            )),
       ),
       body: Container(
         alignment: Alignment.center,
