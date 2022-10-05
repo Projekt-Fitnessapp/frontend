@@ -1,6 +1,6 @@
 import 'package:tromega/views/account/Example/user.dart';
-import 'package:tromega/views/account/profile_widget.dart';
-import 'package:tromega/views/account/textfield_widget.dart';
+import '../../widgets/account/profile_widget.dart';
+import '../../widgets/account/textfield_widget.dart';
 
 import '../../widgets/app_bar.dart';
 import 'package:flutter/material.dart';

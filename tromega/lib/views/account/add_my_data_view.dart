@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../account/questions_widget.dart';
-import '../account/second_route_widget.dart';
+import '../../widgets/account/questions_widget.dart';
+import '../../widgets/account/second_route_widget.dart';
 
 class FirstDataView extends StatelessWidget {
   const FirstDataView({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class FirstDataView extends StatelessWidget {
     );
   }
 }
+
 
 class SecondDataView extends StatelessWidget {
   const SecondDataView({Key? key}) : super(key: key);

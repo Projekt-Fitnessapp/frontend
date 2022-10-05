@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/views/account/data_widget.dart';
+import 'package:tromega/widgets/account/data_widget.dart';
 
 class SecondRouteWidget extends StatefulWidget {
   const SecondRouteWidget({super.key});

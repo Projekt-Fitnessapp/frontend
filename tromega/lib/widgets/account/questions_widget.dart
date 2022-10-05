@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
-import 'package:tromega/views/account/data_widget.dart';
+import 'package:tromega/widgets/account/data_widget.dart';
 
 class FirstRouteWidget extends StatefulWidget {
   const FirstRouteWidget({Key? key, this.title}) : super(key: key);
