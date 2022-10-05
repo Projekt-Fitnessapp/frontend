@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/views/account/add_my_data_view.dart';
-import 'package:tromega/views/account/my_profile_view.dart';
+import 'package:tromega/views/account/data_widget.dart';
 
 class SecondRouteWidget extends StatefulWidget {
   const SecondRouteWidget({super.key});
@@ -86,22 +85,4 @@ class _SecondRouteWidget extends State<SecondRouteWidget> {
           ),
         ),
       )));
-
-  Widget buildQuestion({required String text}) => Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Text(text, style: const TextStyle(fontSize: 16)),
-      );
-
-  Widget buildTextField(Color color) => const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: TextField(
-          style: TextStyle(height: 0.5),
-          decoration: InputDecoration(
-              suffixIcon: Icon(Icons.unfold_more),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: Colors.grey)),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: Colors.grey))),
-        ),
-      );
 }

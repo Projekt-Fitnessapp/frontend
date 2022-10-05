@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
-import 'package:tromega/views/account/my_profile_view.dart';
+import 'package:tromega/views/account/data_widget.dart';
 
 class FirstRouteWidget extends StatefulWidget {
   const FirstRouteWidget({Key? key, this.title}) : super(key: key);
@@ -12,6 +12,7 @@ class FirstRouteWidget extends StatefulWidget {
 }
 
 class _FirstRouteWidget extends State<FirstRouteWidget> {
+
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
@@ -98,23 +99,3 @@ class _FirstRouteWidget extends State<FirstRouteWidget> {
             ),
           )));
 }
-
-
-
-Widget buildQuestion({required String text}) => Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Text(text, style: const TextStyle(fontSize: 16)),
-    );
-
-Widget buildTextField(Color color) => const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      child: TextField(
-        style: TextStyle(height: 0.5),
-        decoration: InputDecoration(
-            suffixIcon: Icon(Icons.unfold_more),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.grey)),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.grey))),
-      ),
-    );
