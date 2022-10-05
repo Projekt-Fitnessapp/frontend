@@ -1,5 +1,5 @@
 import 'dart:ffi';
-
+import '../../widgets/trainingsplanBtn.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/bottom_menu.dart';
 
@@ -42,7 +42,7 @@ class PlanDetailsView extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: workoutDays.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return buildTrainingsplanBtn(workoutDays[index]);
+                          return TrainingsplanBtn(name: workoutDays[index]);
                         })
                   ],
                 ),
@@ -57,20 +57,4 @@ class PlanDetailsView extends StatelessWidget {
       bottomNavigationBar: const BottomMenu(index: 1),
     );
   }
-
-  Widget buildTrainingsplanBtn(String name) => Column(
-        children: [
-          const SizedBox(height: 8.0),
-          FloatingActionButton.extended(
-            extendedPadding: const EdgeInsetsDirectional.all(50.0),
-            label: Text(name,
-                style: const TextStyle(fontSize: 33, color: Colors.black)),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            backgroundColor: Colors.white,
-            onPressed: () {},
-          ),
-          const SizedBox(height: 8.0),
-        ],
-      );
 }

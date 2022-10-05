@@ -1,28 +1,27 @@
 import 'dart:ffi';
-
+import '../../widgets/trainingsplanBtn.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/bottom_menu.dart';
 
 class PlanOverview extends StatelessWidget {
-  const PlanOverview({Key? key}) : super(key: key);
+  PlanOverview({Key? key}) : super(key: key);
+  var secondTitle = 'Meine Trainingspläne';
+  var createTrainingsplan = 'Neuen Trainingsplan erstellen';
+  var createTrainingsplanChoice1 = 'Manuell erstellen';
+  var createTrainingsplanChoice2 = 'Automatisch erstellen';
+  var premium = false;
+  var trainingsplanCnt = 3;
+  var premiumDesc = 'Premium Inhalte freischalten';
 
+  List<String> trainingsplanBtns = [
+    'Trainingsplan 1',
+    'Trainingsplan 2',
+    'Trainingsplan 3',
+    'Trainingsplan 4',
+    'Trainingsplan 5'
+  ];
   @override
   Widget build(BuildContext context) {
-    const secondTitle = 'Meine Trainingspläne';
-    const createTrainingsplan = 'Neuen Trainingsplan erstellen';
-    const createTrainingsplanChoice1 = 'Manuell erstellen';
-    const createTrainingsplanChoice2 = 'Automatisch erstellen';
-    var premium = false;
-    var trainingsplanCnt = 3;
-    const premiumDesc = 'Premium Inhalte freischalten';
-
-    List<String> trainingsplanBtns = [
-      'Trainingsplan 1',
-      'Trainingsplan 2',
-      'Trainingsplan 3',
-      'Trainingsplan 4',
-      'Trainingsplan 5'
-    ];
     return Scaffold(
       appBar: AppBar(title: const Text('Hier Icon einfügen')),
       body: Row(
@@ -40,14 +39,14 @@ class PlanOverview extends StatelessWidget {
                 // ignore: prefer_const_constructors
                 Align(
                   alignment: Alignment.topLeft,
-                  child: const Text(secondTitle,
+                  child: Text(secondTitle,
                       style: TextStyle(fontSize: 33, color: Colors.black)),
                 ),
                 Align(
                   alignment: Alignment.topLeft,
                   child: FloatingActionButton.extended(
                       extendedPadding: const EdgeInsetsDirectional.all(20.0),
-                      label: const Text(createTrainingsplan,
+                      label: Text(createTrainingsplan,
                           style: TextStyle(fontSize: 12, color: Colors.black)),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
@@ -63,7 +62,7 @@ class PlanOverview extends StatelessWidget {
                                 FloatingActionButton.extended(
                                   extendedPadding:
                                       const EdgeInsetsDirectional.all(20.0),
-                                  label: const Text(createTrainingsplanChoice1,
+                                  label: Text(createTrainingsplanChoice1,
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.black)),
                                   shape: RoundedRectangleBorder(
@@ -75,7 +74,7 @@ class PlanOverview extends StatelessWidget {
                                 FloatingActionButton.extended(
                                   extendedPadding:
                                       const EdgeInsetsDirectional.all(20.0),
-                                  label: const Text(createTrainingsplanChoice2,
+                                  label: Text(createTrainingsplanChoice2,
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.black)),
                                   shape: RoundedRectangleBorder(
@@ -101,7 +100,7 @@ class PlanOverview extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: trainingsplanBtns.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return buildTrainingsplanBtn(trainingsplanBtns[index]);
+                        return TrainingsplanBtn(name: trainingsplanBtns[index]);
                       }),
                 ),
 
@@ -114,8 +113,8 @@ class PlanOverview extends StatelessWidget {
                             shrinkWrap: true,
                             itemCount: trainingsplanCnt,
                             itemBuilder: (BuildContext context, int index) {
-                              return buildTrainingsplanBtn(
-                                  trainingsplanBtns[index]);
+                              return TrainingsplanBtn(
+                                  name: trainingsplanBtns[index]);
                             }),
                         Stack(children: [
                           ListView.builder(
@@ -124,8 +123,10 @@ class PlanOverview extends StatelessWidget {
                               itemCount:
                                   trainingsplanBtns.length - trainingsplanCnt,
                               itemBuilder: (BuildContext context, int index) {
-                                return buildTrainingsplanBtn(trainingsplanBtns[
-                                    index + trainingsplanCnt]);
+                                return TrainingsplanBtn(
+                                  name: trainingsplanBtns[
+                                      index + trainingsplanCnt],
+                                );
                               }),
                           Container(
                             color: Color.fromARGB(255, 12, 12, 12)
@@ -153,20 +154,4 @@ class PlanOverview extends StatelessWidget {
       bottomNavigationBar: const BottomMenu(index: 1),
     );
   }
-
-  Widget buildTrainingsplanBtn(String name) => Column(
-        children: [
-          const SizedBox(height: 8.0),
-          FloatingActionButton.extended(
-            extendedPadding: const EdgeInsetsDirectional.all(50.0),
-            label: Text(name,
-                style: const TextStyle(fontSize: 33, color: Colors.black)),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            backgroundColor: Colors.white,
-            onPressed: () {},
-          ),
-          const SizedBox(height: 8.0),
-        ],
-      );
 }
