@@ -27,7 +27,9 @@ class _DevViewState extends State<DevView> {
         shrinkWrap: false,
         itemCount: views.length,
         itemBuilder: (BuildContext context, int index) {
-          return TextButton(onPressed: () => {Navigator.of(context).pushNamed(views[index])}, child: Text(views[index].substring(1, views[index].length)));
+          return TextButton(
+              onPressed: () => {Navigator.of(context).pushNamed(views[index])},
+              child: Text(views[index].substring(1, views[index].length)));
         },
       ),
     );
