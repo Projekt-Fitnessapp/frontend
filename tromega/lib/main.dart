@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           '/socialSpace': (context) => const SocialSpaceView(),
           '/myProfile': (context) => const ProfileView(),
           '/testTracking': (context) => const TrackingView(),
-          '/testEditPlan': (context) => const EditPlanView(),
+          '/testEditPlan': (context) => EditPlanView(),
         });
   }
 }
