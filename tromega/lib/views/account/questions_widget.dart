@@ -23,15 +23,19 @@ class _FirstRouteWidget extends State<FirstRouteWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           buildQuestion(text: 'Wie alt bist du?'),
-          buildTextField(),
+          buildTextField(color),
           buildQuestion(text: 'Wie groß bist du?'),
-          buildTextField(),
+          buildTextField(color),
           buildQuestion(text: 'Wie viel wiegst du?'),
-          buildTextField(),
+          buildTextField(color),
           buildQuestion(text: 'Was ist dein Trainingsziel?'),
           const SizedBox(height: 16),
           buildDropdownButton(color,
-              dropDownOptions: ["Muskeln aufbauen", "Ausdauer verbessern", "Gewicht verlieren"],
+              dropDownOptions: [
+                "Muskeln aufbauen",
+                "Ausdauer verbessern",
+                "Gewicht verlieren"
+              ],
               dropdownValue: "Muskeln aufbauen"),
           const SizedBox(height: 16),
           buildQuestion(text: 'Mit welchem Geschlecht identifizierst du dich?'),
@@ -128,13 +132,13 @@ class _SecondRouteWidget extends State<SecondRouteWidget> {
             buildDropDownButton(color),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
-            buildTextField(),
+            buildTextField(color),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
-            buildTextField(),
+            buildTextField(color),
             buildQuestion(text: 'Wie viel Kilo stemmst du?'),
-            buildTextField(),
+            buildTextField(color),
             buildQuestion(text: 'Wie häufig gehst du trainieren?'),
-            buildTextField(),
+            buildTextField(color),
             buildRegisterButton(color),
           ],
         ),
@@ -189,11 +193,12 @@ Widget buildQuestion({required String text}) => Padding(
       child: Text(text, style: const TextStyle(fontSize: 16)),
     );
 
-Widget buildTextField() => const Padding(
+Widget buildTextField(Color color) => const Padding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextField(
         style: TextStyle(height: 0.5),
         decoration: InputDecoration(
+            suffixIcon: Icon(Icons.unfold_more),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 2, color: Colors.grey)),
             border: OutlineInputBorder(

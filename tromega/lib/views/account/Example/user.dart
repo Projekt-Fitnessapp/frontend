@@ -1,18 +1,13 @@
 class User {
   final String imagePath;
   final String name;
-  final String age;
-  final String height;
-  final String weight;
+  final int age;
+  final double height;
+  final double weight;
   final String gender;
   final String goal;
 
-  const User(
-      {required this.imagePath,
-      required this.name,
-      required this.age,
-      required this.height,
-      required this.weight,
-      required this.gender,
-      required this.goal});
+  User(this.imagePath, this.name, this.age, this.height, this.weight,
+      this.gender, this.goal);
+
 }
