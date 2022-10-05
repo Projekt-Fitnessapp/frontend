@@ -36,7 +36,7 @@ class ProfileView extends StatelessWidget {
           buildData(user),
         ],
       ),
-      bottomNavigationBar: const BottomMenu(index: 1),
+      bottomNavigationBar: const BottomMenu(index: 4),
     );
   }
 

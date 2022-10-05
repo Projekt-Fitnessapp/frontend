@@ -32,7 +32,7 @@ class _EditProfile extends State<EditProfile> {
             ProfileWidget(
               imagePath: user.imagePath,
               isEdit: true,
-              onClicked: () async {},
+              onClicked: () {},
             ),
             const SizedBox(height: 24),
             TextFieldWidget(
