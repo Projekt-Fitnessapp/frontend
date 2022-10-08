@@ -1,3 +1,4 @@
+import 'package:tromega/data/execution.dart';
 import 'package:tromega/data/trainingSession.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,6 +27,10 @@ class TrackingHttpHelper {
 
     http.Response response = await http.get(uri);
     TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
+    for (int i = 0; i < 10; i++) {
+      Execution newExecution = lastSession.executions[0];
+      lastSession.executions.add(newExecution);
+    }
 
     return lastSession;
   }
