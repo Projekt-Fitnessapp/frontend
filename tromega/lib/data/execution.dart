@@ -1,10 +1,10 @@
 import './exercise.dart';
-import './set.dart';
+import 'exerciseSet.dart';
 
 class Execution {
   late Exercise exercise;
   late List<String> notes;
-  late List<Set> sets;
+  late List<ExerciseSet> sets;
 
   Execution(this.exercise, this.notes, this.sets);
 
@@ -12,6 +12,6 @@ class Execution {
     exercise = Exercise.fromJSON(importMap['exercise'] ?? {});
     notes = importMap['notes'].map<String>((note) => note.toString()).toList();
     //executions = (importMap['executions'] ?? []).map((executionMap) => Execution.fromJSON(executionMap)).toList()
-    sets = importMap['sets'].map<Set>((setMap) => Set.fromJSON(setMap)).toList();
+    sets = importMap['sets'].map<ExerciseSet>((setMap) => ExerciseSet.fromJSON(setMap)).toList();
   }
 }

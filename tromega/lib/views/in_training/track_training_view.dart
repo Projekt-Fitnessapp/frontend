@@ -1,9 +1,4 @@
-// Matthias
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import '../../data/execution.dart';
 import '../../data/trainingSession.dart';
 import '../../data/tracking_http_helper.dart';
 import '../../widgets/app_bar.dart';
@@ -18,7 +13,6 @@ class TrackingView extends StatefulWidget {
 }
 
 class _TrackingViewState extends State<TrackingView> {
-  // later from api request
   late TrainingSession lastSession;
   late TrackingHttpHelper trackingHttpHelper;
   bool fetching = true;

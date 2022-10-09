@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/execution.dart';
 import './ExecutionNoteDisplay.dart';
+import './SetDisplay.dart';
 
 class ExecutionPage extends StatefulWidget {
   const ExecutionPage({Key? key, required this.execution, required this.position}) : super(key: key);
@@ -11,11 +12,13 @@ class ExecutionPage extends StatefulWidget {
 }
 
 class _ExecutionPageState extends State<ExecutionPage> {
+  late Execution exec;
   late String newNote;
 
   @override
   void initState() {
-    newNote = 'Notiz Hinzufügen';
+    exec = widget.execution;
+    newNote = 'Notiz hinzufügen';
     super.initState();
   }
 
@@ -30,11 +33,8 @@ class _ExecutionPageState extends State<ExecutionPage> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  widget.execution.exercise.name,
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                  exec.exercise.name,
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
               Align(
@@ -49,25 +49,59 @@ class _ExecutionPageState extends State<ExecutionPage> {
               ),
             ],
           ),
-          Column(
-            children: widget.execution.notes.map((note) => ExecutionNoteDisplay(note: note)).toList(),
-          ),
-          EditableText(
-            textWidthBasis: TextWidthBasis.longestLine,
-            onSubmitted: (value) {
-              setState(() {
-                widget.execution.notes.add(value);
-              });
-            },
-            textAlign: TextAlign.left,
-            controller: TextEditingController(
-              text: newNote,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Text(
+              '${exec.exercise.equipment} \u2022 ${exec.sets.length} Sätz(e)',
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-            style: const TextStyle(color: Colors.grey),
-            backgroundCursorColor: Colors.black,
-            cursorColor: Colors.white,
-            focusNode: FocusNode(),
-          )
+          ),
+          Column(
+            children: exec.notes
+                .asMap()
+                .entries
+                .map((entry) => ExecutionNoteDisplay(
+                      note: entry.value,
+                      position: entry.key,
+                      deleteNote: (int index) {
+                        setState(() {
+                          exec.notes.removeAt(index);
+                        });
+                      },
+                      changeNote: (int index, String value) {
+                        setState(() {
+                          exec.notes.removeAt(index);
+                          exec.notes.insert(index, value);
+                        });
+                      },
+                    ))
+                .toList(),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+            child: EditableText(
+              textWidthBasis: TextWidthBasis.longestLine,
+              onSubmitted: (value) {
+                setState(() {
+                  exec.notes.add(value);
+                });
+              },
+              textAlign: TextAlign.left,
+              controller: TextEditingController(
+                text: newNote,
+              ),
+              style: const TextStyle(color: Colors.grey),
+              backgroundCursorColor: Colors.black,
+              cursorColor: Colors.white,
+              focusNode: FocusNode(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: SetDisplay(
+              executionSets: exec.sets,
+            ),
+          ),
         ],
       ),
     );
