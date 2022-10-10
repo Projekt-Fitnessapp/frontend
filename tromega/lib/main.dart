@@ -60,9 +60,9 @@ class MyApp extends StatelessWidget {
           '/socialSpace': (context) => const SocialSpaceView(),
           '/myProfile': (context) => const ProfileView(),
           '/testTracking': (context) => const TrackingView(),
-          '/myFirstData': (context) => const FirstDataView(),
           '/myLogIn': (context) => const LoginView(),
           '/testEditPlan': (context) => EditPlanView(),
+          '/addMyDataView': (context) => const AddMyDataView(),
 
         });
   }

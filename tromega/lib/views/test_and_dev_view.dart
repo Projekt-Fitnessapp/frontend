@@ -17,8 +17,8 @@ class _DevViewState extends State<DevView> {
     '/myProfile',
     '/testTracking',
     '/testEditPlan',
-    '/myFirstData',
-    '/myLogIn'
+    '/myLogIn',
+    '/addMyDataView'
   ];
 
   @override

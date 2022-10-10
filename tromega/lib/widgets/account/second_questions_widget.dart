@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 
-class SecondRouteWidget extends StatefulWidget {
-  const SecondRouteWidget({super.key});
+class SecondQuestionWidget extends StatefulWidget {
+  const SecondQuestionWidget({super.key});
 
   @override
-  _SecondRouteWidget createState() => _SecondRouteWidget();
+  _SecondQuestionWidget createState() => _SecondQuestionWidget();
 }
 
-class _SecondRouteWidget extends State<SecondRouteWidget> {
+class _SecondQuestionWidget extends State<SecondQuestionWidget> {
   String _dropdownValue = "Ja";
   List<String> dropDownOptions = ["Ja", "Ein bisschen", "Nein"];
   void dropdownCallback(String? selectedValue) {

@@ -1,43 +1,42 @@
 import 'package:flutter/material.dart';
-import '../../widgets/account/questions_widget.dart';
-import '../../widgets/account/second_route_widget.dart';
+import 'package:tromega/widgets/app_bar.dart';
+import '../../widgets/account/first_questions_widget.dart';
+import '../../widgets/account/second_questions_widget.dart';
 
-class FirstDataView extends StatelessWidget {
-  const FirstDataView({Key? key}) : super(key: key);
+class AddMyDataView extends StatefulWidget {
+  const AddMyDataView({super.key});
+
+  @override
+  State<AddMyDataView> createState() => _AddMyDataViewState();
+}
+
+class _AddMyDataViewState extends State<AddMyDataView> {
+  late int page;
+
+  @override
+  void initState() {
+    page = 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar_Icon(),
       body: ListView(
         children: [
-          buildLogo(),
           const SizedBox(height: 24),
-          const FirstRouteWidget(),
+          page == 0
+              ? FirstQuestionWidget(
+                  onClick: () {
+                    setState(() {
+                      page++;
+                    });
+                  },
+                )
+              : const SecondQuestionWidget()
         ],
       ),
     );
   }
 }
-
-
-class SecondDataView extends StatelessWidget {
-  const SecondDataView({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          buildLogo(),
-          const SizedBox(height: 24),
-          const SecondRouteWidget(),
-        ],
-      ),
-    );
-  }
-}
-
-Widget buildLogo() => Container(
-    width: 100,
-    height: 100,
-    alignment: Alignment.center,
-    child: Image.asset('public/TrOmega_dark.png', fit: BoxFit.cover));

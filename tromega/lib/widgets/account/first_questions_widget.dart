@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 
-class FirstRouteWidget extends StatefulWidget {
-  const FirstRouteWidget({Key? key, this.title}) : super(key: key);
+class FirstQuestionWidget extends StatefulWidget {
+  const FirstQuestionWidget({Key? key, this.title, required this.onClick})
+      : super(key: key);
 
+  final Function onClick;
   final String? title;
 
   @override
-  _FirstRouteWidget createState() => _FirstRouteWidget();
+  _FirstQuestionWidget createState() => _FirstQuestionWidget();
 }
 
-class _FirstRouteWidget extends State<FirstRouteWidget> {
-
+class _FirstQuestionWidget extends State<FirstQuestionWidget> {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
@@ -58,44 +59,41 @@ class _FirstRouteWidget extends State<FirstRouteWidget> {
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll<Color>(color)),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SecondDataView()),
-            );
+            widget.onClick();
           },
           child: const Text('Weiter'),
         ),
       );
 
   Widget buildDropdownButton(Color color,
-          {required List<String> dropDownOptions,
-          required String dropdownValue}) =>
-      Container(
-          height: 55,
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          alignment: Alignment.centerLeft,
-          child: (InputDecorator(
-            decoration: const InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: Colors.grey),
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)))),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton(
-                items: dropDownOptions
-                    .map<DropdownMenuItem<String>>((String mascot) {
-                  return DropdownMenuItem<String>(
-                      value: mascot, child: Text(mascot));
-                }).toList(),
-                value: dropdownValue,
-                onChanged: (String? changedValue) {
-                  setState(() {
-                    dropdownValue = changedValue!;
-                  });
-                },
-                iconEnabledColor: color,
-                icon: const Icon(Icons.expand_more),
-                isExpanded: true,
-              ),
+      {required List<String> dropDownOptions, required String dropdownValue}) {
+    return Container(
+        height: 55,
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        alignment: Alignment.centerLeft,
+        child: (InputDecorator(
+          decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: Colors.grey),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)))),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton(
+              items: dropDownOptions
+                  .map<DropdownMenuItem<String>>((String mascot) {
+                return DropdownMenuItem<String>(
+                    value: mascot, child: Text(mascot));
+              }).toList(),
+              value: dropdownValue,
+              onChanged: (String? changedValue) {
+                setState(() {
+                  dropdownValue = changedValue!;
+                });
+              },
+              iconEnabledColor: color,
+              icon: const Icon(Icons.expand_more),
+              isExpanded: true,
             ),
-          )));
+          ),
+        )));
+  }
 }
