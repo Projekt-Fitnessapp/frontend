@@ -8,7 +8,7 @@ ThemeData tromegaTheme() {
     backgroundColor: Colors.white,
     primaryColor: const Color(0xff003050),
     primaryColorLight: const Color(0xff5cbffb),
-    highlightColor:  Colors.grey[400],
+    highlightColor:  Colors.grey[300],
     // Buttons
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -69,19 +69,19 @@ ThemeData tromegaTheme() {
       labelLarge: TextStyle(
         fontSize: 14,
         fontFamily: 'Proxima Nova',
-        color: Color(0xff003050),
+        color: Colors.white,
         letterSpacing: -0.5,
       ),
       labelMedium: TextStyle(
         fontSize: 12,
         fontFamily: 'Proxima Nova',
-        color: Color(0xff003050),
+        color: Colors.white,
         letterSpacing: -0.5,
       ),
       labelSmall: TextStyle(
         fontSize: 11,
         fontFamily: 'Proxima Nova',
-        color: Color(0xff003050),
+        color: Colors.white,
         letterSpacing: -0.5,
       ),
 

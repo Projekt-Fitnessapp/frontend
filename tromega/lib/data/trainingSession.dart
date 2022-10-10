@@ -7,6 +7,9 @@ class TrainingSession {
 
   TrainingSession(this._id, this.userId, this.trainingDayId, this.date, this.executions);
 
+  TrainingSession.clone(TrainingSession trainingSession)
+      : this(trainingSession._id, trainingSession.userId, trainingSession.trainingDayId, trainingSession.date, trainingSession.executions);
+
   TrainingSession.fromJSON(Map<String, dynamic> importMap) {
     _id = importMap['_id'] ?? '';
     userId = importMap['userId'] ?? '';

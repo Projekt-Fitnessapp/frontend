@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/data/executionSet.dart';
 import '../../data/execution.dart';
 import './ExecutionNoteDisplay.dart';
 import './SetDisplay.dart';
@@ -96,10 +97,20 @@ class _ExecutionPageState extends State<ExecutionPage> {
               focusNode: FocusNode(),
             ),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
           Padding(
             padding: const EdgeInsets.all(8),
             child: SetDisplay(
               executionSets: exec.sets,
+              onAddSet: () {
+                setState(() {
+                  ExecutionSet tempSet = ExecutionSet.clone(exec.sets.last);
+                  tempSet.done = false;
+                  exec.sets.add(tempSet);
+                });
+              },
             ),
           ),
         ],

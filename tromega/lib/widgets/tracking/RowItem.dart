@@ -9,19 +9,17 @@ class RowItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: highlighted ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.15,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              value,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.15,
+        height: 40,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            value,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
       ),

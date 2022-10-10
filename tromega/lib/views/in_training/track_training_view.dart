@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/trainingSession.dart';
 import '../../data/tracking_http_helper.dart';
-import '../../widgets/app_bar.dart';
+import '../../widgets/shared/app_bar.dart';
 import '../../widgets/tracking/ExecutionPage.dart';
 import '../../widgets/tracking/ExerciseThumbnail.dart';
 
@@ -14,6 +14,7 @@ class TrackingView extends StatefulWidget {
 
 class _TrackingViewState extends State<TrackingView> {
   late TrainingSession lastSession;
+  late TrainingSession thisSession;
   late TrackingHttpHelper trackingHttpHelper;
   bool fetching = true;
 
@@ -28,6 +29,10 @@ class _TrackingViewState extends State<TrackingView> {
 
   @override
   Widget build(BuildContext context) {
+    print('\n\n\n');
+    print(thisSession.executions[0].done);
+    print(thisSession.executions[0].sets[0].done);
+
     return Scaffold(
       appBar: AppBar_Icon(),
       backgroundColor: Theme.of(context).backgroundColor,
@@ -41,10 +46,10 @@ class _TrackingViewState extends State<TrackingView> {
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: false,
-                    itemCount: lastSession.executions.length,
+                    itemCount: thisSession.executions.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ExerciseThumbnail(
-                        exercise: lastSession.executions[index].exercise,
+                        exercise: thisSession.executions[index].exercise,
                         onTapCallback: () {
                           _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                         },
@@ -57,9 +62,12 @@ class _TrackingViewState extends State<TrackingView> {
                     controller: _pageController,
                     scrollDirection: Axis.horizontal,
                     physics: const PageScrollPhysics(),
-                    itemCount: lastSession.executions.length,
+                    itemCount: thisSession.executions.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ExecutionPage(execution: lastSession.executions[index], position: index);
+                      return ExecutionPage(
+                        execution: thisSession.executions[index],
+                        position: index,
+                      );
                     },
                   ),
                 ),
@@ -72,6 +80,7 @@ class _TrackingViewState extends State<TrackingView> {
     TrainingSession initSession = await trackingHttpHelper.getMockSession();
     setState(() {
       lastSession = initSession;
+      thisSession = TrainingSession.clone(initSession);
       fetching = false;
     });
   }

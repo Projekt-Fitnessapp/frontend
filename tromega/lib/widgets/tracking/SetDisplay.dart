@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/RowItem.dart';
 import 'package:tromega/widgets/tracking/SetRow.dart';
 
-import '../../data/exerciseSet.dart';
+import '../../data/executionSet.dart';
 
 class SetDisplay extends StatefulWidget {
-  const SetDisplay({Key? key, required this.executionSets}) : super(key: key);
-  final List<ExerciseSet> executionSets;
+  const SetDisplay({Key? key, required this.executionSets, required this.onAddSet}) : super(key: key);
+  final List<ExecutionSet> executionSets;
+  final Function onAddSet;
 
   @override
   State<SetDisplay> createState() => _SetDisplayState();
 }
 
 class _SetDisplayState extends State<SetDisplay> {
-  List<ExerciseSet> sets = [];
+  List<ExecutionSet> sets = [];
 
   @override
   void initState() {
@@ -27,8 +28,31 @@ class _SetDisplayState extends State<SetDisplay> {
       children: [
         SetTableHead(),
         Column(
-          children: sets.asMap().entries.map((entry) => SetRow(position: entry.key, thisSet: entry.value)).toList(),
-        )
+          children: sets
+              .asMap()
+              .entries
+              .map((entry) => SetRow(
+                  position: entry.key,
+                  thisSet: entry.value,
+                  highlighted: entry.key == getFirstToDo(),
+                  onChange: () {
+                    setState(() {
+                      sets[entry.key].done = !entry.value.done;
+                    });
+                  }))
+              .toList(),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              widget.onAddSet();
+            },
+            child: Text(
+              'Satz hinzufügen',
+              style: Theme.of(context).textTheme.labelLarge,
+            ))
       ],
     );
   }
@@ -44,5 +68,9 @@ class _SetDisplayState extends State<SetDisplay> {
         RowItem(value: '', highlighted: false),
       ],
     );
+  }
+
+  int getFirstToDo() {
+    return sets.indexWhere((elem) => elem.done == false);
   }
 }

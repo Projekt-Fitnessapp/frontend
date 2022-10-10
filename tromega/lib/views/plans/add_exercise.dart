@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:tromega/widgets/exercise_container.dart';
 import 'package:tromega/widgets/exercise_container_adding.dart';
 import '../../widgets/bottom_menu.dart';
-import '../../widgets/app_bar.dart';
+import '../../widgets/shared/app_bar.dart';
 import '../../widgets/edit_plan_view_column.dart';
 import '../../data/classes.dart';
 
