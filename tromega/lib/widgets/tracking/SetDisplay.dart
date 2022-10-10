@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/widgets/tracking/ChangeableRowItem.dart';
 import 'package:tromega/widgets/tracking/RowItem.dart';
 import 'package:tromega/widgets/tracking/SetRow.dart';
 
 import '../../data/executionSet.dart';
 
 class SetDisplay extends StatefulWidget {
-  const SetDisplay({Key? key, required this.executionSets, required this.onAddSet}) : super(key: key);
+  const SetDisplay({Key? key, required this.executionSets, required this.onAddSet, required this.onRemoveSet}) : super(key: key);
   final List<ExecutionSet> executionSets;
   final Function onAddSet;
+  final Function onRemoveSet;
 
   @override
   State<SetDisplay> createState() => _SetDisplayState();
@@ -45,14 +47,33 @@ class _SetDisplayState extends State<SetDisplay> {
         const SizedBox(
           height: 15,
         ),
-        ElevatedButton(
-            onPressed: () {
-              widget.onAddSet();
-            },
-            child: Text(
-              'Satz hinzufügen',
-              style: Theme.of(context).textTheme.labelLarge,
-            ))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    widget.onAddSet();
+                  },
+                  child: Text(
+                    'Satz hinzufügen',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    widget.onRemoveSet();
+                  },
+                  child: Text(
+                    'Satz entfernen',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  )),
+            ),
+          ],
+        )
       ],
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ChangeableRowItem extends StatefulWidget {
   const ChangeableRowItem({Key? key, required this.value, required this.highlighted}) : super(key: key);
-  final double value;
+  final String value;
   final bool highlighted;
 
   @override
@@ -10,7 +10,7 @@ class ChangeableRowItem extends StatefulWidget {
 }
 
 class _ChangeableRowItemState extends State<ChangeableRowItem> {
-  late double currentValue;
+  late String currentValue;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _ChangeableRowItemState extends State<ChangeableRowItem> {
             ),
             onPressed: () {}, 
             child: Text(
-              currentValue.toString(),
+              currentValue,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           )

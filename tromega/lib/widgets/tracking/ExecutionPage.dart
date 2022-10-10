@@ -106,9 +106,17 @@ class _ExecutionPageState extends State<ExecutionPage> {
               executionSets: exec.sets,
               onAddSet: () {
                 setState(() {
-                  ExecutionSet tempSet = ExecutionSet.clone(exec.sets.last);
-                  tempSet.done = false;
+                  ExecutionSet tempSet = ExecutionSet('', 10, 0, 0, false);
+                  if(exec.sets.isNotEmpty) {
+                    tempSet = ExecutionSet.clone(exec.sets.last);
+                    tempSet.done = false;
+                  } 
                   exec.sets.add(tempSet);
+                });
+              },
+              onRemoveSet: () {
+                setState(() {
+                  exec.sets.removeLast();
                 });
               },
             ),
