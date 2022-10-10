@@ -59,7 +59,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                         controller: TextEditingController(
                           text: training.name,
                         ),
-                        style: Theme.of(context).textTheme.headline1!,
+                        style: Theme.of(context).textTheme.headlineLarge!,
                         backgroundCursorColor: Colors.black,
                         cursorColor: Colors.white,
                         focusNode: FocusNode(),
