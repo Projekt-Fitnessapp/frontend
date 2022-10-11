@@ -53,7 +53,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
             child: Text(
-              '${exec.exercise.equipment} \u2022 ${exec.sets.length} Sätz(e)',
+              '${exec.exercise.equipment} \u2022 ${exec.sets.length} ${exec.sets.length == 1 ? 'Satz' : 'Sätze'}',
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
