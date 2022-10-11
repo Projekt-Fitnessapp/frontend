@@ -2,7 +2,7 @@ name: check-build-health
 
 on:
   pull_request:
-    branches: [dev, main, 5-setup-appbar]
+    branches: [dev, main]
 
 
 jobs:
@@ -14,5 +14,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Build Container
-        run: docker build -t tromega-frontend .
+      - name: Build container image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
