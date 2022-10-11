@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
+import 'package:tromega/widgets/account/dropdown_widget.dart';
 
 class SecondQuestionWidget extends StatefulWidget {
   const SecondQuestionWidget({super.key});
@@ -9,12 +10,12 @@ class SecondQuestionWidget extends StatefulWidget {
 }
 
 class _SecondQuestionWidget extends State<SecondQuestionWidget> {
-  String _dropdownValue = "Ja";
+  String dropdownValue = "Ja";
   List<String> dropDownOptions = ["Ja", "Ein bisschen", "Nein"];
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
-        _dropdownValue = selectedValue;
+        dropdownValue = selectedValue;
       });
     }
   }
@@ -31,7 +32,12 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
           children: [
             buildQuestion(text: 'Hast du bereits Erfahrung mit Training?'),
             const SizedBox(height: 16),
-            buildDropDownButton(color),
+            DropDownWidget(
+              color: color,
+              dropDownOptions: dropDownOptions,
+              dropDownValue: dropdownValue,
+              dropdownCallback: dropdownCallback,
+            ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
             buildTextField(color),
@@ -60,29 +66,4 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
           child: const Text('Registrieren'),
         ),
       );
-
-  Widget buildDropDownButton(Color color) => Container(
-      height: 55,
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      alignment: Alignment.centerLeft,
-      child: (InputDecorator(
-        decoration: const InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(5.0)))),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton(
-            items:
-                dropDownOptions.map<DropdownMenuItem<String>>((String mascot) {
-              return DropdownMenuItem<String>(
-                  value: mascot, child: Text(mascot));
-            }).toList(),
-            value: _dropdownValue,
-            onChanged: dropdownCallback,
-            iconEnabledColor: color,
-            icon: const Icon(Icons.expand_more),
-            isExpanded: true,
-          ),
-        ),
-      )));
 }
