@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
+import 'package:tromega/widgets/account/routebutton_widget.dart';
 
 class SecondQuestionWidget extends StatefulWidget {
   const SecondQuestionWidget({super.key});
@@ -47,23 +48,15 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
             buildTextField(color),
             buildQuestion(text: 'Wie häufig gehst du trainieren?'),
             buildTextField(color),
-            buildRegisterButton(color),
+            RouteButtonWidget(
+                color: color,
+                text: 'Registrieren',
+                onClick: () {
+                  Navigator.pushNamed(context, '/myProfile');
+                })
           ],
         ),
       ),
     );
   }
-
-  Widget buildRegisterButton(Color color) => Container(
-        height: 55,
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(color)),
-          onPressed: () {
-            Navigator.pushNamed(context, '/myProfile');
-          },
-          child: const Text('Registrieren'),
-        ),
-      );
 }
