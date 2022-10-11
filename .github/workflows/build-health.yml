@@ -2,7 +2,7 @@ name: check-build-health
 
 on:
   pull_request:
-    branches: [dev, main]
+    branches: [dev, main, 5-setup-appbar]
 
 
 jobs:
