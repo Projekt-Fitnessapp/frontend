@@ -1,0 +1,20 @@
+name: check-build-health
+
+on:
+  pull_request:
+    branches: [dev, main]
+
+
+jobs:
+  check-build-health:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build container image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
