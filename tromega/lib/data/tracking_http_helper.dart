@@ -28,7 +28,7 @@ class TrackingHttpHelper {
     http.Response response = await http.get(uri);
     TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
     for (int i = 0; i < 10; i++) {
-      Execution newExecution = lastSession.executions[0];
+      Execution newExecution = Execution.clone(lastSession.executions[0]);
       lastSession.executions.add(newExecution);
     }
 

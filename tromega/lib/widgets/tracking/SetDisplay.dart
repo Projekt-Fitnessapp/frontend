@@ -33,15 +33,21 @@ class _SetDisplayState extends State<SetDisplay> {
           children: sets
               .asMap()
               .entries
-              .map((entry) => SetRow(
+              .map(
+                (entry) => SetRow(
                   position: entry.key,
                   thisSet: entry.value,
                   highlighted: entry.key == getFirstToDo(),
                   onChange: () {
                     setState(() {
-                      sets[entry.key].done = !entry.value.done;
+                      int firstToDo = getFirstToDo() == -1 ? sets.length : getFirstToDo();
+                      if (entry.key + 1 == firstToDo || entry.key == firstToDo) {
+                        sets[entry.key].done = !entry.value.done;
+                      }
                     });
-                  }))
+                  },
+                ),
+              )
               .toList(),
         ),
         const SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/widgets/tracking/BottomDialogPicker.dart';
 
 class ChangeableRowItem extends StatefulWidget {
   const ChangeableRowItem({Key? key, required this.value, required this.highlighted}) : super(key: key);
@@ -29,18 +30,30 @@ class _ChangeableRowItemState extends State<ChangeableRowItem> {
         width: MediaQuery.of(context).size.width * 0.15,
         height: 40,
         child: Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-            ),
-            onPressed: () {}, 
-            child: Text(
-              currentValue,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          )
-        ),
+            alignment: Alignment.center,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+              ),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return BottomDialogPicker(
+                      title: 'Test',
+                      startValue: 10,
+                      stepSize: 1,
+                      isDecimal: false,
+                      onChangeValue: () {},
+                    );
+                  },
+                );
+              },
+              child: Text(
+                currentValue,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            )),
       ),
     );
   }

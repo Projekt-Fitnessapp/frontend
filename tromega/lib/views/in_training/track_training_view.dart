@@ -29,10 +29,6 @@ class _TrackingViewState extends State<TrackingView> {
 
   @override
   Widget build(BuildContext context) {
-    print('\n\n\n');
-    print(thisSession.executions[0].done);
-    print(thisSession.executions[0].sets[0].done);
-
     return Scaffold(
       appBar: AppBar_Icon(),
       backgroundColor: Theme.of(context).backgroundColor,
