@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  build:
+  check-build-health:
     runs-on: ubuntu-latest
     permissions:
       packages: write
