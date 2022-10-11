@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
+import 'package:tromega/widgets/account/routebutton_widget.dart';
 
 class FirstQuestionWidget extends StatefulWidget {
   const FirstQuestionWidget({Key? key, this.title, required this.onClick})
@@ -72,22 +74,10 @@ class _FirstQuestionWidget extends State<FirstQuestionWidget> {
             dropdownCallback: dropdownCallback2,
           ),
           const SizedBox(height: 32),
-          buildRouteButton(color),
+          RouteButtonWidget(
+              color: color, text: 'Weiter', onClick: widget.onClick),
         ],
       )),
     );
   }
-
-  Widget buildRouteButton(Color color) => Container(
-        height: 55,
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll<Color>(color)),
-          onPressed: () {
-            widget.onClick();
-          },
-          child: const Text('Weiter'),
-        ),
-      );
 }
