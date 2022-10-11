@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/BottomDialogPicker.dart';
 
 class ChangeableRowItem extends StatefulWidget {
-  const ChangeableRowItem({Key? key, required this.value, required this.highlighted}) : super(key: key);
+  const ChangeableRowItem({Key? key, required this.value, required this.highlighted, required this.displayFor}) : super(key: key);
   final String value;
+  final String displayFor;
   final bool highlighted;
 
   @override
@@ -43,7 +44,7 @@ class _ChangeableRowItemState extends State<ChangeableRowItem> {
                       title: 'Test',
                       startValue: 10,
                       stepSize: 1,
-                      isDecimal: false,
+                      pickerFor: widget.displayFor,
                       onChangeValue: () {},
                     );
                   },

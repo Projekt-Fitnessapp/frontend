@@ -29,9 +29,9 @@ class _SetRowState extends State<SetRow> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         RowItem(value: (widget.position + 1).toString(), highlighted: widget.highlighted),
-        ChangeableRowItem(value: widget.thisSet.reps.toString(), highlighted: widget.highlighted),
-        ChangeableRowItem(value: widget.thisSet.weight.toString(), highlighted: widget.highlighted),
-        ChangeableRowItem(value: widget.thisSet.tenRM.toString(), highlighted: widget.highlighted),
+        ChangeableRowItem(value: widget.thisSet.weight.toString(), displayFor: 'weight', highlighted: widget.highlighted),
+        ChangeableRowItem(value: widget.thisSet.reps.toString(), displayFor: 'reps' ,highlighted: widget.highlighted),
+        RowItem(value: widget.thisSet.tenRM.toString(), highlighted: widget.highlighted),
         Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
