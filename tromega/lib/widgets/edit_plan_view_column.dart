@@ -50,7 +50,7 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
                     controller: TextEditingController(
                       text: widget.day.name,
                     ),
-                    style: Theme.of(context).textTheme.headline1!,
+                    style: Theme.of(context).textTheme.headlineLarge!,
                     backgroundCursorColor: Colors.black,
                     cursorColor: Colors.white,
                     focusNode: FocusNode())))
@@ -98,7 +98,7 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
                                           "Trainingstag unwideruflich löschen?",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline1),
+                                              .headlineLarge),
                                     ),
                                     Row(
                                         mainAxisAlignment:

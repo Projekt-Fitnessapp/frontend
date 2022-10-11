@@ -60,7 +60,7 @@ class _ExerciseContainerState extends State<ExerciseContainer>
                     Padding(
                         padding: const EdgeInsets.only(left: 10, top: 5),
                         child: Text(exercise.name,
-                            style: Theme.of(context).textTheme.headline1)),
+                            style: Theme.of(context).textTheme.headlineLarge)),
                     Expanded(
                         child: IconButton(
                             alignment: Alignment.topRight,
