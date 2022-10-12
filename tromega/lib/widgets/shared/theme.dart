@@ -94,7 +94,7 @@ ThemeData tromegaTheme() {
         letterSpacing: -0.5,
       ),
       bodyMedium: TextStyle(
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'Proxima Nova',
         color: Colors.black,
         letterSpacing: -0.5,

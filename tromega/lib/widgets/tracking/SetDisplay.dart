@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/ChangeableRowItem.dart';
 import 'package:tromega/widgets/tracking/RowItem.dart';
 import 'package:tromega/widgets/tracking/SetRow.dart';
 
 import '../../data/executionSet.dart';
 
 class SetDisplay extends StatefulWidget {
-  const SetDisplay({Key? key, required this.executionSets, required this.onAddSet, required this.onRemoveSet}) : super(key: key);
+  const SetDisplay({Key? key, required this.executionSets,  required this.onAddSet, required this.onRemoveSet}) : super(key: key);
   final List<ExecutionSet> executionSets;
   final Function onAddSet;
   final Function onRemoveSet;

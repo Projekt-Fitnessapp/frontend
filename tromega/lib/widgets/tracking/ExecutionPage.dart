@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/executionSet.dart';
+import 'package:tromega/widgets/tracking/HistoryDataBlock.dart';
 import '../../data/execution.dart';
 import './ExecutionNoteDisplay.dart';
 import './SetDisplay.dart';
@@ -107,10 +108,10 @@ class _ExecutionPageState extends State<ExecutionPage> {
               onAddSet: () {
                 setState(() {
                   ExecutionSet tempSet = ExecutionSet(ExecutionType.WORKING, 10, 0, 0, false);
-                  if(exec.sets.isNotEmpty) {
+                  if (exec.sets.isNotEmpty) {
                     tempSet = ExecutionSet.clone(exec.sets.last);
                     tempSet.done = false;
-                  } 
+                  }
                   exec.sets.add(tempSet);
                 });
               },
@@ -120,6 +121,9 @@ class _ExecutionPageState extends State<ExecutionPage> {
                 });
               },
             ),
+          ),
+          HistoryDataBlock(
+            exerciseId: exec.id,
           ),
         ],
       ),
