@@ -59,7 +59,7 @@ class _SetRowState extends State<SetRow> {
           },
         ),
         RowItem(
-          value: widget.thisSet.tenRM.toString(),
+          value: ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498).toStringAsFixed(2),
           highlighted: widget.highlighted,
         ),
         Container(
