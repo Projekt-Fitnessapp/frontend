@@ -19,6 +19,19 @@ class DropDownWidget extends StatefulWidget {
 }
 
 class _DropDownWidgetState extends State<DropDownWidget> {
+  late String value;
+
+  @override
+  initState() {
+    value = widget.dropDownValue;
+  }
+
+  changeValue(changedValue) {
+    setState(() {
+      value = changedValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +52,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               }).toList(),
               value: widget.dropDownValue,
               onChanged: ((String? changedValue) {
-                widget.dropdownCallback;
+                changeValue(changedValue);
               }),
               iconEnabledColor: widget.color,
               icon: const Icon(Icons.expand_more),
