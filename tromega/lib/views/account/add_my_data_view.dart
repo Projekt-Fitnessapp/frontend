@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/app_bar.dart';
+import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/first_questions_widget.dart';
 import '../../widgets/account/second_questions_widget.dart';
 

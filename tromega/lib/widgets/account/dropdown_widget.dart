@@ -21,7 +21,6 @@ class DropDownWidget extends StatefulWidget {
 class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
     return Container(
         height: 55,
         padding: const EdgeInsets.only(left: 10, right: 10),

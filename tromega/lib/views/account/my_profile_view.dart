@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tromega/views/account/Example/user.dart';
 import 'package:tromega/views/account/edit_profile_view.dart';
 import '../../widgets/bottom_menu.dart';
-import '../../widgets/app_bar.dart';
+import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 
 class ProfileView extends StatelessWidget {

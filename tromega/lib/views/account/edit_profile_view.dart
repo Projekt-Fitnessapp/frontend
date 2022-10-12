@@ -2,7 +2,7 @@ import 'package:tromega/views/account/Example/user.dart';
 import '../../widgets/account/profile_widget.dart';
 import '../../widgets/account/textfield_widget.dart';
 
-import '../../widgets/app_bar.dart';
+import '../../widgets/shared/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class EditProfile extends StatefulWidget {
@@ -42,10 +42,14 @@ class _EditProfile extends State<EditProfile> {
                 label: 'Alter', text: "${user.age}", onChanged: (age) {}),
             const SizedBox(height: 24),
             TextFieldWidget(
-                label: 'Height', text: "${user.height} m", onChanged: (height) {}),
+                label: 'Height',
+                text: "${user.height} m",
+                onChanged: (height) {}),
             const SizedBox(height: 24),
             TextFieldWidget(
-                label: 'Weight', text: "${user.weight} kg", onChanged: (weight) {}),
+                label: 'Weight',
+                text: "${user.weight} kg",
+                onChanged: (weight) {}),
             const SizedBox(height: 24),
             TextFieldWidget(
                 label: 'Gender', text: user.gender, onChanged: (gender) {}),
