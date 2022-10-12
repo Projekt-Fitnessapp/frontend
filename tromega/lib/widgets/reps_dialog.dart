@@ -29,7 +29,7 @@ class _RepsDialogState extends State<RepsDialog> {
                           backgroundColor: Theme.of(context).backgroundColor,
                           child: NumberPicker(
                               textStyle:
-                                  Theme.of(context).textTheme.labelMedium,
+                                  Theme.of(context).textTheme.titleMedium,
                               minValue: 0,
                               maxValue: 100,
                               value: widget.reps,
