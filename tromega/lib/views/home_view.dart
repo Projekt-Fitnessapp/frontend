@@ -176,7 +176,7 @@ class _HomeViewState extends State<HomeView> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const PlanOverview()));
+                                              PlanOverview()));
                                 })),
                     )
                   ],
