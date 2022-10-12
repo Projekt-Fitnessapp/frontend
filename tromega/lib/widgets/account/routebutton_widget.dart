@@ -22,7 +22,8 @@ class _RouteButtonWidgetState extends State<RouteButtonWidget> {
       height: 55,
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: ElevatedButton(
-        style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(widget.color)),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(widget.color)),
         onPressed: () {
           widget.onClick();
         },
