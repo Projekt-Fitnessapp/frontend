@@ -57,7 +57,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                                 child: Text("Muskel:",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .labelMedium)),
+                                        .titleMedium)),
                             Expanded(
                                 child: Padding(
                                     padding:
@@ -67,7 +67,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                                         exercise.muscle,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium)))
+                                            .titleMedium)))
                           ]),
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +77,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                                 child: Text("Equipment:",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .labelMedium)),
+                                        .titleMedium)),
                             Expanded(
                                 child: Padding(
                                     padding: EdgeInsets.only(right: 10),
@@ -86,7 +86,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                                         exercise.equipment,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium)))
+                                            .titleMedium)))
                           ]),
                     ]))
                   ])),
