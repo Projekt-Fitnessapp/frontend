@@ -6,13 +6,13 @@ class BottomDialogPicker extends StatefulWidget {
       {Key? key,
       required this.title,
       required this.startValue,
-      required this.pickerFor,
+      required this.isDecimal,
       required this.onChangeValue,
       required this.stepSize})
       : super(key: key);
   final String title;
   final num startValue;
-  final String pickerFor;
+  final bool isDecimal;
   final Function onChangeValue;
   final num stepSize;
 
@@ -44,11 +44,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ),
-          widget.pickerFor == 'weight' 
-            ? WeightPicker()
-            : widget.pickerFor == 'reps'
-              ? RepetitionPicker()
-              : ExecutionTypePicker(),
+          widget.isDecimal ? WeightPicker() : RepetitionPicker(),
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -57,7 +53,9 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       'Abbrechen',
                       style: Theme.of(context).textTheme.labelLarge,
@@ -67,7 +65,10 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.onChangeValue(value);
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       'Übernehmen',
                       style: Theme.of(context).textTheme.labelLarge,
@@ -84,31 +85,29 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
 
   Widget RepetitionPicker() {
     return NumberPicker(
-                  minValue: 0,
-                  maxValue: 50,
-                  step: widget.stepSize.toInt(),
-                  value: value.toInt(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      value = newValue;
-                    });
-                    widget.onChangeValue(value);
-                  },
-                );
+      minValue: 0,
+      maxValue: 50,
+      step: widget.stepSize.toInt(),
+      value: value.toInt(),
+      onChanged: (newValue) {
+        setState(() {
+          value = newValue;
+        });
+      },
+    );
   }
 
   Widget WeightPicker() {
     return DecimalNumberPicker(
-                  minValue: 0,
-                  maxValue: 300,
-                  value: value.toDouble(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      value = newValue;
-                    });
-                    widget.onChangeValue(value);
-                  },
-                );
+      minValue: 0,
+      maxValue: 300,
+      value: value.toDouble(),
+      onChanged: (newValue) {
+        setState(() {
+          value = newValue;
+        });
+      },
+    );
   }
 
   Widget ExecutionTypePicker() {

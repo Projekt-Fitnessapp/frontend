@@ -8,7 +8,8 @@ enum ExecutionType {
 
 class ExecutionSet {
   late ExecutionType executionType;
-  late double reps, weight, tenRM;
+  late double weight, tenRM;
+  late int reps;
   late bool done;
 
   ExecutionSet(
@@ -29,8 +30,11 @@ class ExecutionSet {
       default:
         executionType = ExecutionType.WORKING;
     }
-
-    reps = importMap['reps'] ?? 0;
+    if ((importMap['reps'] ?? 0) is int) {
+      reps = importMap['reps'] ?? 0;
+    } else {
+      reps = importMap['reps'].round();
+    }
     weight = importMap['weight'] ?? 0;
     tenRM = importMap['tenRM'] ?? 0;
     done = false;
