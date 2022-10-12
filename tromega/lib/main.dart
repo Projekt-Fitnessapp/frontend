@@ -11,6 +11,9 @@ import 'views/account/my_profile_view.dart';
 // Secondary Views
 import 'views/plans/edit_training_view.dart';
 import 'views/in_training/track_training_view.dart';
+import 'views/account/add_my_data_view.dart';
+import 'views/account/sso_view.dart';
+import 'views/account/edit_profile_view.dart';
 import './views/test_and_dev_view.dart';
 
 void main() {
@@ -34,6 +37,9 @@ class MyApp extends StatelessWidget {
         '/myProfile': (context) => const ProfileView(),
         '/testTracking': (context) => const TrackingView(),
         '/testEditPlan': (context) => EditPlanView(),
+        '/addMyDataView': (context) => const AddMyDataView(),
+        '/myLogin': (context) => const LoginView(),
+        '/editProfile': (context) => const EditProfile()
       },
     );
   }
