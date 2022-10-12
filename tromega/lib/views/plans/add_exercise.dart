@@ -102,7 +102,7 @@ class _AddExerciseState extends State<AddExercise> {
                               setState(() {});
                             }))),
                     textAlign: TextAlign.start,
-                    style: Theme.of(context).textTheme.labelMedium,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ))),
         Expanded(
