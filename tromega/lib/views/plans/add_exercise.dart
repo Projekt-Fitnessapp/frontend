@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:tromega/widgets/exercise_container.dart';
-import 'package:tromega/widgets/exercise_container_adding.dart';
+import 'package:tromega/data/exerciseSetsReps.dart';
+import 'package:tromega/widgets/plan/exercise_container_adding.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import '../../widgets/edit_plan_view_column.dart';
-import '../../data/classes.dart';
+import '../../data/trainingDay.dart';
+import '../../data/exercise.dart';
+import '../../data/exerciseSetsReps.dart';
 
 class AddExercise extends StatefulWidget {
-  final Day day;
+  final TrainingDay day;
   AddExercise({Key? key, required this.day}) : super(key: key);
 
   @override
@@ -17,33 +17,39 @@ class AddExercise extends StatefulWidget {
 
 class _AddExerciseState extends State<AddExercise> {
   final exercises = [
-    Exercise("Kreuzheben", "Rücken", "Langhantel", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/0032.gif"),
-    Exercise("Latzug", "Rücken", "Maschine", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/2330.gif"),
-    Exercise("Kreuzheben", "Rücken", "Langhantel", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/0032.gif"),
-    Exercise("Latzug", "Rücken", "Maschine", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/2330.gif"),
-    Exercise("Kreuzheben", "Rücken", "Langhantel", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/0032.gif"),
-    Exercise("Latzug", "Rücken", "Maschine", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/2330.gif"),
-    Exercise("Kreuzheben", "Rücken", "Langhantel", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/0032.gif"),
-    Exercise("Latzug", "Rücken", "Maschine", 3, 10,
-        "http://d205bpvrqc9yn1.cloudfront.net/2330.gif")
+    ExerciseSetsReps(
+        Exercise(
+          "",
+          "Deadlift",
+          "Lift the bar.",
+          "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+          "back",
+          "barbell",
+        ),
+        3,
+        10),
+    ExerciseSetsReps(
+        Exercise(
+          "",
+          "Lat Pulldown",
+          "Pull the bar.",
+          "http://d205bpvrqc9yn1.cloudfront.net/2330.gif",
+          "back",
+          "barbell",
+        ),
+        3,
+        10)
   ];
 
   String searchWord = "";
 
   onSearchTextChanged(String text) {
-    List<Exercise> searchResults = [];
+    List<ExerciseSetsReps> searchResults = [];
     exercises.forEach((exercise) {
       if (text == '' ||
-          exercise.name.contains(text) ||
-          exercise.muscle.contains(text) ||
-          exercise.equipment.contains(text)) {
+          exercise.exercise.name.contains(text) ||
+          exercise.exercise.muscle.contains(text) ||
+          exercise.exercise.equipment.contains(text)) {
         searchResults.add(exercise);
       }
     });

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'exercise_container.dart';
-import '../data/classes.dart';
-import '../views/plans/add_exercise.dart';
+import '../../data/trainingDay.dart';
+import '../../data/trainingPlan.dart';
+import '../../views/plans/add_exercise.dart';
 
 class EditPlanViewColumn extends StatefulWidget {
   const EditPlanViewColumn(
       {Key? key,
       required this.day,
       required this.update,
-      required this.training})
+      required this.trainingPlan})
       : super(key: key);
-  final Day day;
+  final TrainingDay day;
+  final TrainingPlan trainingPlan;
   final ValueChanged<int> update;
-  final Training training;
 
   @override
   State<EditPlanViewColumn> createState() => _EditPlanViewColumnState();
@@ -112,18 +113,19 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
                                                   ;
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text("Nein")),
+                                                child: const Text("Nein")),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: ElevatedButton(
                                                 onPressed: () {
-                                                  widget.training.days
+                                                  widget
+                                                      .trainingPlan.trainingDays
                                                       .remove(widget.day);
                                                   widget.update(100);
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text("Ja")),
+                                                child: const Text("Ja")),
                                           )
                                         ])
                                   ]),

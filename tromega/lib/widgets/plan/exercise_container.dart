@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../data/classes.dart';
-import 'package:gif/gif.dart';
-import '../widgets/sets_dialog.dart';
-import '../widgets/reps_dialog.dart';
-import '../widgets/exercise_gif.dart';
+import '../../data/exerciseSetsReps.dart';
+import 'sets_dialog.dart';
+import 'reps_dialog.dart';
+import 'exercise_gif.dart';
 
 class ExerciseContainer extends StatefulWidget {
   const ExerciseContainer(
@@ -12,7 +11,7 @@ class ExerciseContainer extends StatefulWidget {
       required this.indexExercise,
       required this.update})
       : super(key: key);
-  final List<Exercise> exercises;
+  final List<ExerciseSetsReps> exercises;
   final int indexExercise;
   final ValueChanged<int> update;
 
@@ -53,13 +52,13 @@ class _ExerciseContainerState extends State<ExerciseContainer>
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Row(children: <Widget>[
-                ExerciseGif(gif: exercise.gif),
+                ExerciseGif(gif: exercise.exercise.gifUrl),
                 Expanded(
                     child: Column(children: <Widget>[
                   Row(children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.only(left: 10, top: 5),
-                        child: Text(exercise.name,
+                        child: Text(exercise.exercise.name,
                             style: Theme.of(context).textTheme.headlineLarge)),
                     Expanded(
                         child: IconButton(

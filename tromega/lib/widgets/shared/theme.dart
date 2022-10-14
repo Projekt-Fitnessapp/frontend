@@ -8,7 +8,7 @@ ThemeData tromegaTheme() {
     backgroundColor: Colors.white,
     primaryColor: const Color(0xff003050),
     primaryColorLight: const Color(0xff5cbffb),
-    highlightColor:  Colors.grey[300],
+    highlightColor: Colors.grey[300],
     // Buttons
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -16,6 +16,10 @@ ThemeData tromegaTheme() {
         const Color(0xff003050),
       )),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
 
     // Icons
     iconTheme: const IconThemeData(

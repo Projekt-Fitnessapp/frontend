@@ -2,15 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import '../../widgets/bottom_menu.dart';
+import './plan_overview.dart';
 import '../../widgets/shared/app_bar.dart';
-import '../../widgets/edit_plan_view_column.dart';
-import '../../data/classes.dart';
+import '../../widgets/plan/edit_plan_view_column.dart';
+import '../../data/trainingDay.dart';
+import '../../data/plan_http_helper.dart';
+import '../../data/trainingPlan.dart';
 
 class EditPlanView extends StatefulWidget {
-  EditPlanView({Key? key}) : super(key: key);
+  EditPlanView({Key? key, required this.trainingPlan}) : super(key: key);
+  TrainingPlan trainingPlan;
+  late PlanHttpHelper planHttpHelper;
+  late TrainingPlan trainingPlanCopy = TrainingPlan("", trainingPlan.name,
+      trainingPlan.split, trainingPlan.nextDay, trainingPlan.trainingDays);
 
   @override
   State<EditPlanView> createState() => _EditPlanViewState();
+
+  onInit() {
+    PlanHttpHelper planHttpHelper = PlanHttpHelper();
+  }
 }
 
 class _EditPlanViewState extends State<EditPlanView> {
@@ -19,23 +30,12 @@ class _EditPlanViewState extends State<EditPlanView> {
     setState(() => _count = count);
   }
 
-  int pageIndex = 0;
-  PageController _pageViewController = PageController(initialPage: 0);
+  onInit() {
+    print(widget.trainingPlanCopy);
+  }
 
-  var training = Training("Trainingsplan 1", [
-    Day("Push", [
-      Exercise("Bankdrücken", "Brust", "Langhantel", 3, 10,
-          "http://d205bpvrqc9yn1.cloudfront.net/0025.gif"),
-      Exercise("Kniebeugen", "Beinstrecker", "Langhantel", 3, 10,
-          "http://d205bpvrqc9yn1.cloudfront.net/0043.gif")
-    ]),
-    Day("Pull", [
-      Exercise("Kreuzheben", "Rücken", "Langhantel", 3, 10,
-          "http://d205bpvrqc9yn1.cloudfront.net/0032.gif"),
-      Exercise("Latzug", "Rücken", "Maschine", 3, 10,
-          "http://d205bpvrqc9yn1.cloudfront.net/2330.gif")
-    ])
-  ]);
+  int pageIndex = 0;
+  final PageController _pageViewController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +53,11 @@ class _EditPlanViewState extends State<EditPlanView> {
                       child: EditableText(
                         textWidthBasis: TextWidthBasis.longestLine,
                         onSubmitted: (value) {
-                          training.name = value;
+                          widget.trainingPlanCopy.name = value;
                         },
                         textAlign: TextAlign.left,
                         controller: TextEditingController(
-                          text: training.name,
+                          text: widget.trainingPlanCopy.name,
                         ),
                         style: Theme.of(context).textTheme.headlineLarge!,
                         backgroundCursorColor: Colors.black,
@@ -67,25 +67,31 @@ class _EditPlanViewState extends State<EditPlanView> {
                       )))),
           Flexible(
               fit: FlexFit.tight,
-              child: IconButton(
-                  alignment: Alignment.topRight,
-                  icon: const Icon(Icons.save_outlined),
-                  iconSize: 32,
-                  onPressed: () {})),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    //alignment: Alignment.topRight,
+                    icon: const Icon(Icons.save_outlined),
+                    iconSize: 32,
+                    onPressed: () {
+                      onSave(widget.trainingPlanCopy);
+                    }),
+              )),
         ]),
         Container(
             height: 50,
             child: SizedBox(
                 child: ListView(scrollDirection: Axis.horizontal, children: [
-              if (training.days.isNotEmpty)
-                for (var day in training.days)
+              if (widget.trainingPlanCopy.trainingDays.isNotEmpty)
+                for (var day in widget.trainingPlanCopy.trainingDays)
                   Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: ElevatedButton(
                           style: Theme.of(context).elevatedButtonTheme.style!,
                           onPressed: () {
                             _pageViewController.animateToPage(
-                                training.days.indexOf(day),
+                                widget.trainingPlanCopy.trainingDays
+                                    .indexOf(day),
                                 duration: Duration(milliseconds: 500),
                                 curve: Curves.easeIn);
                           },
@@ -95,8 +101,10 @@ class _EditPlanViewState extends State<EditPlanView> {
                   child: ElevatedButton(
                       style: Theme.of(context).elevatedButtonTheme.style!,
                       onPressed: () {
-                        training.days
-                            .add(Day("Tag ${training.days.length + 1}", []));
+                        widget.trainingPlanCopy.trainingDays.add(TrainingDay(
+                            "",
+                            "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
+                            []));
                         setState(() {});
                       },
                       child: Icon(Icons.add)))
@@ -112,12 +120,24 @@ class _EditPlanViewState extends State<EditPlanView> {
             });
           },
           children: [
-            for (var day in training.days)
-              EditPlanViewColumn(day: day, update: _update, training: training),
+            for (var day in widget.trainingPlanCopy.trainingDays)
+              EditPlanViewColumn(
+                  day: day,
+                  update: _update,
+                  trainingPlan: widget.trainingPlanCopy),
           ],
         ))
       ]),
       bottomNavigationBar: const BottomMenu(index: 1),
     );
+  }
+
+  void onSave(TrainingPlan trainingPlan) async {
+    //widget.planHttpHelper.putTrainingPlan("", trainingPlan);
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PlanOverview(),
+        ));
   }
 }

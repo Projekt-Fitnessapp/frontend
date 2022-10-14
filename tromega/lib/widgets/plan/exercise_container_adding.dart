@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../data/classes.dart';
+import '../../data/exerciseSetsReps.dart';
+import '../../data/trainingDay.dart';
 
 class ExerciseContainerAdding extends StatelessWidget {
   const ExerciseContainerAdding(
       {Key? key, required this.exercise, required this.day})
       : super(key: key);
-  final Exercise exercise;
-  final Day day;
+  final ExerciseSetsReps exercise;
+  final TrainingDay day;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 child: Row(children: <Widget>[
                   Image.network(
-                    exercise.gif,
+                    exercise.exercise.gifUrl,
                     fit: BoxFit.cover,
                     height: 110,
                     alignment: Alignment.center,
@@ -44,7 +45,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                     Row(children: <Widget>[
                       Padding(
                           padding: EdgeInsets.only(left: 10, top: 5),
-                          child: Text(exercise.name,
+                          child: Text(exercise.exercise.name,
                               style: Theme.of(context).textTheme.headlineLarge))
                     ]),
                     Expanded(
@@ -64,7 +65,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                                         EdgeInsets.only(right: 10, top: 10),
                                     child: Text(
                                         textAlign: TextAlign.end,
-                                        exercise.muscle,
+                                        exercise.exercise.muscle,
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium)))
@@ -83,7 +84,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                                     padding: EdgeInsets.only(right: 10),
                                     child: Text(
                                         textAlign: TextAlign.end,
-                                        exercise.equipment,
+                                        exercise.exercise.equipment,
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium)))

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/classes.dart';
+import '../../data/classes.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class SetsDialog extends StatefulWidget {
