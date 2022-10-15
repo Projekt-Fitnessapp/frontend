@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/executionSet.dart';
+import 'package:tromega/widgets/tracking/ExecutionSettings.dart';
 import 'package:tromega/widgets/tracking/HistoryDataBlock.dart';
 import '../../data/execution.dart';
 import './ExecutionNoteDisplay.dart';
 import './SetDisplay.dart';
 
 class ExecutionPage extends StatefulWidget {
-  const ExecutionPage({Key? key, required this.execution, required this.position}) : super(key: key);
+  const ExecutionPage({Key? key, required this.execution, required this.position, required this.toNextExecution}) : super(key: key);
   final Execution execution;
+  final Function toNextExecution;
   final int position;
   @override
   State<ExecutionPage> createState() => _ExecutionPageState();
@@ -42,7 +44,16 @@ class _ExecutionPageState extends State<ExecutionPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ExecutionSettings(
+                          exec: exec,
+                        );
+                      },
+                    );
+                  },
                   icon: Icon(
                     Icons.settings,
                     color: Theme.of(context).primaryColor,
@@ -113,12 +124,28 @@ class _ExecutionPageState extends State<ExecutionPage> {
                     tempSet.done = false;
                   }
                   exec.sets.add(tempSet);
+                  exec.done = false;
                 });
               },
               onRemoveSet: () {
                 setState(() {
                   exec.sets.removeLast();
+                  if (!exec.sets.any((element) => element.done == false)) {
+                    exec.done = true;
+                    widget.toNextExecution();
+                  }
                 });
+              },
+              changeExecutionStatus: (isDone) {
+                setState(() {
+                  exec.done = isDone;
+                });
+              },
+              onFinishExecution: () {
+                setState(() {
+                  exec.done = true;
+                });
+                widget.toNextExecution();
               },
             ),
           ),

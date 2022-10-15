@@ -80,7 +80,9 @@ class _SetRowState extends State<SetRow> {
                 Icons.check_rounded,
                 color: widget.highlighted
                     ? Theme.of(context).backgroundColor
-                    : Theme.of(context).primaryColor,
+                    : thisSet.done 
+                      ? Theme.of(context).primaryColorLight
+                      : Theme.of(context).primaryColor,
               ),
             ),
           ),

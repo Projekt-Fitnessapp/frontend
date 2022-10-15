@@ -63,6 +63,19 @@ class _TrackingViewState extends State<TrackingView> {
                       return ExecutionPage(
                         execution: thisSession.executions[index],
                         position: index,
+                        toNextExecution: () {
+                          int nextPage = getNextToDo(index);
+                          if (nextPage != -1) {
+                            _pageController.animateToPage(
+                              nextPage,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeIn,
+                            );
+                          } else {
+                            print('Training abgeschlossen');
+                            // Popup -> Training Beendet + Nav to Home
+                          }
+                        },
                       );
                     },
                   ),
@@ -79,5 +92,14 @@ class _TrackingViewState extends State<TrackingView> {
       thisSession = TrainingSession.clone(initSession);
       fetching = false;
     });
+  }
+
+  int getNextToDo(int index) {
+    int nextPage = thisSession.executions.indexWhere((elem) => elem.done == false, index);
+    if (nextPage != -1) {
+      return nextPage;
+    } else {
+      return thisSession.executions.indexWhere((elem) => elem.done == false);
+    }
   }
 }
