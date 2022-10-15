@@ -19,9 +19,18 @@ class BottomMenu extends StatelessWidget {
           items: const [
             Icon(Icons.house_rounded, color: Colors.white),
             Icon(Icons.calendar_month, color: Colors.white),
-            Icon(Icons.show_chart_sharp, color: Colors.white,),
-            Icon(Icons.chat_bubble_outline, color: Colors.white,),
-            Icon(Icons.account_circle, color: Colors.white,),
+            Icon(
+              Icons.show_chart_sharp,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.chat_bubble_outline,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.account_circle,
+              color: Colors.white,
+            ),
           ],
           onTap: (int index) {
             String view = '';

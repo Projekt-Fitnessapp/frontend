@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import '../../widgets/bottom_menu.dart';
-import '../../widgets/app_bar.dart';
+import '../../widgets/shared/app_bar.dart';
 import '../../widgets/edit_plan_view_column.dart';
 import '../../data/classes.dart';
 
@@ -59,7 +59,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                         controller: TextEditingController(
                           text: training.name,
                         ),
-                        style: Theme.of(context).textTheme.headline1!,
+                        style: Theme.of(context).textTheme.headlineLarge!,
                         backgroundCursorColor: Colors.black,
                         cursorColor: Colors.white,
                         focusNode: FocusNode(),
