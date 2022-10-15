@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/data/userAccount.dart';
 import 'package:tromega/widgets/shared/theme.dart';
 
 // Main Views
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         '/myWorkoutPlans': (context) => PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
         '/socialSpace': (context) => const SocialSpaceView(),
-        '/myProfile': (context) => const ProfileView(),
+        '/myProfile': (context) =>
+            ProfileView(userAccount: UserAccount.fromJSON({})),
         '/testTracking': (context) => const TrackingView(),
         '/testEditPlan': (context) => EditPlanView(),
         '/addMyDataView': (context) => const AddMyDataView(),

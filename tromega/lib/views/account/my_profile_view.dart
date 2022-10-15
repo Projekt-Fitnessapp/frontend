@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/data/userAccount.dart';
 import 'package:tromega/views/account/Example/user.dart';
 import 'package:tromega/views/account/edit_profile_view.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({Key? key}) : super(key: key);
+class ProfileView extends StatefulWidget {
+  ProfileView({Key? key, required this.userAccount}) : super(key: key);
+  UserAccount userAccount;
+  late AccountHttpHelper accountHttpHelper;
+  late UserAccount userAccountExample = userAccount;
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+
+  onInit() {
+    accountHttpHelper = AccountHttpHelper();
+  }
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  onInit() {
+    print(widget.userAccountExample);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +49,7 @@ class ProfileView extends StatelessWidget {
             },
           ),
           const SizedBox(height: 24),
-          buildName(user),
+          buildName(),
           const SizedBox(height: 24),
           buildData(user),
         ],
@@ -40,10 +58,10 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildName(User user) => Column(
+  Widget buildName() => Column(
         children: [
           Text(
-            user.name,
+            widget.userAccountExample.name,
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
