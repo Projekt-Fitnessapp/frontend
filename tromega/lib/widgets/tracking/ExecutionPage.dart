@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/executionSet.dart';
-import 'package:tromega/widgets/tracking/ExecutionSettings.dart';
-import 'package:tromega/widgets/tracking/HistoryDataBlock.dart';
+import './ExecutionSettings.dart';
+import './HistoryDataBlock.dart';
 import '../../data/execution.dart';
 import './ExecutionNoteDisplay.dart';
 import './SetDisplay.dart';
