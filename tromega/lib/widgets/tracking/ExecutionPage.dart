@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/executionSet.dart';
+import 'package:tromega/widgets/tracking/HistoryDataBlock.dart';
 import './ExecutionSettings.dart';
-import './HistoryDataBlock.dart';
 import '../../data/execution.dart';
 import './ExecutionNoteDisplay.dart';
 import './SetDisplay.dart';
@@ -153,7 +153,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
             ),
           ),
           HistoryDataBlock(
-            exerciseId: exec.id,
+            exerciseId: exec.exercise.id,
           ),
         ],
       ),
