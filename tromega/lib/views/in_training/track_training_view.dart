@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/BottomDialogOptions.dart';
+import 'package:tromega/widgets/tracking/ConfirmationDialog.dart';
 import '../../data/trainingSession.dart';
 import '../../data/tracking_http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -17,6 +18,7 @@ class _TrackingViewState extends State<TrackingView> {
   late TrainingSession lastSession;
   late TrainingSession thisSession;
   late TrackingHttpHelper trackingHttpHelper;
+  bool trainingFinished = false;
   bool fetching = true;
 
   int highlightedPage = 0;
@@ -42,16 +44,40 @@ class _TrackingViewState extends State<TrackingView> {
                 builder: (BuildContext context) {
                   return BottomDialogOptions(
                     onReset: () {
-                      Navigator.popAndPushNamed(context, '/home');
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConfirmationDialog(
+                            question: 'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
+                            onConfirm: () => Navigator.popAndPushNamed(context, '/home'),
+                          );
+                        },
+                      );
                     },
                     onFinish: () {
-                      trackingHttpHelper.saveSession(thisSession).then((value) {
-                        if (value) {
-                          Navigator.popAndPushNamed(context, '/home');
-                        } else {
-                          // Pop up hat nicht geklappt integrieren
-                        }
-                      });
+                      if (getNextToDo(0) == -1) {
+                        trackingHttpHelper.saveSession(thisSession).then((value) {
+                          if (value) {
+                            Navigator.popAndPushNamed(context, '/home');
+                          }
+                        });
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ConfirmationDialog(
+                              question: 'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
+                              onConfirm: () {
+                                trackingHttpHelper.saveSession(thisSession).then((value) {
+                                  if (value) {
+                                    Navigator.popAndPushNamed(context, '/home');
+                                  }
+                                });
+                              },
+                            );
+                          },
+                        );
+                      }
                     },
                   );
                 },
@@ -111,13 +137,45 @@ class _TrackingViewState extends State<TrackingView> {
                               });
                             } else {
                               print('Training abgeschlossen');
-                              // Popup -> Training Beendet + Nav to Home
+                              setState(() {
+                                trainingFinished = true;
+                              });
                             }
                           },
                           onRebuild: () {
                             setState(() {});
                           });
                     },
+                  ),
+                ),
+                Visibility(
+                  visible: trainingFinished,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
+                    child: ElevatedButton(
+                      onPressed: trainingFinished
+                          ? () {
+                              trackingHttpHelper.saveSession(thisSession).then((value) {
+                                if (value) {
+                                  Navigator.popAndPushNamed(context, '/home');
+                                } else {
+                                  // Meldung --> Hat nicht geklappt
+                                  // Abfrahe --> Nochmal veruschen / trotzdem training beenden
+                                }
+                              });
+                            }
+                          : null,
+                      child: SizedBox(
+                        height: 80,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: Text(
+                            'Training Abschließen',
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],

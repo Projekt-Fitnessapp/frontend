@@ -27,7 +27,7 @@ class TrackingHttpHelper {
     http.Response response = await http.get(uri);
     TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
       Execution newExec = Execution.clone(lastSession.executions.first);
       newExec.notes.add(i.toString());
       lastSession.executions.add(newExec);
@@ -50,6 +50,6 @@ class TrackingHttpHelper {
   Future<bool> saveSession(TrainingSession session) async {
     // to be implemented
     
-    return false;
+    return true;
   }
 }
