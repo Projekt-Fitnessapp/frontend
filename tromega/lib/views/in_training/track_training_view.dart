@@ -18,7 +18,8 @@ class _TrackingViewState extends State<TrackingView> {
   late TrackingHttpHelper trackingHttpHelper;
   bool fetching = true;
 
-  final PageController _pageController = PageController();
+  int highlightedPage = 0;
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   initState() {
@@ -45,10 +46,15 @@ class _TrackingViewState extends State<TrackingView> {
                     itemCount: thisSession.executions.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ExerciseThumbnail(
-                        exercise: thisSession.executions[index].exercise,
+                        gifUrl: thisSession.executions[index].exercise.gifUrl,
                         onTapCallback: () {
                           _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                          setState(() {
+                            highlightedPage = index;
+                          });
                         },
+                        isHighlighted: index == highlightedPage,
+                        isDone: thisSession.executions[index].done,
                       );
                     },
                   ),
@@ -71,11 +77,19 @@ class _TrackingViewState extends State<TrackingView> {
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn,
                             );
+                            setState(() {
+                              highlightedPage = nextPage;
+                            });
                           } else {
                             print('Training abgeschlossen');
                             // Popup -> Training Beendet + Nav to Home
                           }
                         },
+                        onRebuild: () {
+                          setState(() {
+                            
+                          });
+                        }
                       );
                     },
                   ),

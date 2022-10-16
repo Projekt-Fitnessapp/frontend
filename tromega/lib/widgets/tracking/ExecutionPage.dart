@@ -7,9 +7,10 @@ import './ExecutionNoteDisplay.dart';
 import './SetDisplay.dart';
 
 class ExecutionPage extends StatefulWidget {
-  const ExecutionPage({Key? key, required this.execution, required this.position, required this.toNextExecution}) : super(key: key);
+  const ExecutionPage({Key? key, required this.execution, required this.position, required this.onRebuild, required this.toNextExecution}) : super(key: key);
   final Execution execution;
   final Function toNextExecution;
+  final Function onRebuild;
   final int position;
   @override
   State<ExecutionPage> createState() => _ExecutionPageState();
@@ -126,6 +127,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
                   exec.sets.add(tempSet);
                   exec.done = false;
                 });
+                widget.onRebuild();
               },
               onRemoveSet: () {
                 setState(() {
@@ -140,6 +142,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
                 setState(() {
                   exec.done = isDone;
                 });
+                widget.onRebuild();
               },
               onFinishExecution: () {
                 setState(() {

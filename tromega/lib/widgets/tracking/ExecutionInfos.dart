@@ -46,7 +46,7 @@ class _ExecutionInfosState extends State<ExecutionInfos> with TickerProviderStat
           Text(
             widget.instructions,
             style: Theme.of(context).textTheme.bodyMedium,
-          )
+          ),
         ],
       ),
     );
