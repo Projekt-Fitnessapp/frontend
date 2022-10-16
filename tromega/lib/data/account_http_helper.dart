@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tromega/data/body.dart';
 import 'package:tromega/data/userAccount.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,5 +24,22 @@ class AccountHttpHelper {
     }
 
     return userAccount;
+  }
+
+  Future<Body> getBody(String userId) async {
+    final queryParameters = {'userId': userId};
+    Body body;
+
+    String newPath = '$path/body';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+
+    http.Response res = await http.get(uri);
+    if (res.statusCode == 200) {
+      body = Body.fromJSON(jsonDecode(res.body));
+    } else {
+      throw Exception('Failed to load Body');
+    }
+
+    return body;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/data/body.dart';
 import 'package:tromega/data/userAccount.dart';
 import 'package:tromega/widgets/shared/theme.dart';
 
@@ -35,13 +36,16 @@ class MyApp extends StatelessWidget {
         '/myWorkoutPlans': (context) => PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
         '/socialSpace': (context) => const SocialSpaceView(),
-        '/myProfile': (context) =>
-            ProfileView(userAccount: UserAccount.fromJSON({})),
+        '/myProfile': (context) => ProfileView(
+              userAccount: UserAccount.fromJSON({}),
+              body: Body.fromJSON({}),
+            ),
         '/testTracking': (context) => const TrackingView(),
         '/testEditPlan': (context) => EditPlanView(),
         '/addMyDataView': (context) => const AddMyDataView(),
         '/myLogin': (context) => const LoginView(),
-        '/editProfile': (context) => const EditProfile()
+        '/editProfile': (context) => EditProfile( userAccount: UserAccount.fromJSON({}),
+              body: Body.fromJSON({}),)
       },
     );
   }
