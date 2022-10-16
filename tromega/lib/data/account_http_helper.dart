@@ -26,6 +26,34 @@ class AccountHttpHelper {
     return userAccount;
   }
 
+  Future<bool> postAccount(UserAccount userAccount) async {
+    String newPath = '$path/account';
+    Uri uri = Uri.https(authority, newPath);
+
+    http.Response res = await http.post(uri, body: {userAccount});
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> putAccount(String userId, UserAccount userAccount) async {
+    final queryParameters = {'userId': userId};
+    String newPath = '$path/account';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+
+    http.Response res = await http.put(uri, body: {userAccount});
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   Future<Body> getBody(String userId) async {
     final queryParameters = {'userId': userId};
     Body body;
@@ -41,5 +69,18 @@ class AccountHttpHelper {
     }
 
     return body;
+  }
+
+  Future<bool> postBody(Body body) async {
+    String newPath = '$path/body';
+    Uri uri = Uri.https(authority, newPath);
+
+    http.Response res = await http.post(uri, body: {body});
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
