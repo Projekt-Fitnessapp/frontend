@@ -22,7 +22,6 @@ class Execution {
     id = importMap['_id'] ?? '';
     exercise = Exercise.fromJSON(importMap['exercise'] ?? {});
     notes = importMap['notes'].map<String>((note) => note.toString()).toList();
-    //executions = (importMap['executions'] ?? []).map((executionMap) => Execution.fromJSON(executionMap)).toList()
     sets = importMap['sets'].map<ExecutionSet>((setMap) => ExecutionSet.fromJSON(setMap)).toList();
     done = false;
   }

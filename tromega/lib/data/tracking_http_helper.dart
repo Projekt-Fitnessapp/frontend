@@ -42,8 +42,14 @@ class TrackingHttpHelper {
     Uri uri = Uri.https(authority, newPath);
 
     http.Response response = await http.get(uri);
-    TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
+    TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0] ?? {});
 
     return lastSession.executions[0];
+  }
+
+  Future<bool> saveSession(TrainingSession session) async {
+    // to be implemented
+    
+    return false;
   }
 }

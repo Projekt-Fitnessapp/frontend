@@ -73,6 +73,7 @@ class _SetRowState extends State<SetRow> {
             width: MediaQuery.of(context).size.width * 0.15,
             height: 40,
             child: IconButton(
+              splashColor: Colors.transparent,
               onPressed: () {
                 widget.onChange();
               },

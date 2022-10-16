@@ -19,7 +19,7 @@ class ProfileView extends StatelessWidget {
         "männlich",
         "Muskeln aufbauen");
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: ListView(
         children: [
           const SizedBox(height: 24),

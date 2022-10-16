@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/widgets/tracking/BottomDialogOptions.dart';
 import '../../data/trainingSession.dart';
 import '../../data/tracking_http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -31,7 +32,35 @@ class _TrackingViewState extends State<TrackingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(
+        actions: [
+          IconButton(
+            splashRadius: 10,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return BottomDialogOptions(
+                    onReset: () {
+                      Navigator.popAndPushNamed(context, '/home');
+                    },
+                    onFinish: () {
+                      trackingHttpHelper.saveSession(thisSession).then((value) {
+                        if (value) {
+                          Navigator.popAndPushNamed(context, '/home');
+                        } else {
+                          // Pop up hat nicht geklappt integrieren
+                        }
+                      });
+                    },
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: fetching
           ? const Center(child: CircularProgressIndicator())
@@ -67,30 +96,27 @@ class _TrackingViewState extends State<TrackingView> {
                     itemCount: thisSession.executions.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ExecutionPage(
-                        execution: thisSession.executions[index],
-                        position: index,
-                        toNextExecution: () {
-                          int nextPage = getNextToDo(index);
-                          if (nextPage != -1) {
-                            _pageController.animateToPage(
-                              nextPage,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeIn,
-                            );
-                            setState(() {
-                              highlightedPage = nextPage;
-                            });
-                          } else {
-                            print('Training abgeschlossen');
-                            // Popup -> Training Beendet + Nav to Home
-                          }
-                        },
-                        onRebuild: () {
-                          setState(() {
-                            
+                          execution: thisSession.executions[index],
+                          position: index,
+                          toNextExecution: () {
+                            int nextPage = getNextToDo(index);
+                            if (nextPage != -1) {
+                              _pageController.animateToPage(
+                                nextPage,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeIn,
+                              );
+                              setState(() {
+                                highlightedPage = nextPage;
+                              });
+                            } else {
+                              print('Training abgeschlossen');
+                              // Popup -> Training Beendet + Nav to Home
+                            }
+                          },
+                          onRebuild: () {
+                            setState(() {});
                           });
-                        }
-                      );
                     },
                   ),
                 ),

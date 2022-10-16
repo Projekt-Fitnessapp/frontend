@@ -47,7 +47,7 @@ class _ExerciseThumbnailState extends State<ExerciseThumbnail> with TickerProvid
                 ).image,
                 controller: gifController,
                 autostart: Autostart.no,
-                placeholder: (context) => const CircularProgressIndicator(),
+                placeholder: (context) => const Center(child: CircularProgressIndicator()),
               ),
             ),
             Align(
