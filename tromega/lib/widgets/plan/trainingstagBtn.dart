@@ -6,8 +6,12 @@ import 'package:tromega/data/trainingPlan.dart';
 class TrainingstagBtn extends StatefulWidget {
   final TrainingDay trainingDay;
   final TrainingPlan trainingPlan;
+  final int index;
   const TrainingstagBtn(
-      {super.key, required this.trainingDay, required this.trainingPlan});
+      {super.key,
+      required this.trainingDay,
+      required this.trainingPlan,
+      required this.index});
 
   @override
   State<TrainingstagBtn> createState() => _TrainingstagBtnState();
@@ -17,19 +21,31 @@ class _TrainingstagBtnState extends State<TrainingstagBtn> {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FloatingActionButton(
-          child: Text(widget.trainingDay.name,
-              style: Theme.of(context).textTheme.headlineLarge),
-          onPressed: () async {
-            await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlanDayView(
-                    trainingDay: widget.trainingDay,
-                    trainingPlan: widget.trainingPlan,
-                  ),
-                ));
-          },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                flex: 3,
+                child: Text("Tag ${widget.index + 1}",
+                    style: Theme.of(context).textTheme.headlineLarge)),
+            Expanded(
+              flex: 7,
+              child: FloatingActionButton(
+                child: Text(widget.trainingDay.name,
+                    style: Theme.of(context).textTheme.headlineLarge),
+                onPressed: () async {
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlanDayView(
+                          trainingDay: widget.trainingDay,
+                          trainingPlan: widget.trainingPlan,
+                        ),
+                      ));
+                },
+              ),
+            ),
+          ],
         ),
       );
 }

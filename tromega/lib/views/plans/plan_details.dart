@@ -64,6 +64,7 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
                         itemCount: widget.trainingPlan.trainingDays.length,
                         itemBuilder: (BuildContext context, int index) {
                           return TrainingstagBtn(
+                            index: index,
                             trainingDay:
                                 widget.trainingPlan.trainingDays[index],
                             trainingPlan: widget.trainingPlan,
