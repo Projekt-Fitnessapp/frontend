@@ -21,8 +21,11 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.3.4'
-    - run: cd tromega
     - run: flutter pub get
+      working-directory: ./tromega
     - run: flutter test
+      working-directory: ./tromega
     - run: flutter build apk
+      working-directory: ./tromega
     - run: flutter build appbundle
+      working-directory: ./tromega
