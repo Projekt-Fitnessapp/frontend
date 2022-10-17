@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert' show json;
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +24,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
+  late SharedPreferences prefs;
 
   @override
   void initState() {
@@ -30,6 +32,9 @@ class _LoginViewState extends State<LoginView> {
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       setState(() {
         _currentUser = account;
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('userId', _currentUser!.id);
+        });
       });
       if (_currentUser != null) {
         _handleGetContact(_currentUser!);
@@ -88,12 +93,20 @@ class _LoginViewState extends State<LoginView> {
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
+      Navigator.popAndPushNamed(context, '/home');
     } catch (error) {
       print(error);
     }
   }
 
-  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+  Future<void> _handleSignOut() async {
+    try {
+      await _googleSignIn.disconnect();
+    } catch (error) {
+      print(error);
+    }
+    setState(() {});
+  }
 
   Widget _buildBody() {
     final GoogleSignInAccount? user = _currentUser;
@@ -109,6 +122,7 @@ class _LoginViewState extends State<LoginView> {
             subtitle: Text(user.email),
           ),
           const Text('Signed in successfully.'),
+          Text("UserId: ${user.id}"),
           Text(_contactText),
           ElevatedButton(
             onPressed: _handleSignOut,
