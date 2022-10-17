@@ -62,7 +62,7 @@ class _AddExerciseState extends State<AddExercise> {
     var searchController = TextEditingController(text: searchWord);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: Column(children: <Widget>[
         Row(children: <Widget>[
           Expanded(

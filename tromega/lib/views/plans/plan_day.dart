@@ -23,7 +23,7 @@ class _PlanDayViewState extends State<PlanDayView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(10.0),

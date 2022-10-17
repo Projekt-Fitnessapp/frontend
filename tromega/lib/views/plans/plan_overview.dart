@@ -134,7 +134,7 @@ class _PlanOverviewState extends State<PlanOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: Row(
         children: [
           Expanded(

@@ -41,7 +41,7 @@ class _EditPlanViewState extends State<EditPlanView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: Column(children: [
         Row(children: <Widget>[
           Flexible(

@@ -18,7 +18,7 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: Column(
         children: [
           Padding(

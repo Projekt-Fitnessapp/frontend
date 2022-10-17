@@ -23,7 +23,7 @@ class _EditProfile extends State<EditProfile> {
       "Muskeln aufbauen");
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar_Icon(),
+        appBar: AppBar_Icon(actions: []),
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           physics: const BouncingScrollPhysics(),
