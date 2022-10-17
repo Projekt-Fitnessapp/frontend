@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/userAccount.dart';
-import 'package:tromega/views/account/edit_profile_view.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';

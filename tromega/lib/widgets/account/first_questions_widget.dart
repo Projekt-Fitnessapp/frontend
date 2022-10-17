@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/data/body.dart';
+import 'package:tromega/data/userAccount.dart';
 
-import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
 import 'package:tromega/widgets/account/routebutton_widget.dart';
 
 class FirstQuestionWidget extends StatefulWidget {
-  const FirstQuestionWidget({Key? key, this.title, required this.onClick})
-      : super(key: key);
+  FirstQuestionWidget({Key? key, required this.onClick}) : super(key: key);
 
   final Function onClick;
-  final String? title;
+  late AccountHttpHelper accountHttpHelper;
 
   @override
   _FirstQuestionWidget createState() => _FirstQuestionWidget();
+
+  onInit() {
+    accountHttpHelper = AccountHttpHelper();
+  }
 }
 
 class _FirstQuestionWidget extends State<FirstQuestionWidget> {
+  late TextEditingController controller;
+  late UserAccount userAccount;
+  late Body body;
+
   late String value1 = "Muskeln aufbauen";
   late List<String> fitnessGoals = [
     "Muskeln aufbauen",
@@ -80,4 +89,23 @@ class _FirstQuestionWidget extends State<FirstQuestionWidget> {
       )),
     );
   }
+
+  Widget buildQuestion({required String text}) => Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: Text(text, style: const TextStyle(fontSize: 16)),
+      );
+
+  Widget buildTextField(Color color) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        child: TextField(
+          controller: controller,
+          style: const TextStyle(height: 0.5),
+          decoration: const InputDecoration(
+              suffixIcon: Icon(Icons.unfold_more),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: Colors.grey)),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: Colors.grey))),
+        ),
+      );
 }
