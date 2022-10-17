@@ -3,7 +3,8 @@ import 'package:tromega/data/execution.dart';
 import '../../data/tracking_http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
-  const HistoryDataBlock({Key? key, required this.exerciseId}) : super(key: key);
+  const HistoryDataBlock({Key? key, required this.exerciseId})
+      : super(key: key);
   final String exerciseId;
 
   @override
@@ -76,19 +77,33 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets.asMap().entries.map((entry) => HistoryDataCell(context, entry.key.toString())).toList(),
+                          children: lastExecution.sets
+                              .asMap()
+                              .entries
+                              .map((entry) => HistoryDataCell(
+                                  context, entry.key.toString()))
+                              .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets.map((elem) => HistoryDataCell(context, elem.weight.toString())).toList(),
+                          children: lastExecution.sets
+                              .map((elem) => HistoryDataCell(
+                                  context, elem.weight.toString()))
+                              .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets.map((elem) => HistoryDataCell(context, elem.reps.toString())).toList(),
+                          children: lastExecution.sets
+                              .map((elem) => HistoryDataCell(
+                                  context, elem.reps.toString()))
+                              .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets.map((elem) => HistoryDataCell(context, elem.tenRM.toString())).toList(),
+                          children: lastExecution.sets
+                              .map((elem) => HistoryDataCell(
+                                  context, elem.tenRM.toString()))
+                              .toList(),
                         ),
                       ],
                     ),
