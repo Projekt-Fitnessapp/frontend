@@ -1,5 +1,5 @@
 #Stage 1 - Build the app in the build environment
-FROM lumaghg/flutter:latest AS build-env
+FROM cirrusci/flutter:3.3.4 AS build-env
 # Copy files to container and build
 RUN mkdir /app/
 COPY /tromega /app/

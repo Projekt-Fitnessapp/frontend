@@ -59,7 +59,7 @@ class _SetRowState extends State<SetRow> {
           },
         ),
         RowItem(
-          value: widget.thisSet.tenRM.toString(),
+          value: ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498).toStringAsFixed(1),
           highlighted: widget.highlighted,
         ),
         Container(
@@ -73,6 +73,7 @@ class _SetRowState extends State<SetRow> {
             width: MediaQuery.of(context).size.width * 0.15,
             height: 40,
             child: IconButton(
+              splashColor: Colors.transparent,
               onPressed: () {
                 widget.onChange();
               },
@@ -80,7 +81,9 @@ class _SetRowState extends State<SetRow> {
                 Icons.check_rounded,
                 color: widget.highlighted
                     ? Theme.of(context).backgroundColor
-                    : Theme.of(context).primaryColor,
+                    : thisSet.done 
+                      ? Theme.of(context).primaryColorLight
+                      : Theme.of(context).primaryColor,
               ),
             ),
           ),

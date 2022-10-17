@@ -16,6 +16,5 @@ class TrainingSession {
     trainingDayId = importMap['trainingDayId'] ?? '';
     date = DateTime.parse(importMap['date'] ?? '19700101');
     executions = (importMap['executions'] ?? []).map<Execution>((executionMap) => Execution.fromJSON(executionMap)).toList();
-    print(executions);
   }
 }
