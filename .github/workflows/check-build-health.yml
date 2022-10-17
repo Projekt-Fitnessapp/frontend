@@ -23,9 +23,5 @@ jobs:
         flutter-version: '3.3.4'
     - run: flutter pub get
       working-directory: ./tromega
-    - run: flutter test
-      working-directory: ./tromega
     - run: flutter build apk
-      working-directory: ./tromega
-    - run: flutter build appbundle
       working-directory: ./tromega
