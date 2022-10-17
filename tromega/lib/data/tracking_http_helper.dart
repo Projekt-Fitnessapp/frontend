@@ -21,17 +21,35 @@ class TrackingHttpHelper {
 
   Future<TrainingSession> getMockSession() async {
     //TrainingSession lastSession = TrainingSession.fromJSON({});
-
     String newPath = '$path/trainingSession';
     Uri uri = Uri.https(authority, newPath);
 
     http.Response response = await http.get(uri);
     TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
-    for (int i = 0; i < 10; i++) {
-      Execution newExecution = Execution.clone(lastSession.executions[0]);
-      lastSession.executions.add(newExecution);
+
+    for (int i = 0; i < 5; i++) {
+      Execution newExec = Execution.clone(lastSession.executions.first);
+      newExec.notes.add(i.toString());
+      lastSession.executions.add(newExec);
     }
 
     return lastSession;
+  }
+
+  Future<Execution> getLastExecution(String exerciseId) async {
+    // Path missing --> for now takes any session
+    String newPath = '$path/trainingSession';
+    Uri uri = Uri.https(authority, newPath);
+
+    http.Response response = await http.get(uri);
+    TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0] ?? {});
+
+    return lastSession.executions[0];
+  }
+
+  Future<bool> saveSession(TrainingSession session) async {
+    // to be implemented
+    
+    return true;
   }
 }
