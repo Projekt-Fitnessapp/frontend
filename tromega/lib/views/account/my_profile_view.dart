@@ -1,49 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/views/account/Example/user.dart';
-import 'package:tromega/views/account/edit_profile_view.dart';
+import 'package:tromega/data/account.dart';
+import 'package:tromega/data/body.dart';
+import 'package:tromega/data/acoount_http_helper.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 
-class ProfileView extends StatelessWidget {
-  const ProfileView({Key? key}) : super(key: key);
+class ProfileView extends StatefulWidget {
+  ProfileView({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  late Account account;
+  late Body body;
+  late AccountHttpHelper accountHttpHelper;
+
+  @override
+  initState() {
+    accountHttpHelper = AccountHttpHelper();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final user = User(
-        'https://media.istockphoto.com/photos/close-up-photo-beautiful-amazing-she-her-lady-look-side-empty-space-picture-id1146468004?k=20&m=1146468004&s=612x612&w=0&h=oCXhe0yOy-CSePrfoj9d5-5MFKJwnr44k7xpLhwqMsY=',
-        'John Doe',
-        20,
-        1.80,
-        70,
-        "männlich",
-        "Muskeln aufbauen");
     return Scaffold(
       appBar: AppBar_Icon(),
       body: ListView(
         children: [
           const SizedBox(height: 24),
           ProfileWidget(
-            imagePath: user.imagePath,
+            imagePath: 'https://media.istockphoto.com/photos/close-up-photo-beautiful-amazing-she-her-lady-look-side-empty-space-picture-id1146468004?k=20&m=1146468004&s=612x612&w=0&h=oCXhe0yOy-CSePrfoj9d5-5MFKJwnr44k7xpLhwqMsY=',
             onClicked: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const EditProfile()));
+              Navigator.pushNamed(context, '/editProfile');
             },
           ),
           const SizedBox(height: 24),
-          buildName(user),
+          buildName(),
           const SizedBox(height: 24),
-          buildData(user),
+          buildData(),
         ],
       ),
       bottomNavigationBar: const BottomMenu(index: 4),
     );
   }
 
-  Widget buildName(User user) => Column(
+   Widget buildName() => Column(
         children: [
           Text(
-            user.name,
+            account.name,
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
@@ -52,19 +59,19 @@ class ProfileView extends StatelessWidget {
         ],
       );
 
-  Widget buildData(User user) => Container(
+    Widget buildData() => Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          buildDataRow(text1: 'Alter', text2: "${user.age}"),
+          buildDataRow(text1: 'Alter', text2: account.birthdate),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Größe', text2: "${user.height} m"),
+          buildDataRow(text1: 'Größe', text2: "${body.height} m"),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Gewicht', text2: "${user.weight} kg"),
+          buildDataRow(text1: 'Gewicht', text2: "${body.weight} kg"),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Geschlecht', text2: user.gender),
+          buildDataRow(text1: 'Geschlecht', text2: account.sex),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Trainingsziel', text2: user.goal)
+          buildDataRow(text1: 'Trainingsziel', text2: "Muskeln aufbauen")
         ],
       ));
 
@@ -85,3 +92,4 @@ class ProfileView extends StatelessWidget {
         ),
       );
 }
+

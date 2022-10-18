@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
@@ -35,10 +34,11 @@ class AccountHttpHelper {
     http.Response res = await http.get(uri);
 
     if (res.statusCode == 200) {
-      return account = Account.fromJSON(jsonDecode(res.body));
+      account = Account.fromJSON(jsonDecode(res.body));
     } else {
       throw Exception("failed to get account");
     }
+    return account;
   }
 
   Future<bool> postAccount(Account account) async {
@@ -64,10 +64,11 @@ class AccountHttpHelper {
     http.Response res = await http.get(uri);
 
     if (res.statusCode == 200) {
-      return body = Body.fromJSON(jsonDecode(res.body));
+      body = Body.fromJSON(jsonDecode(res.body));
     } else {
       throw Exception("failed to get body");
     }
+    return body;
   }
 
   Future<bool> postBody() async {
