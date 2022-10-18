@@ -9,8 +9,8 @@ class TrainingDay {
   TrainingDay(this.id, this.name, this.exercises);
 
   TrainingDay.fromJson(Map<String, dynamic> importMap) {
-    id = importMap['_id'];
-    name = importMap['name'];
-    exercises = (importMap[exercises] ?? []).map<Exercise>((exerciseMap) => Exercise.fromJSON(exerciseMap)).toList();
+    id = importMap['_id'] ?? '';
+    name = importMap['name'] ?? '';
+    exercises = (importMap['exercises'] ?? []).map<PlannedExercise>((exerciseMap) => PlannedExercise.fromJson(exerciseMap)).toList();
   }
 }

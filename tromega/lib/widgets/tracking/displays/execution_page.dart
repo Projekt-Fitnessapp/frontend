@@ -8,9 +8,10 @@ import 'all_sets_display.dart';
 
 class ExecutionPage extends StatefulWidget {
   const ExecutionPage(
-      {Key? key, required this.execution, required this.position, required this.onRebuild, required this.onFinishSet, required this.toNextExecution})
+      {Key? key, required this.execution, required this.trainingDayId, required this.position, required this.onRebuild, required this.onFinishSet, required this.toNextExecution})
       : super(key: key);
   final Execution execution;
+  final String trainingDayId;
   final Function toNextExecution;
   final Function onRebuild;
   final Function onFinishSet;
@@ -158,7 +159,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
           ),
           HistoryDataBlock(
             exerciseId: exec.exercise.id,
-            executionId: exec.id,
+            trainingDayId: widget.trainingDayId,
           ),
         ],
       ),

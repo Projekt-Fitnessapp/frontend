@@ -3,8 +3,8 @@ import 'package:tromega/data/execution.dart';
 import '../../../data/tracking_http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
-  const HistoryDataBlock({Key? key, required this.exerciseId, required this.executionId}) : super(key: key);
-  final String exerciseId, executionId;
+  const HistoryDataBlock({Key? key, required this.exerciseId, required this.trainingDayId}) : super(key: key);
+  final String exerciseId, trainingDayId;
 
   @override
   State<HistoryDataBlock> createState() => _HistoryDataBlockState();
@@ -112,7 +112,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
   }
 
   void fetchData() async {
-    Execution? exec = await httpHelper.getLastExecution(widget.exerciseId, widget.executionId);
+    Execution? exec = await httpHelper.getLastExecution(widget.trainingDayId, widget.exerciseId);
 
     if (mounted) {
       setState(() {

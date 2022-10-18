@@ -24,6 +24,7 @@ class _TrackingViewState extends State<TrackingView> {
   bool trainingFinished = false;
   bool fetching = true;
   int highlightedPage = 0;
+  String trainingDayId = '634ec2de3d0fbf6f55ff3a96';
 
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -90,6 +91,7 @@ class _TrackingViewState extends State<TrackingView> {
                         itemBuilder: (BuildContext context, int index) {
                           return ExecutionPage(
                             execution: thisSession.executions[index],
+                            trainingDayId: trainingDayId,
                             position: index,
                             toNextExecution: () {
                               int nextPage = getNextToDo(index);
@@ -146,7 +148,8 @@ class _TrackingViewState extends State<TrackingView> {
   }
 
   void fetchData() async {
-    TrainingSession initSession = await trackingHttpHelper.getMockSession();
+    // hard coded for now
+    TrainingSession initSession = await trackingHttpHelper.getLastSession(trainingDayId);
     setState(() {
       lastSession = initSession;
       thisSession = TrainingSession.clone(initSession);

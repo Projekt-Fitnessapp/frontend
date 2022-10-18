@@ -5,17 +5,17 @@ import 'execution_set.dart';
 import 'training_day.dart';
 
 class TrainingSession {
-  late String _id, userId, trainingDayId;
+  late String id, userId, trainingDayId;
   late DateTime date;
   late List<Execution> executions;
 
-  TrainingSession(this._id, this.userId, this.trainingDayId, this.date, this.executions);
+  TrainingSession(this.id, this.userId, this.trainingDayId, this.date, this.executions);
 
   TrainingSession.clone(TrainingSession trainingSession)
-      : this(trainingSession._id, trainingSession.userId, trainingSession.trainingDayId, trainingSession.date, trainingSession.executions);
+      : this(trainingSession.id, trainingSession.userId, trainingSession.trainingDayId, trainingSession.date, trainingSession.executions);
 
   TrainingSession.fromJSON(Map<String, dynamic> importMap) {
-    _id = importMap['_id'] ?? '';
+    id = importMap['_id'] ?? '';
     userId = importMap['userId'] ?? '';
     trainingDayId = importMap['trainingDayId'] ?? '';
     date = DateTime.parse(importMap['date'] ?? '19700101');
@@ -23,6 +23,11 @@ class TrainingSession {
   }
 
   TrainingSession.fromTrainingDay(TrainingDay td) {
+    print(td.id);
+    print(td.name);
+
+    id = '';
+    userId = '';
     trainingDayId = td.id;
     date = DateTime.now();
     executions = td.exercises.map<Execution>((plannedExercise) {
