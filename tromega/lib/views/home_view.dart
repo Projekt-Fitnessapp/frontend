@@ -32,16 +32,6 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
-  // = Trainweek("week", [
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 1)), true),
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 2)), false),
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 3)), true),
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 4)), false),
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 5)), false),
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 6)), false),
-  //   TraindayOld(DateTime.now().subtract(const Duration(days: 7)), true)
-  //   ]);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +54,7 @@ class _HomeViewState extends State<HomeView> {
                                   color: Colors.grey.withOpacity(0.2),
                                   spreadRadius: 5,
                                   blurRadius: 10,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
+                                  offset: const Offset(0, 3),
                                 ),
                               ],
                               borderRadius:
@@ -73,6 +62,7 @@ class _HomeViewState extends State<HomeView> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CalendarTimeline(
+                              //Creates timeline in appbar with timespan of 14 days
                               initialDate: dateToday,
                               firstDate: DateTime.now()
                                   .subtract(const Duration(days: 7)),
@@ -86,8 +76,11 @@ class _HomeViewState extends State<HomeView> {
                                 if (daysBack > 0) {
                                   if (trainigsDaten
                                       .days[daysBack - 1].trained) {
-                                    colorDot =
-                                        const Color.fromARGB(1000, 240, 157, 2);
+                                    colorDot = const Color.fromARGB(
+                                        1000,
+                                        240,
+                                        157,
+                                        2); //when someone trained on that date, the dots turn yellow
                                   } else {
                                     colorDot =
                                         const Color.fromARGB(1000, 4, 146, 240);
@@ -97,13 +90,6 @@ class _HomeViewState extends State<HomeView> {
                                       const Color.fromARGB(1000, 4, 146, 240);
                                 }
                                 dateToday = date;
-                                //DateTime myDate = DateTime.parse('2022-09-15 00:00:00Z');
-                                //if (date.year == myDate.year &&
-                                //date.month == myDate.month &&
-                                //date.day == myDate.day) {
-                                //prüfen ob selectedDate in json true hat
-                                //colorDot = Colors.amber;
-                                //}
                                 setState(() {});
                               },
                               leftMargin: 0,
@@ -118,6 +104,7 @@ class _HomeViewState extends State<HomeView> {
           : Container(
               alignment: Alignment.center,
               child: SizedBox(
+                //Box in the center
                 width: 320,
                 height: 190,
                 child: Container(
@@ -139,25 +126,21 @@ class _HomeViewState extends State<HomeView> {
                       alignment: Alignment.topCenter,
                       child: Column(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(1.0, 15.0, 1.0, 1.0),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(1.0, 15.0, 1.0, 1.0),
                             child: Text(
                               'Nächstes Training',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Raleway'),
+                              style: Theme.of(context).textTheme.headlineLarge,
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 30.0),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 30.0),
                             child: Text(
                               'Legs',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Raleway'),
+                              style: Theme.of(context).textTheme.titleLarge,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -174,12 +157,9 @@ class _HomeViewState extends State<HomeView> {
                                       builder: (context) =>
                                           const TrackingView()));
                             },
-                            child: const Text(
+                            child: Text(
                               'Training starten',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'Raleway'),
+                              style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ),
                           Padding(
@@ -187,11 +167,8 @@ class _HomeViewState extends State<HomeView> {
                             child: RichText(
                                 text: TextSpan(
                                     text: 'Anderen Tag auswählen',
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Raleway'),
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.push(
@@ -211,6 +188,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void fetchData() async {
+    //gets the trainingsdata of last week (when has the user trained)
     Trainweek trainweek = await trackingHttpHelper.getLastTrainday();
 
     setState(() {

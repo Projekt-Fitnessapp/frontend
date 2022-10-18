@@ -11,6 +11,7 @@ class TrackingHttpHelper {
   final String path = '/FLORIANHASE12/GEtit/1.0.0';
 
   Future<Trainweek> getLastTrainday() async {
+    //gets the LastTrainday data of the last 7 days
     Map<String, dynamic> querys = {};
     querys["userId"] = "";
     querys["days"] = "7";
@@ -21,6 +22,7 @@ class TrackingHttpHelper {
     List<TrainDay> days = [];
     List<dynamic> data = json.decode(response.body);
 
+    //turns the data into TrainDays
     data.forEach((element) {
       days.add(TrainDay.fromJSON((element)));
     });
