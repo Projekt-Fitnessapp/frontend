@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tromega/data/sso_http_helper.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
@@ -22,6 +23,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  late AccountHttpHelper account_http_helper;
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
   late SharedPreferences prefs;
@@ -29,12 +31,10 @@ class _LoginViewState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
+    account_http_helper = AccountHttpHelper();
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       setState(() {
         _currentUser = account;
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('userId', _currentUser!.id);
-        });
       });
       if (_currentUser != null) {
         _handleGetContact(_currentUser!);
@@ -93,7 +93,16 @@ class _LoginViewState extends State<LoginView> {
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
-      Navigator.popAndPushNamed(context, '/home');
+        account_http_helper
+            .accountExist(_currentUser?.id ?? '')
+            .then((exists) {
+          if (exists) {
+            Navigator.pushNamed(context, '/home');
+          } else {
+            Navigator.pushNamed(context, '/addMyDataView');
+          }
+        });
+      
     } catch (error) {
       print(error);
     }
@@ -122,7 +131,6 @@ class _LoginViewState extends State<LoginView> {
             subtitle: Text(user.email),
           ),
           const Text('Signed in successfully.'),
-          Text("UserId: ${user.id}"),
           Text(_contactText),
           ElevatedButton(
             onPressed: _handleSignOut,
