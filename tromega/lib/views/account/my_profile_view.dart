@@ -28,7 +28,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: [],),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
           : ListView(

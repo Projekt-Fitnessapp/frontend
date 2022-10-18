@@ -25,7 +25,7 @@ class _AddMyDataViewState extends State<AddMyDataView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(),
+      appBar: AppBar_Icon(actions: []),
       body: ListView(
         children: [
           const SizedBox(height: 24),

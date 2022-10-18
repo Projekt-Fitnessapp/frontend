@@ -9,6 +9,7 @@ ThemeData tromegaTheme() {
     primaryColor: const Color(0xff003050),
     primaryColorLight: const Color(0xff5cbffb),
     highlightColor:  Colors.grey[300],
+    indicatorColor: Colors.green,
     // Buttons
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -93,7 +94,7 @@ ThemeData tromegaTheme() {
         letterSpacing: -0.5,
       ),
       bodyMedium: TextStyle(
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'Proxima Nova',
         color: Colors.black,
         letterSpacing: -0.5,
