@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:tromega/widgets/tracking/ExecutionInfos.dart';
+import 'package:tromega/widgets/tracking/Dialogs/ExecutionInfos.dart';
 
-import '../../data/execution.dart';
+import '../../../data/execution.dart';
 
 class ExecutionSettings extends StatefulWidget {
   const ExecutionSettings({Key? key, required this.exec}) : super(key: key);

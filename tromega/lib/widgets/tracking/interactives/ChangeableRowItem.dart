@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/BottomDialogPicker.dart';
-import 'package:tromega/widgets/tracking/BottomDialogTypePicker.dart';
+import 'package:tromega/widgets/tracking/Dialogs/BottomDialogPicker.dart';
+import 'package:tromega/widgets/tracking/Dialogs/BottomDialogTypePicker.dart';
 
 class ChangeableRowItem extends StatefulWidget {
   const ChangeableRowItem(

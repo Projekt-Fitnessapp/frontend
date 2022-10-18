@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/RowItem.dart';
-import 'package:tromega/widgets/tracking/SetRow.dart';
+import 'package:tromega/widgets/tracking/displays/RowItem.dart';
+import 'package:tromega/widgets/tracking/displays/SetDisplay.dart';
 
-import '../../data/executionSet.dart';
+import '../../../data/executionSet.dart';
 
-class SetDisplay extends StatefulWidget {
-  const SetDisplay(
+class AllSetsDisplay extends StatefulWidget {
+  const AllSetsDisplay(
       {Key? key,
       required this.executionSets,
       required this.onAddSet,
@@ -22,10 +22,10 @@ class SetDisplay extends StatefulWidget {
   final Function onFinishExecution;
 
   @override
-  State<SetDisplay> createState() => _SetDisplayState();
+  State<AllSetsDisplay> createState() => _AllSetsDisplayState();
 }
 
-class _SetDisplayState extends State<SetDisplay> {
+class _AllSetsDisplayState extends State<AllSetsDisplay> {
   List<ExecutionSet> sets = [];
 
   @override
@@ -44,16 +44,14 @@ class _SetDisplayState extends State<SetDisplay> {
               .asMap()
               .entries
               .map(
-                (entry) => SetRow(
+                (entry) => SetDisplay(
                   position: entry.key,
                   thisSet: entry.value,
                   highlighted: entry.key == getFirstToDo(),
                   onChange: () {
                     setState(() {
-                      int firstToDo =
-                          getFirstToDo() == -1 ? sets.length : getFirstToDo();
-                      if (entry.key + 1 == firstToDo ||
-                          entry.key == firstToDo) {
+                      int firstToDo = getFirstToDo() == -1 ? sets.length : getFirstToDo();
+                      if (entry.key + 1 == firstToDo || entry.key == firstToDo) {
                         sets[entry.key].done = !entry.value.done;
                         if (sets[entry.key].done) {
                           widget.onFinishSet();

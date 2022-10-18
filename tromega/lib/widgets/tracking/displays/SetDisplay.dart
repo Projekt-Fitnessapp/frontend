@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/RowItem.dart';
-import 'package:tromega/widgets/tracking/ChangeableRowItem.dart';
-import '../../data/executionSet.dart';
+import 'package:tromega/widgets/tracking/displays/RowItem.dart';
+import 'package:tromega/widgets/tracking/interactives/ChangeableRowItem.dart';
+import '../../../data/executionSet.dart';
 
-class SetRow extends StatefulWidget {
-  const SetRow(
-      {Key? key,
-      required this.position,
-      required this.thisSet,
-      required this.highlighted,
-      required this.onChange})
-      : super(key: key);
+class SetDisplay extends StatefulWidget {
+  const SetDisplay({Key? key, required this.position, required this.thisSet, required this.highlighted, required this.onChange}) : super(key: key);
   final int position;
   final ExecutionSet thisSet;
   final Function onChange;
   final bool highlighted;
 
   @override
-  State<SetRow> createState() => _SetRowState();
+  State<SetDisplay> createState() => _SetDisplayState();
 }
 
-class _SetRowState extends State<SetRow> {
+class _SetDisplayState extends State<SetDisplay> {
   late ExecutionSet thisSet;
 
   @override
@@ -65,9 +59,7 @@ class _SetRowState extends State<SetRow> {
         Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            color: widget.highlighted
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).backgroundColor,
+            color: widget.highlighted ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
           ),
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.15,
@@ -81,9 +73,9 @@ class _SetRowState extends State<SetRow> {
                 Icons.check_rounded,
                 color: widget.highlighted
                     ? Theme.of(context).backgroundColor
-                    : thisSet.done 
-                      ? Theme.of(context).primaryColorLight
-                      : Theme.of(context).primaryColor,
+                    : thisSet.done
+                        ? Theme.of(context).primaryColorLight
+                        : Theme.of(context).primaryColor,
               ),
             ),
           ),

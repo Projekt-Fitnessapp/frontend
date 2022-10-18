@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/execution.dart';
-import '../../data/tracking_http_helper.dart';
+import '../../../data/tracking_http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
   const HistoryDataBlock({Key? key, required this.exerciseId})

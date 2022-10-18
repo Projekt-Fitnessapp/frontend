@@ -1,13 +1,13 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/FinishTrainingButton.dart';
-import 'package:tromega/widgets/tracking/PauseTimer.dart';
-import 'package:tromega/widgets/tracking/TrainingOptionsButton.dart';
+import 'package:tromega/widgets/tracking/interactives/FinishTrainingButton.dart';
+import 'package:tromega/widgets/tracking/interactives/PauseTimer.dart';
+import 'package:tromega/widgets/tracking/interactives/TrainingOptionsButton.dart';
 import '../../data/trainingSession.dart';
 import '../../data/tracking_http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
-import '../../widgets/tracking/ExecutionPage.dart';
-import '../../widgets/tracking/ExerciseThumbnail.dart';
+import '../../widgets/tracking/displays/ExecutionPage.dart';
+import '../../widgets/tracking/interactives/ExerciseThumbnail.dart';
 
 class TrackingView extends StatefulWidget {
   const TrackingView({Key? key}) : super(key: key);

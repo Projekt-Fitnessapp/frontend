@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/executionSet.dart';
-import 'package:tromega/widgets/tracking/historyDataBlock.dart';
-import './ExecutionSettings.dart';
-import '../../data/execution.dart';
-import './ExecutionNoteDisplay.dart';
-import './SetDisplay.dart';
+import 'package:tromega/widgets/tracking/displays/historyDataBlock.dart';
+import '../Dialogs/ExecutionSettings.dart';
+import '../../../data/execution.dart';
+import 'ExecutionNoteDisplay.dart';
+import 'AllSetsDisplay.dart';
 
 class ExecutionPage extends StatefulWidget {
   const ExecutionPage(
-      {Key? key,
-      required this.execution,
-      required this.position,
-      required this.onRebuild,
-      required this.onFinishSet,
-      required this.toNextExecution})
+      {Key? key, required this.execution, required this.position, required this.onRebuild, required this.onFinishSet, required this.toNextExecution})
       : super(key: key);
   final Execution execution;
   final Function toNextExecution;
@@ -123,12 +118,11 @@ class _ExecutionPageState extends State<ExecutionPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: SetDisplay(
+            child: AllSetsDisplay(
               executionSets: exec.sets,
               onAddSet: () {
                 setState(() {
-                  ExecutionSet tempSet =
-                      ExecutionSet(ExecutionType.WORKING, 10, 0, 0, false);
+                  ExecutionSet tempSet = ExecutionSet(ExecutionType.WORKING, 10, 0, 0, false);
                   if (exec.sets.isNotEmpty) {
                     tempSet = ExecutionSet.clone(exec.sets.last);
                     tempSet.done = false;

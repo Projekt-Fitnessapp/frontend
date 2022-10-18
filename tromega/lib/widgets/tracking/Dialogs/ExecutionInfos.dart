@@ -26,7 +26,7 @@ class _ExecutionInfosState extends State<ExecutionInfos> with TickerProviderStat
         children: [
           InkWell(
             onTap: () {
-              if( _gifController.isAnimating ) {
+              if (_gifController.isAnimating) {
                 _gifController.stop();
               } else {
                 _gifController.repeat();

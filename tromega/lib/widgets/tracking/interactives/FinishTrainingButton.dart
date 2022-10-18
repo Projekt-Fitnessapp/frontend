@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/tracking_http_helper.dart';
-import '../../data/trainingSession.dart';
+import '../../../data/trainingSession.dart';
 
 class FinishTrainingButton extends StatelessWidget {
   const FinishTrainingButton({super.key, required this.trainingFinished, required this.thisSession});
