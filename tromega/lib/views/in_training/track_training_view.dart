@@ -47,7 +47,7 @@ class _TrackingViewState extends State<TrackingView> {
       appBar: AppBar_Icon(
         actions: [
           IconButton(
-            splashRadius: 10,
+            splashRadius: 20,
             onPressed: () {
               showModalBottomSheet(
                 context: context,
@@ -205,7 +205,7 @@ class _TrackingViewState extends State<TrackingView> {
                               splashColor: Theme.of(context).backgroundColor,
                               child: CustomTimer(
                                 controller: _timerController,
-                                begin: const Duration(minutes: 3),
+                                begin: const Duration(minutes: 3, seconds: 1),
                                 end: const Duration(),
                                 builder: (remaining) {
                                   return Text(

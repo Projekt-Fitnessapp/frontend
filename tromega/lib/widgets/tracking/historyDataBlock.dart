@@ -43,7 +43,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
-                          'Training am ${date.day}.${date.month}.${date.year}',
+                          'Training vom ${date.day}.${date.month}.${date.year}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),

@@ -22,7 +22,17 @@ class Execution {
     id = importMap['_id'] ?? '';
     exercise = Exercise.fromJSON(importMap['exercise'] ?? {});
     notes = importMap['notes'].map<String>((note) => note.toString()).toList();
-    sets = importMap['sets'].map<ExecutionSet>((setMap) => ExecutionSet.fromJSON(setMap)).toList();
+    sets = importMap['sets']
+        .map<ExecutionSet>((setMap) => ExecutionSet.fromJSON(setMap))
+        .toList();
     done = false;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'exercise': exercise.toJson(),
+      'notes': notes.toString(),
+      'sets': sets.map((e) => e.toJson()).toList(),
+    };
   }
 }
