@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/interactives/finish_training_button.dart';
 import 'package:tromega/widgets/tracking/interactives/pause_timer.dart';
 import 'package:tromega/widgets/tracking/interactives/training_options_button.dart';
-import '../../data/trainingSession.dart';
+import '../../data/training_session.dart';
 import '../../data/tracking_http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/tracking/displays/execution_page.dart';

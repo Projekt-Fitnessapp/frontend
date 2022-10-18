@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/displays/row_item.dart';
 import 'package:tromega/widgets/tracking/displays/set_display.dart';
 
-import '../../../data/executionSet.dart';
+import '../../../data/execution_set.dart';
 
 class AllSetsDisplay extends StatefulWidget {
   const AllSetsDisplay(

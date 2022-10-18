@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, constant_identifier_names
+// ignore_for_file: constant_identifier_names
 
 enum ExecutionType {
   WARMUP,
@@ -12,12 +12,10 @@ class ExecutionSet {
   late int reps;
   late bool done;
 
-  ExecutionSet(
-      this.executionType, this.reps, this.weight, this.tenRM, this.done);
+  ExecutionSet(this.executionType, this.reps, this.weight, this.tenRM, this.done);
 
   ExecutionSet.clone(ExecutionSet executionSet)
-      : this(executionSet.executionType, executionSet.reps, executionSet.weight,
-            executionSet.tenRM, executionSet.done);
+      : this(executionSet.executionType, executionSet.reps, executionSet.weight, executionSet.tenRM, executionSet.done);
 
   ExecutionSet.fromJSON(Map<String, dynamic> importMap) {
     switch (importMap['executionType']) {

@@ -1,6 +1,4 @@
-import 'package:tromega/data/execution.dart';
 import 'package:tromega/data/trainday.dart';
-import 'package:tromega/data/trainingSession.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

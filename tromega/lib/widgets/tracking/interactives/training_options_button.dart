@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/tracking_http_helper.dart';
-import 'package:tromega/data/trainingSession.dart';
+import 'package:tromega/data/training_session.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_options.dart';
 import 'package:tromega/widgets/tracking/Dialogs/confirmation_dialog.dart';
 

@@ -3,9 +3,8 @@ import 'package:tromega/data/execution.dart';
 import '../../../data/tracking_http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
-  const HistoryDataBlock({Key? key, required this.exerciseId})
-      : super(key: key);
-  final String exerciseId;
+  const HistoryDataBlock({Key? key, required this.exerciseId, required this.executionId}) : super(key: key);
+  final String exerciseId, executionId;
 
   @override
   State<HistoryDataBlock> createState() => _HistoryDataBlockState();
@@ -76,33 +75,19 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets
-                              .asMap()
-                              .entries
-                              .map((entry) => buildHistoryDataCell(
-                                  context, entry.key.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.asMap().entries.map((entry) => buildHistoryDataCell(context, entry.key.toString())).toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets
-                              .map((elem) => buildHistoryDataCell(
-                                  context, elem.weight.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.weight.toString())).toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets
-                              .map((elem) => buildHistoryDataCell(
-                                  context, elem.reps.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.reps.toString())).toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets
-                              .map((elem) => buildHistoryDataCell(
-                                  context, elem.tenRM.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.tenRM.toString())).toList(),
                         ),
                       ],
                     ),
@@ -127,7 +112,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
   }
 
   void fetchData() async {
-    Execution? exec = await httpHelper.getLastExecution(widget.exerciseId);
+    Execution? exec = await httpHelper.getLastExecution(widget.exerciseId, widget.executionId);
 
     if (mounted) {
       setState(() {

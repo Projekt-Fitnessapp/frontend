@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/execution.dart';
-import 'package:tromega/data/trainingSession.dart';
+import 'package:tromega/data/training_day.dart';
+import 'package:tromega/data/training_session.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -20,11 +23,37 @@ class TrackingHttpHelper {
 
     String path = '/lastSession';
     Uri uri = Uri.https(authority, path, queries);
-    http.Response res = await http.get(uri);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
-    TrainingSession lastSession = TrainingSession.fromJSON(jsonDecode(res.body));
+    if (res.statusCode == 200) {
+      return TrainingSession.fromJSON(jsonDecode(res.body));
+    }
 
-    return lastSession;
+    TrainingDay td = await getTrainingDay(trainingDayId);
+    return TrainingSession.fromTrainingDay(td);
+  }
+
+  Future<TrainingDay> getTrainingDay(String trainingDayId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> queries = {
+      'trainingDayId': trainingDayId,
+    };
+    String path = '/trainingDay';
+
+    Uri uri = Uri.https(authority, path, queries);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
+
+    return TrainingDay.fromJson(jsonDecode(res.body));
   }
 
   Future<bool> saveSession(TrainingSession session) async {
@@ -38,29 +67,38 @@ class TrackingHttpHelper {
     Uri uri = Uri.https(authority, path);
 
     String jsonBody = jsonEncode(session.toJson());
-    http.Response res = await http.post(uri, body: jsonBody);
+    http.Response res = await http.post(
+      uri,
+      body: jsonBody,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
-    print(res.statusCode);
-    print(res.body);
     return res.statusCode == 200;
   }
 
-  Future<Execution?> getLastExecution(String exerciseId) async {
+  Future<Execution> getLastExecution(String trainingDayId, String exerciseId) async {
+    // later with special route
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString('userId') ?? '';
-    String path = '/lastExecution';
-
     Map<String, dynamic> queries = {
-      'userId': userId,
-      'exerciseId': exerciseId,
+      'userId': prefs.getString('userId'),
+      'trainingDayId': trainingDayId,
     };
-
+    String path = '/lastSession';
     Uri uri = Uri.https(authority, path, queries);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
-    http.Response response = await http.get(uri);
-    if (response.statusCode == 200) {
-      return Execution.fromJSON(jsonDecode(response.body));
-    }
+    TrainingSession lastSession = TrainingSession.fromJSON(jsonDecode(res.body));
+    int pos = lastSession.executions.indexWhere((exec) => exec.exercise.id == exerciseId);
+
+    return lastSession.executions[pos];
   }
 
   Future<TrainingSession> getMockSession() async {
