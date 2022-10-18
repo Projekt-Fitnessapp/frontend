@@ -37,58 +37,8 @@ class _LoginViewState extends State<LoginView> {
       setState(() {
         _currentUser = account;
       });
-      if (_currentUser != null) {
-        _handleGetContact(_currentUser!);
-      }
     });
     _googleSignIn.signInSilently();
-  }
-
-  Future<void> _handleGetContact(GoogleSignInAccount user) async {
-    setState(() {
-      _contactText = 'Loading contact info...';
-    });
-    final http.Response response = await http.get(
-      Uri.parse('https://people.googleapis.com/v1/people/me/connections'
-          '?requestMask.includeField=person.names'),
-      headers: await user.authHeaders,
-    );
-    if (response.statusCode != 200) {
-      setState(() {
-        _contactText = 'People API gave a ${response.statusCode} '
-            'response. Check logs for details.';
-      });
-      print('People API ${response.statusCode} response: ${response.body}');
-      return;
-    }
-    final Map<String, dynamic> data =
-        json.decode(response.body) as Map<String, dynamic>;
-    final String? namedContact = _pickFirstNamedContact(data);
-    setState(() {
-      if (namedContact != null) {
-        _contactText = 'I see you know $namedContact!';
-      } else {
-        _contactText = 'No contacts to display.';
-      }
-    });
-  }
-
-  String? _pickFirstNamedContact(Map<String, dynamic> data) {
-    final List<dynamic>? connections = data['connections'] as List<dynamic>?;
-    final Map<String, dynamic>? contact = connections?.firstWhere(
-      (dynamic contact) => contact['names'] != null,
-      orElse: () => null,
-    ) as Map<String, dynamic>?;
-    if (contact != null) {
-      final Map<String, dynamic>? name = contact['names'].firstWhere(
-        (dynamic name) => name['displayName'] != null,
-        orElse: () => null,
-      ) as Map<String, dynamic>?;
-      if (name != null) {
-        return name['displayName'] as String?;
-      }
-    }
-    return null;
   }
 
   Future<void> _handleSignIn() async {
@@ -96,6 +46,7 @@ class _LoginViewState extends State<LoginView> {
       await _googleSignIn.signIn();
       SharedPreferences.getInstance().then((prefs) {
         _currentUser?.authentication.then((value) {
+          print("token: $value.accessToken");
           prefs.setString('token', value.accessToken ?? '');
         });
         account_http_helper.accountExist(_currentUser?.id ?? '').then((exists) {
@@ -103,11 +54,13 @@ class _LoginViewState extends State<LoginView> {
             account_http_helper
                 .getAccount(_currentUser?.id ?? '')
                 .then((account) {
+              print("userId: $account.id");
               prefs.setString('userId', account.id);
             });
 
             Navigator.pushNamed(context, '/home');
           } else {
+            print("failed");
             _currentUser?.authentication.then((value) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => AddMyDataView(
@@ -149,10 +102,6 @@ class _LoginViewState extends State<LoginView> {
           ElevatedButton(
             onPressed: _handleSignOut,
             child: const Text('SIGN OUT'),
-          ),
-          ElevatedButton(
-            child: const Text('REFRESH'),
-            onPressed: () => _handleGetContact(user),
           ),
         ],
       );

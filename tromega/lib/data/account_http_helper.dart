@@ -15,6 +15,7 @@ class AccountHttpHelper {
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
+    print(uri);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     http.Response res = await http.get(
@@ -23,7 +24,8 @@ class AccountHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
-
+    print(res.statusCode);
+    print(res.body);
     if (res.statusCode == 200) {
       return true;
     } else {
@@ -59,12 +61,12 @@ class AccountHttpHelper {
     Uri uri = Uri.https(authority, newPath);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    http.Response res = await http.post(
-      uri,
-      headers: {
-        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
-      },
-    );
+    String jsonBody = jsonEncode(account.toJson());
+    http.Response res = await http.post(uri,
+        headers: {
+          HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+        },
+        body: jsonBody);
 
     if (res.statusCode == 201) {
       return true;
@@ -101,11 +103,13 @@ class AccountHttpHelper {
     Uri uri = Uri.https(authority, newPath);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    String jsonBody = jsonEncode(body.toJson());
     http.Response res = await http.post(
       uri,
       headers: {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
+      body: jsonBody,
     );
 
     if (res.statusCode == 201) {

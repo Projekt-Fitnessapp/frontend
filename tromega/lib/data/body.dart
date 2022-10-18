@@ -12,4 +12,12 @@ class Body {
     height = int.parse(importMap['height'] ?? '');
     weight = int.parse(importMap['weight'] ?? '');
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "date": date.toIso8601String(),
+      "height": height,
+      "weight": weight,
+    };
+  }
 }

@@ -20,23 +20,46 @@ class SecondQuestionWidget extends StatefulWidget {
 
 class _SecondQuestionWidget extends State<SecondQuestionWidget> {
   late AccountHttpHelper account_http_helper;
-  late Exercise exercise;
-  late TextEditingController push_ups;
+  late TextEditingController height;
 
   @override
   void initState() {
     super.initState();
 
     account_http_helper = AccountHttpHelper();
-    push_ups = TextEditingController();
+    height = TextEditingController();
   }
 
   String dropdownValue = "Ja";
   List<String> dropDownOptions = ["Ja", "Ein bisschen", "Nein"];
-  void dropdownCallback(String? selectedValue) {
+  void dropdownCallback3(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
         dropdownValue = selectedValue;
+      });
+    }
+  }
+
+  late String value1 = "Muskeln aufbauen";
+  late List<String> fitnessGoals = [
+    "Muskeln aufbauen",
+    "Ausdauer verbessern",
+    "Gewicht verlieren"
+  ];
+  void dropdownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        value1 = selectedValue;
+      });
+    }
+  }
+
+  late String value2 = "männlich";
+  late List<String> gender = ["männlich", "weiblich", "divers"];
+  void dropdownCallback2(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        value2 = selectedValue;
       });
     }
   }
@@ -51,19 +74,41 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            buildQuestion(text: 'Wie alt bist du?'),
+          buildTextField(color),
+          buildQuestion(text: 'Wie groß bist du?'),
+          AnswerFieldWidget(controller: height),
+          buildQuestion(text: 'Wie viel wiegst du?'),
+          buildTextField(color),
+          buildQuestion(text: 'Was ist dein Trainingsziel?'),
+          const SizedBox(height: 16),
+          DropDownWidget(
+            color: color,
+            dropDownOptions: fitnessGoals,
+            dropDownValue: value1,
+            dropdownCallback: dropdownCallback3,
+          ),
+          const SizedBox(height: 16),
+          buildQuestion(text: 'Mit welchem Geschlecht identifizierst du dich?'),
+          const SizedBox(height: 16),
+          DropDownWidget(
+            color: color,
+            dropDownOptions: gender,
+            dropDownValue: value2,
+            dropdownCallback: dropdownCallback2,
+          ),
+          const SizedBox(height: 32),
             buildQuestion(text: 'Hast du bereits Erfahrung mit Training?'),
             const SizedBox(height: 16),
             DropDownWidget(
               color: color,
               dropDownOptions: dropDownOptions,
               dropDownValue: dropdownValue,
-              dropdownCallback: dropdownCallback,
+              dropdownCallback: dropdownCallback3,
             ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
-            AnswerFieldWidget(
-              controller: push_ups,
-            ),
+            buildTextField(color),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
             buildTextField(color),
             buildQuestion(text: 'Wie viel Kilo stemmst du?'),
