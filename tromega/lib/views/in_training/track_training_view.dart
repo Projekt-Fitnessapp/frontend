@@ -229,12 +229,15 @@ class _TrackingViewState extends State<TrackingView> {
                     child: ElevatedButton(
                       onPressed: trainingFinished
                           ? () {
+                              print('finish training');
                               trackingHttpHelper
                                   .saveSession(thisSession)
                                   .then((value) {
                                 if (value) {
+                                  print('Erfolgreich saved');
                                   Navigator.popAndPushNamed(context, '/home');
                                 } else {
+                                  print('save failed');
                                   // Meldung --> Hat nicht geklappt
                                   // Abfrahe --> Nochmal veruschen / trotzdem training beenden
                                 }

@@ -27,9 +27,8 @@ class TrackingHttpHelper {
   }
 
   Future<bool> saveSession(TrainingSession session) async {
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String userId = prefs.getString('userId') ?? '';
-    String userId = 'abskdaj';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('userId') ?? '';
     if (userId == '') {
       return false;
     }
@@ -38,23 +37,29 @@ class TrackingHttpHelper {
     Uri uri = Uri.https(authority, path);
 
     String jsonBody = jsonEncode(session.toJson());
-    print(jsonBody);
-
     http.Response res = await http.post(uri, body: jsonBody);
 
-    return true;
+    print(res.statusCode);
+    print(res.body);
+    return res.statusCode == 200;
   }
 
-  Future<Execution> getLastExecution(String exerciseId) async {
-    // Path missing --> for now takes any session
-    String newPath = '/trainingSession';
-    Uri uri = Uri.https(authority, newPath);
+  Future<Execution?> getLastExecution(String exerciseId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('userId') ?? '';
+    String path = '/lastExecution';
+
+    Map<String, dynamic> queries = {
+      'userId': userId,
+      'exerciseId': exerciseId,
+    };
+
+    Uri uri = Uri.https(authority, path, queries);
 
     http.Response response = await http.get(uri);
-    TrainingSession lastSession =
-        TrainingSession.fromJSON(json.decode(response.body)[0] ?? {});
-
-    return lastSession.executions[0];
+    if (response.statusCode == 200) {
+      return Execution.fromJSON(jsonDecode(response.body));
+    }
   }
 
   Future<TrainingSession> getMockSession() async {
@@ -71,7 +76,6 @@ class TrackingHttpHelper {
       newExec.notes.add(i.toString());
       lastSession.executions.add(newExec);
     }
-
     return lastSession;
   }
 }

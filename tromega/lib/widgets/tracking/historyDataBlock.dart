@@ -12,8 +12,7 @@ class HistoryDataBlock extends StatefulWidget {
 }
 
 class _HistoryDataBlockState extends State<HistoryDataBlock> {
-  late Execution lastExecution;
-  late DateTime date;
+  late Execution? lastExecution;
   late TrackingHttpHelper httpHelper;
   bool fetching = true;
 
@@ -26,7 +25,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
 
   @override
   Widget build(BuildContext context) {
-    return fetching
+    return fetching || lastExecution == null
         ? Container()
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -43,7 +42,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
-                          'Training vom ${date.day}.${date.month}.${date.year}',
+                          'Training vom ${lastExecution!.date.day}.${lastExecution!.date.month}.${lastExecution!.date.year}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -77,7 +76,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
+                          children: lastExecution!.sets
                               .asMap()
                               .entries
                               .map((entry) => HistoryDataCell(
@@ -86,21 +85,21 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
+                          children: lastExecution!.sets
                               .map((elem) => HistoryDataCell(
                                   context, elem.weight.toString()))
                               .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
+                          children: lastExecution!.sets
                               .map((elem) => HistoryDataCell(
                                   context, elem.reps.toString()))
                               .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
+                          children: lastExecution!.sets
                               .map((elem) => HistoryDataCell(
                                   context, elem.tenRM.toString()))
                               .toList(),
@@ -128,12 +127,11 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
   }
 
   void fetchData() async {
-    Execution exec = await httpHelper.getLastExecution(widget.exerciseId);
+    Execution? exec = await httpHelper.getLastExecution(widget.exerciseId);
 
     if (mounted) {
       setState(() {
         lastExecution = exec;
-        date = DateTime(0);
         fetching = false;
       });
     }
