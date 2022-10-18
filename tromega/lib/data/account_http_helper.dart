@@ -1,21 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
 
 class AccountHttpHelper {
-  final String authority = 'virtserver.swaggerhub.com';
-  final String path = '/FLORIANHASE12/GEtit/1.0.0';
+  final String authority = 'api.fitnessapp.gang-of-fork.de';
 
   Future<bool> accountExist(String googleId) async {
-    String newPath = '$path/account';
+    String newPath = '/account';
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    http.Response res = await http.get(uri);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
     if (res.statusCode == 200) {
       return true;
@@ -26,12 +33,18 @@ class AccountHttpHelper {
 
   Future<Account> getAccount(String googleId) async {
     Account account;
-    String newPath = '$path/account';
+    String newPath = '/account';
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    http.Response res = await http.get(uri);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
     if (res.statusCode == 200) {
       account = Account.fromJSON(jsonDecode(res.body));
@@ -42,10 +55,16 @@ class AccountHttpHelper {
   }
 
   Future<bool> postAccount(Account account) async {
-    String newPath = '$path/account';
+    String newPath = '/account';
     Uri uri = Uri.https(authority, newPath);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    http.Response res = await http.post(uri, body: {account});
+    http.Response res = await http.post(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
     if (res.statusCode == 201) {
       return true;
@@ -56,12 +75,18 @@ class AccountHttpHelper {
 
   Future<Body> getBody(String googleId) async {
     Body body;
-    String newPath = '$path/body';
+    String newPath = '/body';
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    http.Response res = await http.get(uri);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
     if (res.statusCode == 200) {
       body = Body.fromJSON(jsonDecode(res.body));
@@ -72,10 +97,16 @@ class AccountHttpHelper {
   }
 
   Future<bool> postBody(Body body) async {
-    String newPath = '$path/body';
+    String newPath = '/body';
     Uri uri = Uri.https(authority, newPath);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    http.Response res = await http.post(uri, body: {body});
+    http.Response res = await http.post(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
 
     if (res.statusCode == 201) {
       return true;

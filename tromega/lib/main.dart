@@ -36,10 +36,9 @@ class MyApp extends StatelessWidget {
         '/myWorkoutPlans': (context) => PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
         '/socialSpace': (context) => const SocialSpaceView(),
-        '/myProfile': (context) =>  ProfileView(account: Account.fromJSON({}), body: Body.fromJSON({})),
+        '/myProfile': (context) =>   const ProfileView(),
         '/testTracking': (context) => const TrackingView(),
         '/testEditPlan': (context) => EditPlanView(),
-        '/addMyDataView': (context) => const AddMyDataView(),
         '/myLogin': (context) => const LoginView(),
         '/editProfile': (context) => const EditProfile()
       },

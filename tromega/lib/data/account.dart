@@ -1,15 +1,15 @@
 class Account {
-  late String _id, google_id, name, birthdate, sex;
+  late String id, name, sex;
+  late DateTime birthdate;
   late List<String> trainingPlans;
 
-  Account(this._id, this.google_id, this.name, this.birthdate, this.sex,
+  Account(this.id, this.name, this.birthdate, this.sex,
       this.trainingPlans);
 
   Account.fromJSON(Map<String, dynamic> importMap) {
-    _id = importMap['_id'] ?? '';
+    id = importMap['_id'] ?? '';
     name = importMap['name'] ?? '';
-    google_id = importMap['google_id'] ?? '';
-    birthdate = importMap['birthdate'] ?? '';
+    birthdate = DateTime.parse(importMap['birthdate'] ?? '');
     sex = importMap['sex'] ?? '';
     trainingPlans = importMap['trainingPlans'] ?? [];
   }

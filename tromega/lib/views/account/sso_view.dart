@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/views/account/add_my_data_view.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
@@ -93,16 +94,29 @@ class _LoginViewState extends State<LoginView> {
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
-        account_http_helper
-            .accountExist(_currentUser?.id ?? '')
-            .then((exists) {
+      SharedPreferences.getInstance().then((prefs) {
+        _currentUser?.authentication.then((value) {
+          prefs.setString('token', value.accessToken ?? '');
+        });
+        account_http_helper.accountExist(_currentUser?.id ?? '').then((exists) {
           if (exists) {
+            account_http_helper
+                .getAccount(_currentUser?.id ?? '')
+                .then((account) {
+              prefs.setString('userId', account.id);
+            });
+
             Navigator.pushNamed(context, '/home');
           } else {
-            Navigator.pushNamed(context, '/addMyDataView');
+            _currentUser?.authentication.then((value) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AddMyDataView(
+                        googleId: _currentUser?.id ?? '',
+                      )));
+            });
           }
         });
-      
+      });
     } catch (error) {
       print(error);
     }

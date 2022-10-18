@@ -9,7 +9,10 @@ import 'package:tromega/widgets/account/dropdown_widget.dart';
 import 'package:tromega/widgets/account/routebutton_widget.dart';
 
 class SecondQuestionWidget extends StatefulWidget {
-  const SecondQuestionWidget({super.key});
+  const SecondQuestionWidget({Key? key, required this.onFinished})
+      : super(key: key);
+
+  final Function onFinished;
 
   @override
   _SecondQuestionWidget createState() => _SecondQuestionWidget();
@@ -71,7 +74,9 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
                 color: color,
                 text: 'Registrieren',
                 onClick: () {
+                  widget.onFinished();
                   Navigator.pushNamed(context, '/myProfile');
+                  setState(() {});
                 })
           ],
         ),

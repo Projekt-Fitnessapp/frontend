@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/account_http_helper.dart';
@@ -7,7 +8,8 @@ import '../../widgets/account/first_questions_widget.dart';
 import '../../widgets/account/second_questions_widget.dart';
 
 class AddMyDataView extends StatefulWidget {
-  const AddMyDataView({super.key});
+  const AddMyDataView({super.key, required this.googleId});
+  final String googleId;
 
   @override
   State<AddMyDataView> createState() => _AddMyDataViewState();
@@ -15,9 +17,11 @@ class AddMyDataView extends StatefulWidget {
 
 class _AddMyDataViewState extends State<AddMyDataView> {
   late int page;
+  late AccountHttpHelper accountHttpHelper;
 
   @override
   void initState() {
+    accountHttpHelper = AccountHttpHelper();
     page = 0;
     super.initState();
   }
@@ -37,7 +41,13 @@ class _AddMyDataViewState extends State<AddMyDataView> {
                     });
                   },
                 )
-              : const SecondQuestionWidget()
+              : SecondQuestionWidget(onFinished: () {
+                  accountHttpHelper.getAccount(widget.googleId).then((account) {
+                    SharedPreferences.getInstance().then((prefs) {
+                      prefs.setString('userId', account.id);
+                    });
+                  });
+                })
         ],
       ),
     );

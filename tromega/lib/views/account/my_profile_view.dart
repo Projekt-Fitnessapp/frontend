@@ -7,28 +7,31 @@ import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 
 class ProfileView extends StatefulWidget {
-  ProfileView({Key? key, required this.account, required this.body})
-      : super(key: key);
-  Account account;
-  Body body;
-  late AccountHttpHelper accountHttpHelper;
-  late Account accountCopy = account;
-  late Body bodyCopy = body;
+  const ProfileView({Key? key}) : super(key: key);
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
-  onInit() {
-    accountHttpHelper = AccountHttpHelper();
-  }
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  bool fetching = false;
+  late Account lastAccount;
+  late Body lastBody;
+  late AccountHttpHelper accountHttpHelper;
+  bool fetching = true;
+
+  @override
+  void initState() {
+    accountHttpHelper = AccountHttpHelper();
+    fetchData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: [],),
+      appBar: AppBar_Icon(
+        actions: [],
+      ),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
           : ListView(
@@ -54,7 +57,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget buildName() => Column(
         children: [
           Text(
-            widget.accountCopy.name,
+            lastAccount.name,
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
@@ -67,13 +70,15 @@ class _ProfileViewState extends State<ProfileView> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          buildDataRow(text1: 'Alter', text2: widget.accountCopy.birthdate),
+          buildDataRow(text1: 'Alter', text2: "20"),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Größe', text2: "${widget.bodyCopy.height} m"),
+          buildDataRow(
+              text1: 'Größe', text2: "${lastBody.height.toString()} m"),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Gewicht', text2: "${widget.bodyCopy.weight} kg"),
+          buildDataRow(
+              text1: 'Gewicht', text2: "${lastBody.weight.toString()} kg"),
           const SizedBox(height: 24),
-          buildDataRow(text1: 'Geschlecht', text2: widget.accountCopy.sex),
+          buildDataRow(text1: 'Geschlecht', text2: lastAccount.sex.toString()),
           const SizedBox(height: 24),
           buildDataRow(text1: 'Trainingsziel', text2: "Muskeln aufbauen")
         ],
@@ -95,4 +100,15 @@ class _ProfileViewState extends State<ProfileView> {
           ],
         ),
       );
+
+  void fetchData() async {
+    Account account = await accountHttpHelper.getAccount("");
+    Body body = await accountHttpHelper.getBody("");
+
+    setState(() {
+      lastAccount = account;
+      lastBody = body;
+      fetching = false;
+    });
+  }
 }
