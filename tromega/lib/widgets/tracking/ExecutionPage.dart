@@ -12,11 +12,13 @@ class ExecutionPage extends StatefulWidget {
       required this.execution,
       required this.position,
       required this.onRebuild,
+      required this.onFinishSet,
       required this.toNextExecution})
       : super(key: key);
   final Execution execution;
   final Function toNextExecution;
   final Function onRebuild;
+  final Function onFinishSet;
   final int position;
   @override
   State<ExecutionPage> createState() => _ExecutionPageState();
@@ -157,6 +159,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
                 });
                 widget.toNextExecution();
               },
+              onFinishSet: () => widget.onFinishSet(),
             ),
           ),
           HistoryDataBlock(

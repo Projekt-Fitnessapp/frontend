@@ -10,12 +10,14 @@ class SetDisplay extends StatefulWidget {
       required this.executionSets,
       required this.onAddSet,
       required this.onRemoveSet,
+      required this.onFinishSet,
       required this.changeExecutionStatus,
       required this.onFinishExecution})
       : super(key: key);
   final List<ExecutionSet> executionSets;
   final Function onAddSet;
   final Function onRemoveSet;
+  final Function onFinishSet;
   final Function changeExecutionStatus;
   final Function onFinishExecution;
 
@@ -48,9 +50,14 @@ class _SetDisplayState extends State<SetDisplay> {
                   highlighted: entry.key == getFirstToDo(),
                   onChange: () {
                     setState(() {
-                      int firstToDo = getFirstToDo() == -1 ? sets.length : getFirstToDo();
-                      if (entry.key + 1 == firstToDo || entry.key == firstToDo) {
+                      int firstToDo =
+                          getFirstToDo() == -1 ? sets.length : getFirstToDo();
+                      if (entry.key + 1 == firstToDo ||
+                          entry.key == firstToDo) {
                         sets[entry.key].done = !entry.value.done;
+                        if (sets[entry.key].done) {
+                          widget.onFinishSet();
+                        }
                       }
                       if (!sets[entry.key].done) {
                         widget.changeExecutionStatus(false);

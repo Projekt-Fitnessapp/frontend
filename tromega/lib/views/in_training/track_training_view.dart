@@ -21,7 +21,7 @@ class _TrackingViewState extends State<TrackingView> {
   late TrackingHttpHelper trackingHttpHelper;
   late CustomTimerController _timerController;
   bool trainingFinished = false;
-  bool activeTimer = false;
+  //bool activeTimer = false;
   bool fetching = true;
 
   int highlightedPage = 0;
@@ -134,70 +134,93 @@ class _TrackingViewState extends State<TrackingView> {
                   ),
                 ),
                 Expanded(
-                  child: Stack(children: [
-                    PageView.builder(
-                      controller: _pageController,
-                      scrollDirection: Axis.horizontal,
-                      physics: const PageScrollPhysics(),
-                      itemCount: thisSession.executions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ExecutionPage(
-                            execution: thisSession.executions[index],
-                            position: index,
-                            toNextExecution: () {
-                              int nextPage = getNextToDo(index);
-                              if (nextPage != -1) {
-                                _pageController.animateToPage(
-                                  nextPage,
-                                  duration: const Duration(milliseconds: 500),
-                                  curve: Curves.easeIn,
-                                );
-                                setState(() {
-                                  highlightedPage = nextPage;
-                                });
-                              } else {
-                                print('Training abgeschlossen');
-                                setState(() {
-                                  trainingFinished = true;
-                                });
-                              }
-                            },
-                            onRebuild: () {
-                              setState(() {
-                                if (getNextToDo(0) == -1) {
-                                  trainingFinished = true;
+                  child: Stack(
+                    children: [
+                      PageView.builder(
+                        controller: _pageController,
+                        scrollDirection: Axis.horizontal,
+                        physics: const PageScrollPhysics(),
+                        itemCount: thisSession.executions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ExecutionPage(
+                              execution: thisSession.executions[index],
+                              position: index,
+                              toNextExecution: () {
+                                int nextPage = getNextToDo(index);
+                                if (nextPage != -1) {
+                                  _pageController.animateToPage(
+                                    nextPage,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeIn,
+                                  );
+                                  setState(() {
+                                    highlightedPage = nextPage;
+                                  });
                                 } else {
-                                  trainingFinished = false;
+                                  setState(() {
+                                    trainingFinished = true;
+                                  });
                                 }
+                              },
+                              onFinishSet: () {
+                                _timerController.reset();
+                                _timerController.start();
+                              },
+                              onRebuild: () {
+                                setState(() {
+                                  if (getNextToDo(0) == -1) {
+                                    trainingFinished = true;
+                                  } else {
+                                    trainingFinished = false;
+                                  }
+                                });
                               });
-                            });
-                      },
-                    ),
-                    Visibility(
-                      visible: true,
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).highlightColor,
-                            borderRadius: BorderRadius.circular(8),
+                        },
+                      ),
+                      Visibility(
+                        visible: !trainingFinished,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).highlightColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: InkWell(
+                              onLongPress: () {
+                                _timerController.reset();
+                                _timerController.start();
+                              },
+                              onTap: () {
+                                if (_timerController.state ==
+                                    CustomTimerState.paused) {
+                                  _timerController.start();
+                                } else {
+                                  _timerController.pause();
+                                }
+                              },
+                              splashColor: Theme.of(context).backgroundColor,
+                              child: CustomTimer(
+                                controller: _timerController,
+                                begin: const Duration(minutes: 3),
+                                end: const Duration(),
+                                builder: (remaining) {
+                                  return Text(
+                                      '${remaining.minutes}:${remaining.seconds}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineLarge);
+                                },
+                              ),
+                            ),
                           ),
-                          child: CustomTimer(
-                              controller: _timerController,
-                              begin: const Duration(minutes: 3),
-                              end: const Duration(),
-                              builder: (remaining) {
-                                return Text(
-                                    '${remaining.minutes}:${remaining.seconds}',
-                                    style: Theme.of(context).textTheme.headlineLarge);
-                              }),
                         ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
                 Visibility(
                   visible: trainingFinished,
