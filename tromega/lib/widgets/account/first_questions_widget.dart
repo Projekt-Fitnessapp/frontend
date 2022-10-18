@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/widgets/account/answer_field_widget.dart';
 
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
@@ -16,6 +18,9 @@ class FirstQuestionWidget extends StatefulWidget {
 }
 
 class _FirstQuestionWidget extends State<FirstQuestionWidget> {
+   late AccountHttpHelper accountHttpHelper;
+   late TextEditingController height;
+
   late String value1 = "Muskeln aufbauen";
   late List<String> fitnessGoals = [
     "Muskeln aufbauen",
@@ -40,6 +45,15 @@ class _FirstQuestionWidget extends State<FirstQuestionWidget> {
     }
   }
 
+  
+  @override
+  void initState() {
+    super.initState();
+
+    accountHttpHelper = AccountHttpHelper();
+    height = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
@@ -53,7 +67,7 @@ class _FirstQuestionWidget extends State<FirstQuestionWidget> {
           buildQuestion(text: 'Wie alt bist du?'),
           buildTextField(color),
           buildQuestion(text: 'Wie groß bist du?'),
-          buildTextField(color),
+          AnswerFieldWidget(controller: height),
           buildQuestion(text: 'Wie viel wiegst du?'),
           buildTextField(color),
           buildQuestion(text: 'Was ist dein Trainingsziel?'),

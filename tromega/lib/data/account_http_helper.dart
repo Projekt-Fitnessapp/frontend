@@ -45,7 +45,7 @@ class AccountHttpHelper {
     String newPath = '$path/account';
     Uri uri = Uri.https(authority, newPath);
 
-    http.Response res = await http.post(uri);
+    http.Response res = await http.post(uri, body: {account});
 
     if (res.statusCode == 201) {
       return true;
@@ -71,11 +71,11 @@ class AccountHttpHelper {
     return body;
   }
 
-  Future<bool> postBody() async {
+  Future<bool> postBody(Body body) async {
     String newPath = '$path/body';
     Uri uri = Uri.https(authority, newPath);
 
-    http.Response res = await http.post(uri);
+    http.Response res = await http.post(uri, body: {body});
 
     if (res.statusCode == 201) {
       return true;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
-import 'package:tromega/data/acoount_http_helper.dart';
+import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/first_questions_widget.dart';
 import '../../widgets/account/second_questions_widget.dart';
