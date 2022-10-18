@@ -1,3 +1,4 @@
+import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/BottomDialogOptions.dart';
 import 'package:tromega/widgets/tracking/ConfirmationDialog.dart';
@@ -18,7 +19,9 @@ class _TrackingViewState extends State<TrackingView> {
   late TrainingSession lastSession;
   late TrainingSession thisSession;
   late TrackingHttpHelper trackingHttpHelper;
+  late CustomTimerController _timerController;
   bool trainingFinished = false;
+  bool activeTimer = false;
   bool fetching = true;
 
   int highlightedPage = 0;
@@ -27,8 +30,15 @@ class _TrackingViewState extends State<TrackingView> {
   @override
   initState() {
     trackingHttpHelper = TrackingHttpHelper();
+    _timerController = CustomTimerController();
     fetchData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,15 +58,19 @@ class _TrackingViewState extends State<TrackingView> {
                         context: context,
                         builder: (BuildContext context) {
                           return ConfirmationDialog(
-                            question: 'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
-                            onConfirm: () => Navigator.popAndPushNamed(context, '/home'),
+                            question:
+                                'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
+                            onConfirm: () =>
+                                Navigator.popAndPushNamed(context, '/home'),
                           );
                         },
                       );
                     },
                     onFinish: () {
                       if (getNextToDo(0) == -1) {
-                        trackingHttpHelper.saveSession(thisSession).then((value) {
+                        trackingHttpHelper
+                            .saveSession(thisSession)
+                            .then((value) {
                           if (value) {
                             Navigator.popAndPushNamed(context, '/home');
                           }
@@ -66,9 +80,12 @@ class _TrackingViewState extends State<TrackingView> {
                           context: context,
                           builder: (context) {
                             return ConfirmationDialog(
-                              question: 'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
+                              question:
+                                  'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
                               onConfirm: () {
-                                trackingHttpHelper.saveSession(thisSession).then((value) {
+                                trackingHttpHelper
+                                    .saveSession(thisSession)
+                                    .then((value) {
                                   if (value) {
                                     Navigator.popAndPushNamed(context, '/home');
                                   }
@@ -103,7 +120,9 @@ class _TrackingViewState extends State<TrackingView> {
                       return ExerciseThumbnail(
                         gifUrl: thisSession.executions[index].exercise.gifUrl,
                         onTapCallback: () {
-                          _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                          _pageController.animateToPage(index,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeIn);
                           setState(() {
                             highlightedPage = index;
                           });
@@ -115,47 +134,81 @@ class _TrackingViewState extends State<TrackingView> {
                   ),
                 ),
                 Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    scrollDirection: Axis.horizontal,
-                    physics: const PageScrollPhysics(),
-                    itemCount: thisSession.executions.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ExecutionPage(
-                          execution: thisSession.executions[index],
-                          position: index,
-                          toNextExecution: () {
-                            int nextPage = getNextToDo(index);
-                            if (nextPage != -1) {
-                              _pageController.animateToPage(
-                                nextPage,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeIn,
-                              );
+                  child: Stack(children: [
+                    PageView.builder(
+                      controller: _pageController,
+                      scrollDirection: Axis.horizontal,
+                      physics: const PageScrollPhysics(),
+                      itemCount: thisSession.executions.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ExecutionPage(
+                            execution: thisSession.executions[index],
+                            position: index,
+                            toNextExecution: () {
+                              int nextPage = getNextToDo(index);
+                              if (nextPage != -1) {
+                                _pageController.animateToPage(
+                                  nextPage,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeIn,
+                                );
+                                setState(() {
+                                  highlightedPage = nextPage;
+                                });
+                              } else {
+                                print('Training abgeschlossen');
+                                setState(() {
+                                  trainingFinished = true;
+                                });
+                              }
+                            },
+                            onRebuild: () {
                               setState(() {
-                                highlightedPage = nextPage;
+                                if (getNextToDo(0) == -1) {
+                                  trainingFinished = true;
+                                } else {
+                                  trainingFinished = false;
+                                }
                               });
-                            } else {
-                              print('Training abgeschlossen');
-                              setState(() {
-                                trainingFinished = true;
-                              });
-                            }
-                          },
-                          onRebuild: () {
-                            setState(() {});
-                          });
-                    },
-                  ),
+                            });
+                      },
+                    ),
+                    Visibility(
+                      visible: true,
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).highlightColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: CustomTimer(
+                              controller: _timerController,
+                              begin: const Duration(minutes: 3),
+                              end: const Duration(),
+                              builder: (remaining) {
+                                return Text(
+                                    '${remaining.minutes}:${remaining.seconds}',
+                                    style: Theme.of(context).textTheme.headlineLarge);
+                              }),
+                        ),
+                      ),
+                    ),
+                  ]),
                 ),
                 Visibility(
                   visible: trainingFinished,
-                  child: Padding(
+                  child: Container(
                     padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
                     child: ElevatedButton(
                       onPressed: trainingFinished
                           ? () {
-                              trackingHttpHelper.saveSession(thisSession).then((value) {
+                              trackingHttpHelper
+                                  .saveSession(thisSession)
+                                  .then((value) {
                                 if (value) {
                                   Navigator.popAndPushNamed(context, '/home');
                                 } else {
@@ -193,7 +246,8 @@ class _TrackingViewState extends State<TrackingView> {
   }
 
   int getNextToDo(int index) {
-    int nextPage = thisSession.executions.indexWhere((elem) => elem.done == false, index);
+    int nextPage =
+        thisSession.executions.indexWhere((elem) => elem.done == false, index);
     if (nextPage != -1) {
       return nextPage;
     } else {

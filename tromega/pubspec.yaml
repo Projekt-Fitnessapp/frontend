@@ -40,6 +40,8 @@ dependencies:
   flutter_gifimage: ^1.0.1
   flutter_gif: ^0.0.4
   gif: ^2.2.0
+  shared_preferences: ^2.0.15
+  custom_timer: ^0.1.2
 
 dev_dependencies:
   flutter_test:
