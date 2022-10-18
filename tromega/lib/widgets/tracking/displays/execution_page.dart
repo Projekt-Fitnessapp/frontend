@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/executionSet.dart';
-import 'package:tromega/widgets/tracking/displays/historyDataBlock.dart';
-import '../Dialogs/ExecutionSettings.dart';
+import 'package:tromega/widgets/tracking/displays/history_data_block.dart';
+import '../Dialogs/execution_settings.dart';
 import '../../../data/execution.dart';
-import 'ExecutionNoteDisplay.dart';
-import 'AllSetsDisplay.dart';
+import 'execution_note_display.dart';
+import 'all_sets_display.dart';
 
 class ExecutionPage extends StatefulWidget {
   const ExecutionPage(

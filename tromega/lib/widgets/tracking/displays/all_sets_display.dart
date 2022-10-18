@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/displays/RowItem.dart';
-import 'package:tromega/widgets/tracking/displays/SetDisplay.dart';
+import 'package:tromega/widgets/tracking/displays/row_item.dart';
+import 'package:tromega/widgets/tracking/displays/set_display.dart';
 
 import '../../../data/executionSet.dart';
 
@@ -38,7 +38,7 @@ class _AllSetsDisplayState extends State<AllSetsDisplay> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SetTableHead(),
+        buildSetTableHead(),
         Column(
           children: sets
               .asMap()
@@ -103,7 +103,7 @@ class _AllSetsDisplayState extends State<AllSetsDisplay> {
     );
   }
 
-  Widget SetTableHead() {
+  Widget buildSetTableHead() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: const [

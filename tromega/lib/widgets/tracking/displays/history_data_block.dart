@@ -18,7 +18,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
 
   @override
   void initState() {
-    httpHelper = TrackingHttpHelper();
+    httpHelper = const TrackingHttpHelper();
     fetchData();
     super.initState();
   }
@@ -79,28 +79,28 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                           children: lastExecution!.sets
                               .asMap()
                               .entries
-                              .map((entry) => HistoryDataCell(
+                              .map((entry) => buildHistoryDataCell(
                                   context, entry.key.toString()))
                               .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: lastExecution!.sets
-                              .map((elem) => HistoryDataCell(
+                              .map((elem) => buildHistoryDataCell(
                                   context, elem.weight.toString()))
                               .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: lastExecution!.sets
-                              .map((elem) => HistoryDataCell(
+                              .map((elem) => buildHistoryDataCell(
                                   context, elem.reps.toString()))
                               .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: lastExecution!.sets
-                              .map((elem) => HistoryDataCell(
+                              .map((elem) => buildHistoryDataCell(
                                   context, elem.tenRM.toString()))
                               .toList(),
                         ),
@@ -116,7 +116,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
           );
   }
 
-  Widget HistoryDataCell(BuildContext context, String value) {
+  Widget buildHistoryDataCell(BuildContext context, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Text(

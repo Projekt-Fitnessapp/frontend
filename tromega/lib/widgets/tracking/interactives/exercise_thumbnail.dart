@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:tromega/data/exercise.dart';
 
 class ExerciseThumbnail extends StatefulWidget {
   const ExerciseThumbnail({Key? key, required this.gifUrl, required this.onTapCallback, required this.isHighlighted, required this.isDone}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:tromega/widgets/tracking/Dialogs/ExecutionInfos.dart';
+import 'package:tromega/widgets/tracking/Dialogs/execution_infos.dart';
 
 import '../../../data/execution.dart';
 
