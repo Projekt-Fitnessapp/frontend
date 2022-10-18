@@ -1,7 +1,8 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/BottomDialogOptions.dart';
-import 'package:tromega/widgets/tracking/ConfirmationDialog.dart';
+import 'package:tromega/widgets/tracking/FinishTrainingButton.dart';
+import 'package:tromega/widgets/tracking/PauseTimer.dart';
+import 'package:tromega/widgets/tracking/TrainingOptionsButton.dart';
 import '../../data/trainingSession.dart';
 import '../../data/tracking_http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -21,15 +22,14 @@ class _TrackingViewState extends State<TrackingView> {
   late TrackingHttpHelper trackingHttpHelper;
   late CustomTimerController _timerController;
   bool trainingFinished = false;
-  //bool activeTimer = false;
   bool fetching = true;
-
   int highlightedPage = 0;
+
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
   initState() {
-    trackingHttpHelper = TrackingHttpHelper();
+    trackingHttpHelper = const TrackingHttpHelper();
     _timerController = CustomTimerController();
     fetchData();
     super.initState();
@@ -38,6 +38,7 @@ class _TrackingViewState extends State<TrackingView> {
   @override
   void dispose() {
     _pageController.dispose();
+    _timerController.dispose();
     super.dispose();
   }
 
@@ -45,64 +46,11 @@ class _TrackingViewState extends State<TrackingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar_Icon(
-        actions: [
-          IconButton(
-            splashRadius: 20,
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return BottomDialogOptions(
-                    onReset: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ConfirmationDialog(
-                            question:
-                                'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
-                            onConfirm: () =>
-                                Navigator.popAndPushNamed(context, '/home'),
-                          );
-                        },
-                      );
-                    },
-                    onFinish: () {
-                      if (getNextToDo(0) == -1) {
-                        trackingHttpHelper
-                            .saveSession(thisSession)
-                            .then((value) {
-                          if (value) {
-                            Navigator.popAndPushNamed(context, '/home');
-                          }
-                        });
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return ConfirmationDialog(
-                              question:
-                                  'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
-                              onConfirm: () {
-                                trackingHttpHelper
-                                    .saveSession(thisSession)
-                                    .then((value) {
-                                  if (value) {
-                                    Navigator.popAndPushNamed(context, '/home');
-                                  }
-                                });
-                              },
-                            );
-                          },
-                        );
-                      }
-                    },
-                  );
-                },
-              );
-            },
-            icon: const Icon(Icons.more_vert),
-          ),
-        ],
+        actions: fetching
+            ? []
+            : [
+                TrainingOptionsButton(thisSession: thisSession),
+              ],
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: fetching
@@ -120,9 +68,7 @@ class _TrackingViewState extends State<TrackingView> {
                       return ExerciseThumbnail(
                         gifUrl: thisSession.executions[index].exercise.gifUrl,
                         onTapCallback: () {
-                          _pageController.animateToPage(index,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
+                          _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                           setState(() {
                             highlightedPage = index;
                           });
@@ -143,80 +89,45 @@ class _TrackingViewState extends State<TrackingView> {
                         itemCount: thisSession.executions.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ExecutionPage(
-                              execution: thisSession.executions[index],
-                              position: index,
-                              toNextExecution: () {
-                                int nextPage = getNextToDo(index);
-                                if (nextPage != -1) {
-                                  _pageController.animateToPage(
-                                    nextPage,
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeIn,
-                                  );
-                                  setState(() {
-                                    highlightedPage = nextPage;
-                                  });
-                                } else {
-                                  setState(() {
-                                    trainingFinished = true;
-                                  });
-                                }
-                              },
-                              onFinishSet: () {
-                                _timerController.reset();
-                                _timerController.start();
-                              },
-                              onRebuild: () {
+                            execution: thisSession.executions[index],
+                            position: index,
+                            toNextExecution: () {
+                              int nextPage = getNextToDo(index);
+                              if (nextPage != -1) {
+                                _pageController.animateToPage(
+                                  nextPage,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeIn,
+                                );
                                 setState(() {
-                                  if (getNextToDo(0) == -1) {
-                                    trainingFinished = true;
-                                  } else {
-                                    trainingFinished = false;
-                                  }
+                                  highlightedPage = nextPage;
                                 });
+                              } else {
+                                setState(() {
+                                  trainingFinished = true;
+                                });
+                              }
+                            },
+                            onFinishSet: () {
+                              _timerController.reset();
+                              _timerController.start();
+                            },
+                            onRebuild: () {
+                              setState(() {
+                                if (getNextToDo(0) == -1) {
+                                  trainingFinished = true;
+                                } else {
+                                  trainingFinished = false;
+                                }
                               });
+                            },
+                          );
                         },
                       ),
                       Visibility(
                         visible: !trainingFinished,
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).highlightColor,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: InkWell(
-                              onLongPress: () {
-                                _timerController.reset();
-                                _timerController.start();
-                              },
-                              onTap: () {
-                                if (_timerController.state ==
-                                    CustomTimerState.paused) {
-                                  _timerController.start();
-                                } else {
-                                  _timerController.pause();
-                                }
-                              },
-                              splashColor: Theme.of(context).backgroundColor,
-                              child: CustomTimer(
-                                controller: _timerController,
-                                begin: const Duration(minutes: 3, seconds: 1),
-                                end: const Duration(),
-                                builder: (remaining) {
-                                  return Text(
-                                      '${remaining.minutes}:${remaining.seconds}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineLarge);
-                                },
-                              ),
-                            ),
-                          ),
+                        child: PauseTimer(
+                          controller: _timerController,
                         ),
                       ),
                     ],
@@ -224,37 +135,9 @@ class _TrackingViewState extends State<TrackingView> {
                 ),
                 Visibility(
                   visible: trainingFinished,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
-                    child: ElevatedButton(
-                      onPressed: trainingFinished
-                          ? () {
-                              print('finish training');
-                              trackingHttpHelper
-                                  .saveSession(thisSession)
-                                  .then((value) {
-                                if (value) {
-                                  print('Erfolgreich saved');
-                                  Navigator.popAndPushNamed(context, '/home');
-                                } else {
-                                  print('save failed');
-                                  // Meldung --> Hat nicht geklappt
-                                  // Abfrahe --> Nochmal veruschen / trotzdem training beenden
-                                }
-                              });
-                            }
-                          : null,
-                      child: SizedBox(
-                        height: 80,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: Text(
-                            'Training Abschließen',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: FinishTrainingButton(
+                    trainingFinished: trainingFinished,
+                    thisSession: thisSession,
                   ),
                 ),
               ],
@@ -272,8 +155,7 @@ class _TrackingViewState extends State<TrackingView> {
   }
 
   int getNextToDo(int index) {
-    int nextPage =
-        thisSession.executions.indexWhere((elem) => elem.done == false, index);
+    int nextPage = thisSession.executions.indexWhere((elem) => elem.done == false, index);
     if (nextPage != -1) {
       return nextPage;
     } else {

@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TrackingHttpHelper {
+  const TrackingHttpHelper();
+
   final String authority = 'api.fitnessapp.gang-of-fork.de';
   final String mockAuthority = 'virtserver.swaggerhub.com';
   final String mockPath = '/FLORIANHASE12/GEtit/1.0.0';
@@ -20,8 +22,7 @@ class TrackingHttpHelper {
     Uri uri = Uri.https(authority, path, queries);
     http.Response res = await http.get(uri);
 
-    TrainingSession lastSession =
-        TrainingSession.fromJSON(jsonDecode(res.body));
+    TrainingSession lastSession = TrainingSession.fromJSON(jsonDecode(res.body));
 
     return lastSession;
   }
@@ -68,8 +69,7 @@ class TrackingHttpHelper {
     Uri uri = Uri.https(mockAuthority, newPath);
 
     http.Response response = await http.get(uri);
-    TrainingSession lastSession =
-        TrainingSession.fromJSON(json.decode(response.body)[0]);
+    TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
 
     for (int i = 0; i < 5; i++) {
       Execution newExec = Execution.clone(lastSession.executions.first);
