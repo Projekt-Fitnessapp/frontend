@@ -73,10 +73,12 @@ class PlanHttpHelper {
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
     http.Response res = await http.get(uri);
+    print(res.body);
 
     if (res.statusCode == 200) {
       for (var plan in jsonDecode(res.body)) {
         trainingPlans.add(TrainingPlan.fromJSON(plan));
+        print(TrainingPlan.fromJSON(plan).getId);
       }
     } else {
       throw Exception('Failed to load myPlans');
@@ -97,7 +99,7 @@ class PlanHttpHelper {
         headers: {"Content-Type": "application/json"}, body: body);
 
     if (response.statusCode == 201) {
-      return response.body.toString();
+      return response.body;
     }
     return "";
   }
@@ -111,7 +113,6 @@ class PlanHttpHelper {
     http.Response response = await http.post(uri,
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(trainingDay.toJsonWoId()));
-
     if (response.statusCode == 201) {
       return response.body;
     }
@@ -124,10 +125,10 @@ class PlanHttpHelper {
 
     String newPath = '/trainingPlan';
     Uri uri = Uri.https(authority, newPath, queryParameters);
-
-    http.Response response =
-        await http.put(uri, body: jsonEncode(trainingPlan.toJson()));
-
+    trainingPlan.setId = trainingPlanId;
+    http.Response response = await http.put(uri,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(trainingPlan.toJson()));
     if (response.statusCode == 201) {
       return true;
     }

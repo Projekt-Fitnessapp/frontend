@@ -28,7 +28,11 @@ class TrainingDay {
     for (var exercise in exercises) {
       jsonExercises.add(exercise.toJson());
     }
-    return {'_id': _id, 'name': name, 'exercises': jsonExercises};
+    return {
+      '_id': _id.replaceAll("\"", ""),
+      'name': name,
+      'exercises': jsonExercises
+    };
   }
 
   Map toJsonWoId() {
