@@ -8,7 +8,7 @@ ThemeData tromegaTheme() {
     backgroundColor: Colors.white,
     primaryColor: const Color(0xff003050),
     primaryColorLight: const Color(0xff5cbffb),
-    highlightColor:  Colors.grey[300],
+    highlightColor: Colors.grey[300],
     indicatorColor: Colors.green,
     // Buttons
     elevatedButtonTheme: ElevatedButtonThemeData(
