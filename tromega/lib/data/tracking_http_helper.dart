@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/execution.dart';
+import 'package:tromega/data/execution_set.dart';
 import 'package:tromega/data/training_day.dart';
 import 'package:tromega/data/training_session.dart';
 import 'package:http/http.dart' as http;
@@ -11,18 +12,17 @@ class TrackingHttpHelper {
   const TrackingHttpHelper();
 
   final String authority = 'api.fitnessapp.gang-of-fork.de';
-  final String mockAuthority = 'virtserver.swaggerhub.com';
-  final String mockPath = '/FLORIANHASE12/GEtit/1.0.0';
 
   Future<TrainingSession> getLastSession(String trainingDayId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    /// Sets the userId to a specific existing user for showcase and debugging
     Map<String, dynamic> queries = {
-      'userId': '634dad62663403c8063adc41', //prefs.getString('userId'),
+      'userId': prefs.getString('userId') ?? '634dad62663403c8063adc41',
       'trainingDayId': trainingDayId,
     };
 
-    String path = '/lastTrainingSession';
-    Uri uri = Uri.https(authority, path, queries);
+    Uri uri = Uri.https(authority, '/lastTrainingSession', queries);
     http.Response res = await http.get(
       uri,
       headers: {
@@ -30,10 +30,16 @@ class TrackingHttpHelper {
       },
     );
 
+    print(res.statusCode);
     if (res.statusCode == 200) {
+      print(res.body);
       return TrainingSession.fromJSON(jsonDecode(res.body));
     }
+
+    /// By now there is No session completed by user
     TrainingDay td = await getTrainingDay(trainingDayId);
+
+    /// creates empty Session
     return TrainingSession.fromTrainingDay(td);
   }
 
@@ -42,9 +48,8 @@ class TrackingHttpHelper {
     Map<String, dynamic> queries = {
       'trainingDayId': trainingDayId,
     };
-    String path = '/trainingDay';
 
-    Uri uri = Uri.https(authority, path, queries);
+    Uri uri = Uri.https(authority, '/trainingDay', queries);
     http.Response res = await http.get(
       uri,
       headers: {
@@ -57,29 +62,34 @@ class TrackingHttpHelper {
 
   Future<bool> saveSession(TrainingSession session) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    /// Sets the userId to a specific existing user for showcase and debugging
     String userId = prefs.getString('userId') ?? '634dad62663403c8063adc41';
     if (userId == '') {
       return false;
     }
 
-    String path = '/trainingSession';
-    Uri uri = Uri.https(authority, path);
+    Uri uri = Uri.https(authority, '/trainingSession');
 
     session.userId = userId;
-    session.executions = session.executions
-        .map<Execution>(
-            (e) => Execution(e.id, userId, e.exercise, e.notes, e.sets, e.done))
-        .toList();
 
-    String jsonBody = jsonEncode(session.toJson());
+    /// Filters undone sets and sets the userId to the current userId
+    session.executions = session.executions.map<Execution>((e) {
+      List<ExecutionSet> newSets = e.sets.where((e) => e.done).toList();
+      return Execution(e.id, userId, e.exercise, e.notes, newSets, e.done);
+    }).toList();
+
+    /// reates a json from the current Session and sends it
     http.Response res = await http.post(
       uri,
-      body: jsonBody,
+      body: jsonEncode(session.toJson()),
       headers: {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
-    print(jsonBody);
+
+    // debugging purpose
+    print(jsonEncode(session.toJson()));
     print(res.statusCode);
     print(res.body);
 
@@ -88,15 +98,16 @@ class TrackingHttpHelper {
 
   Future<Execution?> getLastExecution(
       String trainingDayId, String exerciseId) async {
-    // later with special route
+    // later implemented with special route
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    /// Sets the userId to a specific existing user for showcase and debugging
     Map<String, dynamic> queries = {
-      'userId': '634dad62663403c8063adc41', //prefs.getString('userId'),
+      'userId': prefs.getString('userId') ?? '634dad62663403c8063adc41',
       'trainingDayId': trainingDayId,
     };
-    String path = '/lastTrainingSession';
-    Uri uri = Uri.https(authority, path, queries);
+    Uri uri = Uri.https(authority, '/lastTrainingSession', queries);
     http.Response res = await http.get(
       uri,
       headers: {
@@ -107,11 +118,14 @@ class TrackingHttpHelper {
     if (res.body.isNotEmpty) {
       TrainingSession lastSession =
           TrainingSession.fromJSON(jsonDecode(res.body));
+
+      /// gets the execution from the last completed training
       int pos = lastSession.executions
           .indexWhere((exec) => exec.exercise.id == exerciseId);
       if (pos >= 0) {
         return lastSession.executions[pos];
       }
     }
+    return null;
   }
 }

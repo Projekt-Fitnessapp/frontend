@@ -10,8 +10,8 @@ import '../../widgets/tracking/displays/execution_page.dart';
 import '../../widgets/tracking/interactives/exercise_thumbnail.dart';
 
 class TrackingView extends StatefulWidget {
-  const TrackingView({Key? key}) : super(key: key);
-
+  const TrackingView({Key? key, required this.trainingDayId}) : super(key: key);
+  final String trainingDayId;
   @override
   State<TrackingView> createState() => _TrackingViewState();
 }
@@ -21,15 +21,18 @@ class _TrackingViewState extends State<TrackingView> {
   late TrainingSession thisSession;
   late TrackingHttpHelper trackingHttpHelper;
   late CustomTimerController _timerController;
+  late String trainingDayId;
   bool trainingFinished = false;
   bool fetching = true;
   int highlightedPage = 0;
-  String trainingDayId = '634ec2de3d0fbf6f55ff3a96';
+
 
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
   initState() {
+    /// hardcoded for debugging purposes
+    trainingDayId = '634ec2de3d0fbf6f55ff3a96'; // widget.trainingDayId;
     trackingHttpHelper = const TrackingHttpHelper();
     _timerController = CustomTimerController();
     fetchData();
@@ -69,7 +72,9 @@ class _TrackingViewState extends State<TrackingView> {
                       return ExerciseThumbnail(
                         gifUrl: thisSession.executions[index].exercise.gifUrl,
                         onTapCallback: () {
-                          _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                          _pageController.animateToPage(index,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeIn);
                           setState(() {
                             highlightedPage = index;
                           });
@@ -149,7 +154,8 @@ class _TrackingViewState extends State<TrackingView> {
 
   void fetchData() async {
     // hard coded for now
-    TrainingSession initSession = await trackingHttpHelper.getLastSession(trainingDayId);
+    TrainingSession initSession =
+        await trackingHttpHelper.getLastSession(trainingDayId);
     setState(() {
       lastSession = initSession;
       thisSession = TrainingSession.clone(initSession);
@@ -158,7 +164,8 @@ class _TrackingViewState extends State<TrackingView> {
   }
 
   int getNextToDo(int index) {
-    int nextPage = thisSession.executions.indexWhere((elem) => elem.done == false, index);
+    int nextPage =
+        thisSession.executions.indexWhere((elem) => elem.done == false, index);
     if (nextPage != -1) {
       return nextPage;
     } else {
