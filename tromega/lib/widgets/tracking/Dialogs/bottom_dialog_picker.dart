@@ -44,7 +44,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ),
-          widget.isDecimal ? WeightPicker() : RepetitionPicker(),
+          widget.isDecimal ? buildWeightPicker() : buildRepetitionPicker(),
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -83,7 +83,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
     );
   }
 
-  Widget RepetitionPicker() {
+  Widget buildRepetitionPicker() {
     return NumberPicker(
       minValue: 0,
       maxValue: 50,
@@ -97,7 +97,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
     );
   }
 
-  Widget WeightPicker() {
+  Widget buildWeightPicker() {
     return DecimalNumberPicker(
       minValue: 0,
       maxValue: 300,
@@ -110,7 +110,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
     );
   }
 
-  Widget ExecutionTypePicker() {
-    return Text('');
+  Widget buildExecutionTypePicker() {
+    return const Text('');
   }
 }

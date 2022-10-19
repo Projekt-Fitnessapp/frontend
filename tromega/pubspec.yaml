@@ -44,6 +44,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   provider: ^6.0.4
   shared_preferences: ^2.0.15
+  custom_timer: ^0.1.2
 
 dev_dependencies:
   flutter_test:

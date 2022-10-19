@@ -24,6 +24,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   initState() {
     value = widget.dropDownValue;
+    super.initState();
   }
 
   changeValue(changedValue) {
@@ -51,7 +52,6 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                     value: mascot, child: Text(mascot));
               }).toList(),
               value: widget.dropDownValue,
-            
               onChanged: ((String? changedValue) {
                 changeValue(changedValue);
               }),
