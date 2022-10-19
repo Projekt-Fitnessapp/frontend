@@ -61,7 +61,7 @@ class AccountHttpHelper {
     String newPath = '/account';
     Uri uri = Uri.https(authority, newPath);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    account.googleId = prefs.getString('googleId') ?? '';
+    account.google_id = prefs.getString('googleId') ?? '';
     String jsonBody = jsonEncode(account.toJson());
     http.Response res = await http.post(uri,
         headers: {
@@ -78,7 +78,7 @@ class AccountHttpHelper {
     print(res.statusCode);
     print(res.body);
     if (res.statusCode == 201) {
-      prefs.setString('userId', account.id);
+      prefs.setString('userId', account.getId());
       print("Erfolgreich gepostet");
       return true;
     } else {

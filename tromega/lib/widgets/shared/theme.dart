@@ -17,6 +17,10 @@ ThemeData tromegaTheme() {
         const Color(0xff003050),
       )),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
 
     // Icons
     iconTheme: const IconThemeData(

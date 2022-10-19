@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'exercise_container.dart';
-import '../data/classes.dart';
-import '../views/plans/add_exercise.dart';
+import '../../data/trainingDay.dart';
+import '../../data/trainingPlan.dart';
+import '../../views/plans/add_exercise.dart';
 
 class EditPlanViewColumn extends StatefulWidget {
+  //View einzelner Trainingstage der Edit Training View
+
   const EditPlanViewColumn(
       {Key? key,
       required this.day,
       required this.update,
-      required this.training})
+      required this.trainingPlan})
       : super(key: key);
-  final Day day;
+  final TrainingDay day;
+  final TrainingPlan trainingPlan;
   final ValueChanged<int> update;
-  final Training training;
 
   @override
   State<EditPlanViewColumn> createState() => _EditPlanViewColumnState();
@@ -22,7 +24,7 @@ class EditPlanViewColumn extends StatefulWidget {
 class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
   int _count = 0;
 
-  // Pass this method to the child page.
+  //Methode zum aktualisieren von Daten, wird an Child View weitergegeben
   void _update(int count) {
     setState(() => _count = count);
   }
@@ -30,19 +32,13 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-      DecoratedBox(
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorLight,
-          borderRadius:
-              BorderRadius.circular(20), //border raiuds of dropdown button
-        ),
-      ),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         Expanded(
             child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 10),
                 child: EditableText(
                     onSubmitted: (value) {
+                      //Aktualisiserung des Trainingsplan Namens
                       widget.day.name = value;
                       widget.update(100);
                     },
@@ -69,6 +65,7 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
             ElevatedButton.icon(
                 icon: const Icon(Icons.add_circle_outline_sharp),
                 onPressed: () async {
+                  //Navigation in die Add Exercise View mit ausgewähltem Tag
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -80,6 +77,7 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
             ElevatedButton.icon(
                 icon: const Icon(Icons.delete_outline),
                 onPressed: () {
+                  //Dialog um fehlerhaftes Löschen zu vermeiden
                   showDialog(
                       context: context,
                       builder: (context) => Column(
@@ -108,22 +106,23 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: ElevatedButton(
                                                 onPressed: () {
-                                                  setState() {}
-                                                  ;
+                                                  setState(() {});
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text("Nein")),
+                                                child: const Text("Nein")),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: ElevatedButton(
                                                 onPressed: () {
-                                                  widget.training.days
+                                                  //Trainingstag löschen
+                                                  widget
+                                                      .trainingPlan.trainingDays
                                                       .remove(widget.day);
                                                   widget.update(100);
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text("Ja")),
+                                                child: const Text("Ja")),
                                           )
                                         ])
                                   ]),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../data/classes.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class SetsDialog extends StatefulWidget {
+  //Dialog und Button für die Auswahl der Wiederholungen in der Edit Training View
+
   SetsDialog({Key? key, required this.sets, required this.changeSets})
       : super(key: key);
   int sets;
@@ -20,6 +21,7 @@ class _SetsDialogState extends State<SetsDialog> {
         child: ElevatedButton(
           child: Text("${widget.sets} Sätze"),
           onPressed: () {
+            //Dialog mit NumberPicker
             showDialog(
                 context: context,
                 builder: (context) =>
@@ -36,6 +38,7 @@ class _SetsDialogState extends State<SetsDialog> {
                               maxValue: 10,
                               value: widget.sets,
                               onChanged: (int value) {
+                                //Aktualisierung der Satzanzahl im trainingsplan
                                 setState(() {});
                                 super.setState(() {
                                   widget.sets = value;

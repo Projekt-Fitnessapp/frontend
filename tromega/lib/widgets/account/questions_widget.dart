@@ -27,7 +27,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   @override
   void initState() {
     thisBody = Body("", "", DateTime.now(), 0, 0);
-    thisAccount = Account("", "", "", DateTime.now(), "", List.empty());
+    thisAccount = Account("", "", "", DateTime.now(),"", "", List.empty());
     accountHttpHelper = AccountHttpHelper();
     changedName = TextEditingController();
     changedHeight = TextEditingController();

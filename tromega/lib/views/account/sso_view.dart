@@ -62,7 +62,7 @@ class _LoginViewState extends State<LoginView> {
                 .getAccount(_currentUser?.id ?? '')
                 .then((account) {
               print("userId: $account.id");
-              prefs.setString('userId', account.id);
+              prefs.setString('userId', account.getId());
             });
             Navigator.of(context).pushNamed('/home');
           } else {
