@@ -15,15 +15,12 @@ class FinishTrainingButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: trainingFinished
             ? () {
-                print('finish training');
                 _trackingHttpHelper.saveSession(thisSession).then((value) {
                   if (value) {
-                    print('Erfolgreich saved');
+                    showInSnackbar(context, 'Training Gespeichert');
                     Navigator.popAndPushNamed(context, '/home');
                   } else {
-                    print('save failed');
-                    // Meldung --> Hat nicht geklappt
-                    // Abfrahe --> Nochmal veruschen / trotzdem training beenden
+                    showInSnackbar(context, 'Speichern fehlgeschlagen');
                   }
                 });
               }
@@ -38,6 +35,16 @@ class FinishTrainingButton extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void showInSnackbar(BuildContext context, String value) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).primaryColorLight,
+        content: Text(value),
       ),
     );
   }

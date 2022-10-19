@@ -15,7 +15,6 @@ class TrackingHttpHelper {
   final String mockPath = '/FLORIANHASE12/GEtit/1.0.0';
 
   Future<TrainingSession> getLastSession(String trainingDayId) async {
-    print('getLastSession');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> queries = {
       'userId': '634dad62663403c8063adc41', //prefs.getString('userId'),
@@ -53,19 +52,21 @@ class TrackingHttpHelper {
       },
     );
 
-    print(res.body);
     return TrainingDay.fromJson(jsonDecode(res.body));
   }
 
   Future<bool> saveSession(TrainingSession session) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString('userId') ?? '';
+    String userId = prefs.getString('userId') ?? '634dad62663403c8063adc41';
     if (userId == '') {
       return false;
     }
 
     String path = '/trainingSession';
     Uri uri = Uri.https(authority, path);
+
+    session.userId = userId;
+    session.executions = session.executions.map<Execution>((e) => Execution(e.id, userId, e.exercise, e.notes, e.sets, e.done)).toList();
 
     String jsonBody = jsonEncode(session.toJson());
     http.Response res = await http.post(
@@ -75,15 +76,15 @@ class TrackingHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
+    print(jsonBody);
+    print(res.statusCode);
+    print(res.body);
 
-    return res.statusCode == 200;
+    return res.statusCode == 201;
   }
 
   Future<Execution?> getLastExecution(String trainingDayId, String exerciseId) async {
     // later with special route
-    print('getLastexecution');
-    print(trainingDayId);
-    print(exerciseId);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> queries = {
@@ -99,27 +100,10 @@ class TrackingHttpHelper {
       },
     );
 
-    print(res.body);
     TrainingSession lastSession = TrainingSession.fromJSON(jsonDecode(res.body));
     int pos = lastSession.executions.indexWhere((exec) => exec.exercise.id == exerciseId);
     if (pos >= 0) {
       return lastSession.executions[pos];
     }
   }
-
-  //Future<TrainingSession> getMockSession() async {
-  //  //TrainingSession lastSession = TrainingSession.fromJSON({});
-  //  String newPath = '$mockPath/trainingSession';
-  //  Uri uri = Uri.https(mockAuthority, newPath);
-//
-  //  http.Response response = await http.get(uri);
-  //  TrainingSession lastSession = TrainingSession.fromJSON(json.decode(response.body)[0]);
-//
-  //  for (int i = 0; i < 5; i++) {
-  //    Execution newExec = Execution.clone(lastSession.executions.first);
-  //    newExec.notes.add(i.toString());
-  //    lastSession.executions.add(newExec);
-  //  }
-  //  return lastSession;
-  //}
 }

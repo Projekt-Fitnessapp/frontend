@@ -36,7 +36,7 @@ class TrainingSession {
         newSets.add(ExecutionSet(ExecutionType.WORKING, plannedExercise.reps, 0, 0, false));
       }
 
-      return Execution('', plannedExercise.exercise, [], newSets, false);
+      return Execution('', '', plannedExercise.exercise, [], newSets, false);
     }).toList();
   }
 
@@ -44,7 +44,7 @@ class TrainingSession {
     return {
       'userId': userId,
       'trainingDayId': trainingDayId,
-      'date': DateTime.now().toString(),
+      'date': DateTime.now().toIso8601String(),
       'executions': executions.map((e) => e.toJson()).toList(),
     };
   }
