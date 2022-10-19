@@ -40,6 +40,9 @@ dependencies:
   flutter_gifimage: ^1.0.1
   flutter_gif: ^0.0.4
   gif: ^2.2.0
+  google_sign_in: ^5.4.2
+  font_awesome_flutter: ^10.2.1
+  provider: ^6.0.4
   shared_preferences: ^2.0.15
   custom_timer: ^0.1.2
 
