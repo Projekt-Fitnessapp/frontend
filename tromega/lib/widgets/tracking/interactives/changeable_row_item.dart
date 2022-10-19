@@ -56,8 +56,8 @@ class _ChangeableRowItemState extends State<ChangeableRowItem> {
                             title: widget.displayFor == 'reps'
                                 ? 'Wiederholungen'
                                 : 'Gewicht',
-                            isDecimal:
-                                widget.displayFor == 'reps' ? false : true,
+                            isDecimal: false,
+                            // widget.displayFor == 'reps' ? false : true,
                             startValue: widget.displayFor == 'reps'
                                 ? int.parse(currentValue)
                                 : double.parse(currentValue),

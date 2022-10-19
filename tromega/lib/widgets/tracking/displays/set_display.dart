@@ -96,7 +96,7 @@ class _SetDisplayState extends State<SetDisplay> {
 
   void recalculate10RM() {
     setState(() {
-      thisSet.tenRM = ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498);
+      thisSet.tenRM = ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498).round();
     });
   }
 }

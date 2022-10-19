@@ -8,7 +8,7 @@ enum ExecutionType {
 
 class ExecutionSet {
   late ExecutionType executionType;
-  late double weight, tenRM;
+  late int weight, tenRM;
   late int reps;
   late bool done;
 
