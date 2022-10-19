@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/account_http_helper.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -17,13 +27,22 @@ class _ProfileViewState extends State<ProfileView> {
   late Account lastAccount;
   late Body lastBody;
   late AccountHttpHelper accountHttpHelper;
-  bool fetching = true;
+  bool fetching = false;
 
   @override
   void initState() {
     accountHttpHelper = AccountHttpHelper();
     fetchData();
     super.initState();
+  }
+
+  Future<void> _handleSignOut() async {
+    try {
+      await _googleSignIn.disconnect();
+    } catch (error) {
+      print(error);
+    }
+    setState(() {});
   }
 
   @override
@@ -48,6 +67,24 @@ class _ProfileViewState extends State<ProfileView> {
                 buildName(),
                 const SizedBox(height: 24),
                 buildData(),
+                ElevatedButton.icon(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.google,
+                    //color: Color.fromARGB(1000, 240, 157, 2)
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(200, 50),
+                    maximumSize: const Size(200, 50),
+                    primary: Color.fromARGB(1000, 0, 48, 80),
+                  ),
+                  onPressed: _handleSignOut,
+                  label: const Text(
+                    'Sign Out',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
       bottomNavigationBar: const BottomMenu(index: 4),
@@ -102,8 +139,11 @@ class _ProfileViewState extends State<ProfileView> {
       );
 
   void fetchData() async {
-    Account account = await accountHttpHelper.getAccount("");
-    Body body = await accountHttpHelper.getBody("");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Account account =
+        await accountHttpHelper.getAccount(prefs.getString('userId') ?? '');
+    Body body =
+        await accountHttpHelper.getBody(prefs.getString('userId') ?? '');
 
     setState(() {
       lastAccount = account;

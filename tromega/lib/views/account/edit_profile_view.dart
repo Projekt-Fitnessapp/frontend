@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/data/body.dart';
@@ -66,8 +67,9 @@ class _EditProfile extends State<EditProfile> {
       );
 
   void fetchData() async {
-    Account account = await accountHttpHelper.getAccount("");
-    Body body = await accountHttpHelper.getBody("");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Account account = await accountHttpHelper.getAccount(prefs.getString('userId') ?? '');
+    Body body = await accountHttpHelper.getBody(prefs.getString('userId') ?? '');
 
     setState(() {
       lastAccount = account;

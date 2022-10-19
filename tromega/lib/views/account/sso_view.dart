@@ -23,7 +23,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late AccountHttpHelper accountHttpHelper;
   GoogleSignInAccount? _currentUser;
-  String _contactText = '';
   late SharedPreferences prefs;
 
   @override
@@ -36,6 +35,15 @@ class _LoginViewState extends State<LoginView> {
       });
     });
     _googleSignIn.signInSilently();
+  }
+
+  Future<void> _handleSignOut() async {
+    try {
+      await _googleSignIn.disconnect();
+    } catch (error) {
+      print(error);
+    }
+    setState(() {});
   }
 
   Future<void> _handleSignIn() async {
@@ -54,10 +62,11 @@ class _LoginViewState extends State<LoginView> {
               print("userId: $account.id");
               prefs.setString('userId', account.id);
             });
-
-            Navigator.pushNamed(context, '/home');
+            Navigator.of(context).pushNamed('/home');
           } else {
             print("failed");
+            print("userId: $_currentUser.id");
+            Navigator.of(context).pushNamed('/home');
             _currentUser?.authentication.then((value) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => AddMyDataView(
@@ -72,18 +81,10 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  Future<void> _handleSignOut() async {
-    try {
-      await _googleSignIn.disconnect();
-    } catch (error) {
-      print(error);
-    }
-    setState(() {});
-  }
-
   Widget _buildBody() {
     final GoogleSignInAccount? user = _currentUser;
     if (user != null) {
+      //Navigator.of(context).pushNamed('/home');
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -95,10 +96,23 @@ class _LoginViewState extends State<LoginView> {
             subtitle: Text(user.email),
           ),
           const Text('Signed in successfully.'),
-          Text(_contactText),
-          ElevatedButton(
+          ElevatedButton.icon(
+            icon: const FaIcon(
+              FontAwesomeIcons.google,
+              //color: Color.fromARGB(1000, 240, 157, 2)
+            ),
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(200, 50),
+              maximumSize: const Size(200, 50),
+              primary: Color.fromARGB(1000, 0, 48, 80),
+            ),
             onPressed: _handleSignOut,
-            child: const Text('SIGN OUT'),
+            label: const Text(
+              'Sign Out',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       );
