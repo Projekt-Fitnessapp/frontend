@@ -24,6 +24,8 @@ class EditPlanView extends StatefulWidget {
 class _EditPlanViewState extends State<EditPlanView> {
   late PlanHttpHelper planHttpHelper;
   void _update(int count) {}
+  late PageController _pageViewController;
+  int pageIndex = 0;
 
   @override
   initState() {
@@ -31,8 +33,11 @@ class _EditPlanViewState extends State<EditPlanView> {
     planHttpHelper = PlanHttpHelper();
   }
 
-  int pageIndex = 0;
-  final PageController _pageViewController = PageController(initialPage: 0);
+  @override
+  void dispose() {
+    super.dispose();
+    _pageViewController = PageController(initialPage: 0);
+  }
 
   @override
   Widget build(BuildContext context) {

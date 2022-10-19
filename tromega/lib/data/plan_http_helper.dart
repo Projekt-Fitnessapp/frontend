@@ -126,7 +126,7 @@ class PlanHttpHelper {
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
     http.Response response =
-        await http.put(uri, body: jsonEncode(trainingPlan.toJsonWoId()));
+        await http.put(uri, body: jsonEncode(trainingPlan.toJson()));
 
     if (response.statusCode == 201) {
       return true;
