@@ -32,7 +32,7 @@ class _TrackingViewState extends State<TrackingView> {
   @override
   initState() {
     /// hardcoded for debugging purposes
-    trainingDayId = '634ec2de3d0fbf6f55ff3a96'; // widget.trainingDayId;
+    trainingDayId = widget.trainingDayId;
     trackingHttpHelper = const TrackingHttpHelper();
     _timerController = CustomTimerController();
     fetchData();

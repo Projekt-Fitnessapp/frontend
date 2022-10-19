@@ -36,7 +36,6 @@ class AccountHttpHelper {
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
-    print(uri);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     http.Response res = await http.get(
@@ -45,9 +44,6 @@ class AccountHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
-
-    print(res.statusCode);
-    print(res.body);
 
     if (res.statusCode == 200) {
       account = Account.fromJSON(jsonDecode(res.body)[0]);

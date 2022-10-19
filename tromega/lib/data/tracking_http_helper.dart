@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/execution.dart';
 import 'package:tromega/data/execution_set.dart';
@@ -18,7 +17,7 @@ class TrackingHttpHelper {
 
     /// Sets the userId to a specific existing user for showcase and debugging
     Map<String, dynamic> queries = {
-      'userId': prefs.getString('userId') ?? '634dad62663403c8063adc41',
+      'userId': prefs.getString('userId') ?? '',
       'trainingDayId': trainingDayId,
     };
 
@@ -67,7 +66,7 @@ class TrackingHttpHelper {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     /// Sets the userId to a specific existing user for showcase and debugging
-    String userId = prefs.getString('userId') ?? '634dad62663403c8063adc41';
+    String userId = prefs.getString('userId') ?? '';
     if (userId == '') {
       return false;
     }
@@ -103,7 +102,7 @@ class TrackingHttpHelper {
 
     /// Sets the userId to a specific existing user for showcase and debugging
     Map<String, dynamic> queries = {
-      'userId': prefs.getString('userId') ?? '634dad62663403c8063adc41',
+      'userId': prefs.getString('userId') ?? '',
       'trainingDayId': trainingDayId,
     };
     Uri uri = Uri.https(authority, '/lastTrainingSession', queries);

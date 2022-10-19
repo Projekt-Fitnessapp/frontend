@@ -14,7 +14,7 @@ class HomeHttpHelper {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> querys = {};
-    querys["userId"] = prefs.getString('userId') ?? '634dad62663403c8063adc41';
+    querys["userId"] = prefs.getString('userId') ?? '';
     querys["days"] = "7";
     String newPath = '/lastTraining';
     Uri uri = Uri.https(authority, newPath, querys);
@@ -42,7 +42,7 @@ class HomeHttpHelper {
     // gets the TrainingDayId of the next trainingDay to be completed
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> queries = {
-      'userId': prefs.getString('userId') ?? '634dad62663403c8063adc41',
+      'userId': prefs.getString('userId') ?? '',
     };
 
     Uri uri = Uri.https(authority, '/nextTraining', queries);
