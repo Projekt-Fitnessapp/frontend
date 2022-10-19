@@ -6,6 +6,7 @@ import '../../widgets/shared/app_bar.dart';
 import 'package:tromega/data/trainingPlan.dart';
 
 class PlanDetailsView extends StatefulWidget {
+  //View für die Visualisierung eines Trainingsplans mit seinen Trainingstagen
   const PlanDetailsView({Key? key, required this.trainingPlan})
       : super(key: key);
   final TrainingPlan trainingPlan;
@@ -18,7 +19,7 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: []),
+      appBar: AppBar_Icon(actions: const []),
       body: Column(
         children: [
           Padding(
@@ -35,10 +36,10 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
                     child: Align(
                       alignment: Alignment.topRight,
                       child: IconButton(
-                          //alignment: Alignment.topRight,
                           icon: const Icon(Icons.edit_outlined),
                           iconSize: 32,
                           onPressed: () async {
+                            //Navigation in die View zum editieren des Plans
                             await Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -57,7 +58,6 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // ignore: prefer_const_constructors
                     ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,

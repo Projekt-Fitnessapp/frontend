@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
 
 class ExerciseGif extends StatefulWidget {
-  final String gif;
+  //Gif mit Border und Container für Übungskarten
+
   ExerciseGif({super.key, required this.gif});
+  final String gif;
 
   @override
   State<ExerciseGif> createState() => _ExerciseGifState();

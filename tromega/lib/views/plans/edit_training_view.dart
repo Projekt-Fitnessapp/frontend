@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import '../../widgets/bottom_menu.dart';
 import './plan_overview.dart';
@@ -11,8 +10,10 @@ import '../../data/trainingPlan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditPlanView extends StatefulWidget {
+  //View zum editieren von Trainingsplänen
+
   EditPlanView({Key? key, required this.trainingPlan}) : super(key: key);
-  TrainingPlan trainingPlan;
+  final TrainingPlan trainingPlan;
   late TrainingPlan trainingPlanCopy = TrainingPlan("", trainingPlan.name,
       trainingPlan.split, trainingPlan.nextDay, trainingPlan.trainingDays);
 
@@ -21,14 +22,12 @@ class EditPlanView extends StatefulWidget {
 }
 
 class _EditPlanViewState extends State<EditPlanView> {
-  int _count = 0;
   late PlanHttpHelper planHttpHelper;
-  void _update(int count) {
-    setState(() => _count = count);
-  }
+  void _update(int count) {}
 
   @override
   initState() {
+    super.initState();
     planHttpHelper = PlanHttpHelper();
   }
 
@@ -39,36 +38,37 @@ class _EditPlanViewState extends State<EditPlanView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar_Icon(actions: []),
+      appBar: AppBar_Icon(actions: const []),
       body: Column(children: [
         Row(children: <Widget>[
           Flexible(
               flex: 5,
               child: Padding(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: EditableText(
-                        textWidthBasis: TextWidthBasis.longestLine,
-                        onSubmitted: (value) {
-                          widget.trainingPlanCopy.name = value;
-                        },
-                        textAlign: TextAlign.left,
-                        controller: TextEditingController(
-                          text: widget.trainingPlanCopy.name,
-                        ),
-                        style: Theme.of(context).textTheme.headlineLarge!,
-                        backgroundCursorColor: Colors.black,
-                        cursorColor: Colors.white,
-                        focusNode: FocusNode(),
-                        inputFormatters: [LengthLimitingTextInputFormatter(20)],
-                      )))),
+                          textWidthBasis: TextWidthBasis.longestLine,
+                          onSubmitted: (value) {
+                            widget.trainingPlanCopy.name = value;
+                          },
+                          textAlign: TextAlign.left,
+                          controller: TextEditingController(
+                            text: widget.trainingPlanCopy.name,
+                          ),
+                          style: Theme.of(context).textTheme.headlineLarge!,
+                          backgroundCursorColor: Colors.black,
+                          cursorColor: Colors.white,
+                          focusNode: FocusNode(),
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(20)
+                          ] //Länge des Eingabefeldes begrenzen,
+                          )))),
           Flexible(
               fit: FlexFit.tight,
               child: Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                    //alignment: Alignment.topRight,
                     icon: const Icon(Icons.save_outlined),
                     iconSize: 32,
                     onPressed: () {
@@ -76,7 +76,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                     }),
               )),
         ]),
-        Container(
+        SizedBox(
             height: 50,
             child: SizedBox(
                 child: ListView(scrollDirection: Axis.horizontal, children: [
@@ -90,7 +90,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                             _pageViewController.animateToPage(
                                 widget.trainingPlanCopy.trainingDays
                                     .indexOf(day),
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeIn);
                           },
                           child: Text(day.name))),
@@ -101,7 +101,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                       onPressed: () {
                         newTrainingDay();
                       },
-                      child: Icon(Icons.add)))
+                      child: const Icon(Icons.add)))
             ]))),
         Expanded(
             child: PageView(
@@ -127,6 +127,7 @@ class _EditPlanViewState extends State<EditPlanView> {
   }
 
   void onSave(TrainingPlan trainingPlan) async {
+    //speichern des Trainingsplans mithilfe einer API Request
     final prefs = await SharedPreferences.getInstance();
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
@@ -138,21 +139,13 @@ class _EditPlanViewState extends State<EditPlanView> {
             builder: (context) => PlanOverview(),
           ));
     } else {
+      //Visualisierung des fehlerhaften speicherns (api request failed)
       showInSnackbar(context, "Speichern fehlgeschlagen");
     }
   }
 
-  void showInSnackbar(BuildContext context, String value) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        content: Text(value),
-      ),
-    );
-  }
-
   void newTrainingDay() async {
+    //Posten eines neuen Trainingstages wenn ein neuer Tag erstellt wird
     final prefs = await SharedPreferences.getInstance();
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
@@ -166,5 +159,16 @@ class _EditPlanViewState extends State<EditPlanView> {
         "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
         []));
     setState(() {});
+  }
+
+  //Snackbar für Alerts
+  void showInSnackbar(BuildContext context, String value) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).primaryColorLight,
+        content: Text(value),
+      ),
+    );
   }
 }

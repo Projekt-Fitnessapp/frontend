@@ -4,6 +4,8 @@ import '../../data/trainingDay.dart';
 import './exercise_gif.dart';
 
 class ExerciseContainerAdding extends StatelessWidget {
+  //Der Container für die Übungskarten in der  Add Exercise View
+
   const ExerciseContainerAdding(
       {Key? key, required this.exercise, required this.day})
       : super(key: key);

@@ -4,6 +4,8 @@ import 'package:tromega/data/trainingDay.dart';
 import 'package:tromega/data/trainingPlan.dart';
 
 class TrainingstagBtn extends StatefulWidget {
+  //Button mit dem jeweiligen Trainingstag der Plan Detail View
+
   final TrainingDay trainingDay;
   final TrainingPlan trainingPlan;
   final int index;
@@ -34,6 +36,8 @@ class _TrainingstagBtnState extends State<TrainingstagBtn> {
                 child: Text(widget.trainingDay.name,
                     style: Theme.of(context).textTheme.headlineLarge),
                 onPressed: () async {
+                  //Navigation in die PlanDayView mit dem ausgewählten Tag und den trainingsPlan für folgende Views
+
                   await Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -9,6 +9,7 @@ import 'package:tromega/data/trainingDay.dart';
 import 'package:tromega/data/trainingPlan.dart';
 
 class PlanDayView extends StatefulWidget {
+  //Visualisierung von einem Tag eines Trainingsplans
   const PlanDayView(
       {Key? key, required this.trainingDay, required this.trainingPlan})
       : super(key: key);
@@ -23,7 +24,7 @@ class _PlanDayViewState extends State<PlanDayView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: []),
+      appBar: AppBar_Icon(actions: const []),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(10.0),
@@ -42,10 +43,10 @@ class _PlanDayViewState extends State<PlanDayView> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
-                        //alignment: Alignment.topRight,
                         icon: const Icon(Icons.edit_outlined),
                         iconSize: 32,
                         onPressed: () async {
+                          //Navigation zur Editierungs View
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -62,6 +63,7 @@ class _PlanDayViewState extends State<PlanDayView> {
             onPressed: (() async {
               //hi matthias, hier ist die id für deine tracking view, einfach mitgeben
               var trainingId = widget.trainingDay.getId;
+              //Navigation in die TrackingView zum Starten des Trackings
               await Navigator.push(
                   context,
                   MaterialPageRoute(

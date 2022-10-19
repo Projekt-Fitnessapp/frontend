@@ -5,6 +5,8 @@ import 'reps_dialog.dart';
 import 'exercise_gif.dart';
 
 class ExerciseContainer extends StatefulWidget {
+  //Der Container für die Übungskarten in der  Edit Training View
+
   const ExerciseContainer(
       {Key? key,
       required this.exercises,
@@ -75,6 +77,7 @@ class _ExerciseContainerState extends State<ExerciseContainer>
                               alignment: Alignment.topRight,
                               iconSize: 15,
                               onPressed: () {
+                                //Löscehn von ausgewählten Übungen und Aktualisierung
                                 widget.exercises.remove(exercise);
                                 setState(() {});
                                 widget.update(100);

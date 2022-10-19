@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RSDialogPlan extends StatefulWidget {
+  //Button für Sätze und Wiederholungen in der Plan Day View
+
   RSDialogPlan({Key? key, required this.number, required this.type})
       : super(key: key);
   int number;

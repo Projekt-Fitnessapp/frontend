@@ -5,6 +5,8 @@ import './exercise_gif.dart';
 import './rs_dialog_plan.dart';
 
 class ExerciseContainerPlan extends StatefulWidget {
+  //Der Container für die Übungskarten in der Plan Day View
+
   const ExerciseContainerPlan({Key? key, required this.exercise})
       : super(key: key);
   final ExerciseSetsReps exercise;
