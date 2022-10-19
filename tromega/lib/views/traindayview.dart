@@ -1,13 +1,15 @@
-class Trainday {
-  late DateTime date;
-  late bool trained;
+import '../../data/trainday.dart';
 
-  Trainday(this.date, this.trained);
-}
+//class TraindayOld {
+//  late DateTime date;
+//  late bool trained;
+
+//  TraindayOld(this.date, this.trained);
+//}
 
 class Trainweek {
   late String week;
-  late List<Trainday> days;
+  late List<TrainDay> days;
 
   Trainweek(this.week, this.days);
 }
