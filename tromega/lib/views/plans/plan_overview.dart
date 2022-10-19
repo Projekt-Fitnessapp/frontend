@@ -137,6 +137,7 @@ class _PlanOverviewState extends State<PlanOverview> {
     TrainingPlan trainingPlan =
         TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
     var response = await planHttpHelper.postTrainingPlan(userId, trainingPlan);
+    print(response);
     if (response != "") {
       trainingPlan.setId = response; //setzen der id für spätere updates
       //navigation zur editierung des neuen Plans

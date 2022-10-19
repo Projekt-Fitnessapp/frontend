@@ -14,7 +14,7 @@ class TrainingPlan {
             trainingPlan.nextDay, trainingPlan.trainingDays);
 
   TrainingPlan.fromJSON(Map<String, dynamic> importMap) {
-    _id = importMap['_id'] ?? '';
+    setId = importMap['_id'] ?? '';
     name = importMap['name'] ?? '';
     split = importMap['split'] ?? 0;
     nextDay = importMap['nextDay'] ?? 0;

@@ -14,8 +14,12 @@ class EditPlanView extends StatefulWidget {
 
   EditPlanView({Key? key, required this.trainingPlan}) : super(key: key);
   final TrainingPlan trainingPlan;
-  late TrainingPlan trainingPlanCopy = TrainingPlan("", trainingPlan.name,
-      trainingPlan.split, trainingPlan.nextDay, trainingPlan.trainingDays);
+  late TrainingPlan trainingPlanCopy = TrainingPlan(
+      trainingPlan.getId,
+      trainingPlan.name,
+      trainingPlan.split,
+      trainingPlan.nextDay,
+      trainingPlan.trainingDays);
 
   @override
   State<EditPlanView> createState() => _EditPlanViewState();
@@ -137,7 +141,8 @@ class _EditPlanViewState extends State<EditPlanView> {
     final prefs = await SharedPreferences.getInstance();
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
-    var response = await planHttpHelper.putTrainingPlan(userId, trainingPlan);
+    var response =
+        await planHttpHelper.putTrainingPlan(trainingPlan.getId, trainingPlan);
     if (response) {
       await Navigator.push(
           context,
