@@ -66,7 +66,10 @@ class TrackingHttpHelper {
     Uri uri = Uri.https(authority, path);
 
     session.userId = userId;
-    session.executions = session.executions.map<Execution>((e) => Execution(e.id, userId, e.exercise, e.notes, e.sets, e.done)).toList();
+    session.executions = session.executions
+        .map<Execution>(
+            (e) => Execution(e.id, userId, e.exercise, e.notes, e.sets, e.done))
+        .toList();
 
     String jsonBody = jsonEncode(session.toJson());
     http.Response res = await http.post(
@@ -83,7 +86,8 @@ class TrackingHttpHelper {
     return res.statusCode == 201;
   }
 
-  Future<Execution?> getLastExecution(String trainingDayId, String exerciseId) async {
+  Future<Execution?> getLastExecution(
+      String trainingDayId, String exerciseId) async {
     // later with special route
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -100,10 +104,14 @@ class TrackingHttpHelper {
       },
     );
 
-    TrainingSession lastSession = TrainingSession.fromJSON(jsonDecode(res.body));
-    int pos = lastSession.executions.indexWhere((exec) => exec.exercise.id == exerciseId);
-    if (pos >= 0) {
-      return lastSession.executions[pos];
+    if (res.body.isNotEmpty) {
+      TrainingSession lastSession =
+          TrainingSession.fromJSON(jsonDecode(res.body));
+      int pos = lastSession.executions
+          .indexWhere((exec) => exec.exercise.id == exerciseId);
+      if (pos >= 0) {
+        return lastSession.executions[pos];
+      }
     }
   }
 }

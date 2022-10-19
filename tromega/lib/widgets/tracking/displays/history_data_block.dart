@@ -114,7 +114,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
   void fetchData() async {
     Execution? exec = await httpHelper.getLastExecution(widget.trainingDayId, widget.exerciseId);
 
-    if (mounted) {
+    if (mounted && exec!=null) {
       setState(() {
         lastExecution = exec;
         fetching = false;
