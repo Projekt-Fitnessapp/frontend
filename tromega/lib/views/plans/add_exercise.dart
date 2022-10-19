@@ -4,10 +4,7 @@ import 'package:tromega/widgets/plan/exercise_container_adding.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../data/trainingDay.dart';
-import '../../data/exercise.dart';
-import '../../data/exerciseSetsReps.dart';
 import '../../data/plan_http_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AddExercise extends StatefulWidget {
   //View zum Hinzufügen von Übungen zu einem Trainingsplan

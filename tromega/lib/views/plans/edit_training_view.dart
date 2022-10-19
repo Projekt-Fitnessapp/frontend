@@ -141,7 +141,7 @@ class _EditPlanViewState extends State<EditPlanView> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PlanOverview(),
+            builder: (context) => const PlanOverview(),
           ));
     } else {
       //Visualisierung des fehlerhaften speicherns (api request failed)
