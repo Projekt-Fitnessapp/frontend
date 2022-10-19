@@ -67,24 +67,6 @@ class _ProfileViewState extends State<ProfileView> {
                 buildName(),
                 const SizedBox(height: 24),
                 buildData(),
-                ElevatedButton.icon(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.google,
-                    //color: Color.fromARGB(1000, 240, 157, 2)
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(200, 50),
-                    maximumSize: const Size(200, 50),
-                    primary: Color.fromARGB(1000, 0, 48, 80),
-                  ),
-                  onPressed: _handleSignOut,
-                  label: const Text(
-                    'Sign Out',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ],
             ),
       bottomNavigationBar: const BottomMenu(index: 4),

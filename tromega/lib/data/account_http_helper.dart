@@ -50,7 +50,7 @@ class AccountHttpHelper {
     print(res.body);
 
     if (res.statusCode == 200) {
-      account = Account.fromJSON(jsonDecode(res.body));
+      account = Account.fromJSON(jsonDecode(res.body)[0]);
     } else {
       throw Exception("failed to get account");
     }
@@ -69,17 +69,8 @@ class AccountHttpHelper {
           HttpHeaders.contentTypeHeader: "application/json"
         },
         body: jsonBody);
-
-    print('POOOOOOOOOOOOOOOOOOOOOOOOOOST');
-    print('POOOOOOOOOOOOOOOOOOOOOOOOOOST');
-    print('POOOOOOOOOOOOOOOOOOOOOOOOOOST');
-    print('POOOOOOOOOOOOOOOOOOOOOOOOOORST');
-    print(jsonBody);
-    print(res.statusCode);
-    print(res.body);
     if (res.statusCode == 201) {
       prefs.setString('userId', account.getId());
-      print("Erfolgreich gepostet");
       return true;
     } else {
       return false;
@@ -102,6 +93,9 @@ class AccountHttpHelper {
     );
 
     if (res.statusCode == 200) {
+      if (res.body.isEmpty) {
+        return Body(" ", " ", DateTime.now(), 0, 0);
+      }
       body = Body.fromJSON(jsonDecode(res.body));
     } else {
       throw Exception("failed to get body");

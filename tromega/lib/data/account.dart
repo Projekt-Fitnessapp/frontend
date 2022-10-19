@@ -10,10 +10,10 @@ class Account {
     _id = importMap['_id'] ?? '';
     name = importMap['name'] ?? '';
     google_id = importMap['google_id'] ?? '';
-    birthdate = importMap['birthdate'] ?? '';
+    birthdate = DateTime.parse(importMap['birthdate'] ?? '19700101');
     sex = importMap['sex'] ?? '';
     activePlan = importMap['activePlan'] ?? '';
-    trainingPlans = importMap['trainingPlans'] ?? [];
+    trainingPlans = (importMap['trainingPlans'] ?? []).map<String>((e) => e.toString()).toList();
   }
 
   Map toJson() {
