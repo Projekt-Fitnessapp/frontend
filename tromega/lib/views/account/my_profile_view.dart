@@ -27,7 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
   late Account lastAccount;
   late Body lastBody;
   late AccountHttpHelper accountHttpHelper;
-  bool fetching = false;
+  bool fetching = true;
 
   @override
   void initState() {
