@@ -15,7 +15,6 @@ class AccountHttpHelper {
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
-    print(uri);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     http.Response res = await http.get(
@@ -24,8 +23,6 @@ class AccountHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
-    print(res.statusCode);
-    print(res.body);
     if (res.statusCode == 200) {
       return true;
     } else {
@@ -39,6 +36,7 @@ class AccountHttpHelper {
     Map<String, dynamic> querys = Map();
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
+    print(uri);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     http.Response res = await http.get(
@@ -47,6 +45,9 @@ class AccountHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
+
+    print(res.statusCode);
+    print(res.body);
 
     if (res.statusCode == 200) {
       account = Account.fromJSON(jsonDecode(res.body));
@@ -60,15 +61,25 @@ class AccountHttpHelper {
     String newPath = '/account';
     Uri uri = Uri.https(authority, newPath);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    account.googleId = prefs.getString('googleId') ?? '';
     String jsonBody = jsonEncode(account.toJson());
     http.Response res = await http.post(uri,
         headers: {
           HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+          HttpHeaders.contentTypeHeader: "application/json"
         },
         body: jsonBody);
 
+    print('POOOOOOOOOOOOOOOOOOOOOOOOOOST');
+    print('POOOOOOOOOOOOOOOOOOOOOOOOOOST');
+    print('POOOOOOOOOOOOOOOOOOOOOOOOOOST');
+    print('POOOOOOOOOOOOOOOOOOOOOOOOOORST');
+    print(jsonBody);
+    print(res.statusCode);
+    print(res.body);
     if (res.statusCode == 201) {
+      prefs.setString('userId', account.id);
+      print("Erfolgreich gepostet");
       return true;
     } else {
       return false;

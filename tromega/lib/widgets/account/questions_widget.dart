@@ -26,11 +26,12 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
 
   @override
   void initState() {
+    thisBody = Body("", "", DateTime.now(), 0, 0);
+    thisAccount = Account("", "", "", DateTime.now(), "", List.empty());
     accountHttpHelper = AccountHttpHelper();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
     changedWeight = TextEditingController();
-    sendData();
     super.initState();
   }
 
@@ -58,8 +59,8 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     }
   }
 
-  late String value2 = "männlich";
-  late List<String> gender = ["männlich", "weiblich", "divers"];
+  late String value2 = "male";
+  late List<String> gender = ["male", "female"];
   void dropdownCallback2(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
@@ -126,23 +127,17 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 color: color,
                 text: 'Registrieren',
                 onClick: () {
-                  widget.onFinished();
-                  Navigator.pushNamed(context, '/myProfile');
                   setState(() {
                     thisBody.height = int.parse(changedHeight.text);
                     thisBody.weight = int.parse(changedWeight.text);
                     thisAccount.name = changedName.text;
                     thisAccount.sex = value2;
                   });
+                  widget.onFinished(thisAccount, thisBody);
                 })
           ],
         ),
       ),
     );
-  }
-
-  void sendData() async {
-    accountHttpHelper.postAccount(thisAccount);
-    accountHttpHelper.postBody(thisBody);
   }
 }

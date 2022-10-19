@@ -54,8 +54,10 @@ class _LoginViewState extends State<LoginView> {
           print("token: $value.accessToken");
           prefs.setString('token', value.accessToken ?? '');
         });
+        prefs.setString('googleId', _currentUser?.id ?? '');
         accountHttpHelper.accountExist(_currentUser?.id ?? '').then((exists) {
           if (exists) {
+            print('exists');
             accountHttpHelper
                 .getAccount(_currentUser?.id ?? '')
                 .then((account) {
@@ -65,14 +67,10 @@ class _LoginViewState extends State<LoginView> {
             Navigator.of(context).pushNamed('/home');
           } else {
             print("failed");
-            print("userId: $_currentUser.id");
-            Navigator.of(context).pushNamed('/home');
-            _currentUser?.authentication.then((value) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddMyDataView(
-                        googleId: _currentUser?.id ?? '',
-                      )));
-            });
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AddMyDataView(
+                      googleId: _currentUser?.id ?? '',
+                    )));
           }
         });
       });

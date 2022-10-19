@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
   void fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Account account =
-        await accountHttpHelper.getAccount(prefs.getString('userId') ?? '');
+        await accountHttpHelper.getAccount(prefs.getString('googleId') ?? '');
     Body body =
         await accountHttpHelper.getBody(prefs.getString('userId') ?? '');
 

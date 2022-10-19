@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tromega/data/account.dart';
 import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/data/body.dart';
 import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/questions_widget.dart';
 
@@ -24,15 +26,20 @@ class _AddMyDataViewState extends State<AddMyDataView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: []),
+      appBar: AppBar_Icon(actions: const []),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(height: 24),
-          QuestionWidget(onFinished: () {
-            accountHttpHelper.getAccount(widget.googleId).then((account) {
+          QuestionWidget(onFinished: (Account account, Body body) {
+            print("finished");
+            accountHttpHelper.postAccount(account).then((account) {
+              print('in Post');
               SharedPreferences.getInstance().then((prefs) {
-                prefs.setString('userId', account.id);
+                String userId = prefs.getString('userId') ?? '';
+                body.userId = userId;
+                accountHttpHelper.postBody(body).then(
+                    (value) => Navigator.pushNamed(context, '/myProfile'));
               });
             });
           })
