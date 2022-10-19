@@ -30,7 +30,6 @@ class TrackingHttpHelper {
       },
     );
 
-    print(res.statusCode);
     if (res.statusCode == 200) {
       print(res.body);
       TrainingSession lastSession =
@@ -92,12 +91,6 @@ class TrackingHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
-    print(uri);
-
-    // debugging purpose
-    print(jsonEncode(session.toJson()));
-    print(res.statusCode);
-    print(res.body);
 
     return res.statusCode == 201;
   }
