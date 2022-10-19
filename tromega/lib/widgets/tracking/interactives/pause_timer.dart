@@ -15,6 +15,7 @@ class _PauseTimerState extends State<PauseTimer> {
     return Align(
       alignment: Alignment.bottomLeft,
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.3,
         margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(

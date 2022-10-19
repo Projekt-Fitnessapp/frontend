@@ -23,9 +23,6 @@ class TrainingSession {
   }
 
   TrainingSession.fromTrainingDay(TrainingDay td) {
-    print(td.id);
-    print(td.name);
-
     id = '';
     userId = '';
     trainingDayId = td.id;
