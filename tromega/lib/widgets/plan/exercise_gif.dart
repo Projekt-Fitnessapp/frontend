@@ -18,7 +18,7 @@ class _ExerciseGifState extends State<ExerciseGif>
         widget.gif,
         fit: BoxFit.cover,
         alignment: Alignment.center,
-        height: 110,
+        height: 130,
       ).image,
       autostart: Autostart.no,
     );

@@ -1,17 +1,19 @@
+import 'dart:ui';
+
 import '../../widgets/plan/trainingsplanBtn.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import 'package:tromega/data/plan_http_helper.dart';
-import 'package:tromega/data/trainingPlans.dart';
 import 'package:tromega/data/trainingPlan.dart';
 import 'package:tromega/data/trainingDay.dart';
 import 'package:tromega/data/exercise.dart';
 import 'package:tromega/data/exerciseSetsReps.dart';
 import './edit_training_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanOverview extends StatefulWidget {
-  PlanOverview({Key? key}) : super(key: key);
+  const PlanOverview({Key? key}) : super(key: key);
 
   @override
   State<PlanOverview> createState() => _PlanOverviewState();
@@ -29,96 +31,96 @@ class _PlanOverviewState extends State<PlanOverview> {
   var trainingsplanCnt = 3;
 
   late List<TrainingPlan> trainingPlans = [
-    TrainingPlan("", "Push Pull Legs", 3, 1, [
-      TrainingDay("", "Push", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Bench Press",
-                "Push the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0030.gif",
-                "breast",
-                "barbell"),
-            4,
-            10)
-      ]),
-      TrainingDay("", "Pull", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Deadlift",
-                "Lift the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-                "back",
-                "barbell"),
-            4,
-            10)
-      ]),
-      TrainingDay("", "Legs", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Deadlift",
-                "Lift the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-                "back",
-                "barbell"),
-            4,
-            10)
-      ])
-    ]),
-    TrainingPlan("", "Arnold Split", 3, 1, [
-      TrainingDay("", "Brust Rücken", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Bench Press",
-                "Push the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0030.gif",
-                "breast",
-                "barbell"),
-            4,
-            10)
-      ]),
-      TrainingDay("", "Beine", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Deadlift",
-                "Lift the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-                "back",
-                "barbell"),
-            4,
-            10)
-      ]),
-      TrainingDay("", "Arme", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Deadlift",
-                "Lift the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-                "back",
-                "barbell"),
-            4,
-            10)
-      ])
-    ]),
-    TrainingPlan("", "GK", 1, 1, [
-      TrainingDay("", "GK", [
-        ExerciseSetsReps(
-            Exercise(
-                "",
-                "Bench Press",
-                "Push the bar.",
-                "http://d205bpvrqc9yn1.cloudfront.net/0030.gif",
-                "breast",
-                "barbell"),
-            4,
-            10)
-      ]),
-    ]),
+    // TrainingPlan("", "Push Pull Legs", 3, 1, [
+    //   TrainingDay("", "Push", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Bench Press",
+    //             "Push the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0030.gif",
+    //             "breast",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ]),
+    //   TrainingDay("", "Pull", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Deadlift",
+    //             "Lift the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    //             "back",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ]),
+    //   TrainingDay("", "Legs", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Deadlift",
+    //             "Lift the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    //             "back",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ])
+    // ]),
+    // TrainingPlan("", "Arnold Split", 3, 1, [
+    //   TrainingDay("", "Brust Rücken", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Bench Press",
+    //             "Push the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0030.gif",
+    //             "breast",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ]),
+    //   TrainingDay("", "Beine", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Deadlift",
+    //             "Lift the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    //             "back",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ]),
+    //   TrainingDay("", "Arme", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Deadlift",
+    //             "Lift the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    //             "back",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ])
+    // ]),
+    // TrainingPlan("", "GK", 1, 1, [
+    //   TrainingDay("", "GK", [
+    //     ExerciseSetsReps(
+    //         Exercise(
+    //             "",
+    //             "Bench Press",
+    //             "Push the bar.",
+    //             "http://d205bpvrqc9yn1.cloudfront.net/0030.gif",
+    //             "breast",
+    //             "barbell"),
+    //         4,
+    //         10)
+    //   ]),
+    //]),
   ];
 
   late PlanHttpHelper planHttpHelper;
@@ -127,7 +129,7 @@ class _PlanOverviewState extends State<PlanOverview> {
   @override
   initState() {
     planHttpHelper = PlanHttpHelper();
-    //fetchData();
+    fetchData();
     super.initState();
   }
 
@@ -171,16 +173,7 @@ class _PlanOverviewState extends State<PlanOverview> {
                                               .elevatedButtonTheme
                                               .style,
                                           onPressed: () async {
-                                            await Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditPlanView(
-                                                    trainingPlan:
-                                                        TrainingPlan.fromJSON(
-                                                            {}),
-                                                  ),
-                                                ));
+                                            newTrainingPlan();
                                           },
                                           child:
                                               Text(createTrainingsplanChoice1)),
@@ -217,19 +210,31 @@ class _PlanOverviewState extends State<PlanOverview> {
   }
 
   void fetchData() async {
-    TrainingPlans initTrainingPlans = await planHttpHelper.getTrainingPlans('');
+    final prefs = await SharedPreferences.getInstance();
+    //var userId = await prefs.getString("userId");
+    var userId = "634dad62663403c8063adc41";
+    List<TrainingPlan> initTrainingPlans =
+        await planHttpHelper.getTrainingPlans(userId);
     setState(() {
-      //trainingPlans = initTrainingPlans;
+      trainingPlans = initTrainingPlans;
       fetching = false;
     });
   }
 
   void newTrainingPlan() async {
+    final prefs = await SharedPreferences.getInstance();
+    //var userId = await prefs.getString("userId");
+    var userId = "634dad62663403c8063adc41";
+    TrainingPlan trainingPlan =
+        TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
+    var response = await planHttpHelper.postTrainingPlan(userId, trainingPlan);
+    if (response != "") {
+      trainingPlan.setId = response;
+    }
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              EditPlanView(trainingPlan: TrainingPlan.fromJSON({})),
+          builder: (context) => EditPlanView(trainingPlan: trainingPlan),
         ));
   }
 }

@@ -63,7 +63,7 @@ class _PlanDayViewState extends State<PlanDayView> {
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TrackingView(),
+                    builder: (context) => const TrackingView(),
                   ));
             }),
             child: const Text("Training starten")),

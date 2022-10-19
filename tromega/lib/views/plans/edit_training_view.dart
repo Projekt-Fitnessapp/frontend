@@ -12,26 +12,23 @@ import '../../data/trainingPlan.dart';
 class EditPlanView extends StatefulWidget {
   EditPlanView({Key? key, required this.trainingPlan}) : super(key: key);
   TrainingPlan trainingPlan;
-  late PlanHttpHelper planHttpHelper;
   late TrainingPlan trainingPlanCopy = TrainingPlan("", trainingPlan.name,
       trainingPlan.split, trainingPlan.nextDay, trainingPlan.trainingDays);
 
   @override
   State<EditPlanView> createState() => _EditPlanViewState();
-
-  onInit() {
-    PlanHttpHelper planHttpHelper = PlanHttpHelper();
-  }
 }
 
 class _EditPlanViewState extends State<EditPlanView> {
   int _count = 0;
+  late PlanHttpHelper planHttpHelper;
   void _update(int count) {
     setState(() => _count = count);
   }
 
-  onInit() {
-    print(widget.trainingPlanCopy);
+  @override
+  initState() {
+    planHttpHelper = PlanHttpHelper();
   }
 
   int pageIndex = 0;
@@ -101,11 +98,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                   child: ElevatedButton(
                       style: Theme.of(context).elevatedButtonTheme.style!,
                       onPressed: () {
-                        widget.trainingPlanCopy.trainingDays.add(TrainingDay(
-                            "",
-                            "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
-                            []));
-                        setState(() {});
+                        newTrainingDay();
                       },
                       child: Icon(Icons.add)))
             ]))),
@@ -133,11 +126,26 @@ class _EditPlanViewState extends State<EditPlanView> {
   }
 
   void onSave(TrainingPlan trainingPlan) async {
-    //widget.planHttpHelper.putTrainingPlan("", trainingPlan);
+    var response = await planHttpHelper.putTrainingPlan(
+        "634dad62663403c8063adc41", trainingPlan);
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => PlanOverview(),
         ));
+  }
+
+  void newTrainingDay() async {
+    TrainingDay trainingDay = TrainingDay(
+        "",
+        "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
+        []);
+    var response = await planHttpHelper.postTrainingDay(
+        trainingDay, "634dad62663403c8063adc41");
+    widget.trainingPlanCopy.trainingDays.add(TrainingDay(
+        response,
+        "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
+        []));
+    setState(() {});
   }
 }

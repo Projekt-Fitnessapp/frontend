@@ -1,19 +1,41 @@
+import 'package:tromega/data/exerciseSetsReps.dart';
+
 import './trainingPlan.dart';
 import './trainingDay.dart';
-import './trainingPlans.dart';
+import './exercise.dart';
 import 'dart:convert';
+import './account.dart';
 import 'package:http/http.dart' as http;
 
 class PlanHttpHelper {
-  //final String authority = 'api.fitnessapp.gang-of-fork.de';
-  final String authority = 'virtserver.swaggerhub.com';
-  final String path = '/FLORIANHASE12/GEtit/1.0.0';
+  final String authority = 'api.fitnessapp.gang-of-fork.de';
+
+  Future<List<ExerciseSetsReps>> getExercise() async {
+    List<ExerciseSetsReps> exercises = [];
+
+    String newPath = '/exercises';
+    Uri uri = Uri.https(authority, newPath);
+
+    http.Response res = await http.get(uri);
+
+    if (res.statusCode == 200) {
+      var response = jsonDecode(res.body);
+      for (var exerciseRes in response) {
+        Exercise exercise = Exercise.fromJSON(exerciseRes);
+        ExerciseSetsReps exerciseSetsReps = ExerciseSetsReps(exercise, 3, 10);
+        exercises.add(exerciseSetsReps);
+      }
+    } else {
+      throw Exception('Failed to load trainingPlan');
+    }
+    return exercises;
+  }
 
   Future<TrainingPlan> getTrainingPlan(String trainingPlanId) async {
     final queryParameters = {'trainingPlanId': trainingPlanId};
     TrainingPlan trainingPlan;
 
-    String newPath = '$path/trainingPlan';
+    String newPath = '/trainingPlan';
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
     http.Response res = await http.get(uri);
@@ -30,7 +52,7 @@ class PlanHttpHelper {
     final queryParameters = {'trainingDayId': trainingDayId};
     TrainingDay trainingDay;
 
-    String newPath = '$path/trainingDay';
+    String newPath = '/trainingDay';
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
     http.Response res = await http.get(uri);
@@ -43,31 +65,68 @@ class PlanHttpHelper {
     return trainingDay;
   }
 
-  Future<TrainingPlans> getTrainingPlans(String userId) async {
+  Future<List<TrainingPlan>> getTrainingPlans(String userId) async {
     final queryParameters = {'userId': userId};
-    TrainingPlans trainingPlans;
+    List<TrainingPlan> trainingPlans = [];
 
-    String newPath = '$path/myPlans';
+    String newPath = '/myPlans';
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
     http.Response res = await http.get(uri);
 
     if (res.statusCode == 200) {
-      trainingPlans = TrainingPlans.fromJSON(jsonDecode(res.body));
+      for (var plan in jsonDecode(res.body)) {
+        trainingPlans.add(TrainingPlan.fromJSON(plan));
+      }
     } else {
-      throw Exception('Failed to load trainingPlans');
+      throw Exception('Failed to load myPlans');
     }
     return trainingPlans;
   }
 
-  Future<bool> postTrainingPlan(
+  Future<String> postTrainingPlan(
       String userId, TrainingPlan trainingPlan) async {
     final queryParameters = {'userId': userId};
 
-    String newPath = '$path/trainingPlan';
+    String newPath = '/trainingPlan';
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
-    http.Response response = await http.post(uri, body: {trainingPlan});
+    final body = jsonEncode(trainingPlan.toJsonWoId());
+
+    http.Response response = await http.post(uri,
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    if (response.statusCode == 201) {
+      return response.body.toString();
+    }
+    return "";
+  }
+
+  Future<String> postTrainingDay(TrainingDay trainingDay, String userId) async {
+    final queryParameters = {'userId': userId};
+
+    String newPath = '/trainingDay';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+
+    http.Response response = await http.post(uri,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(trainingDay.toJsonWoId()));
+
+    if (response.statusCode == 201) {
+      return response.body;
+    }
+    return "";
+  }
+
+  Future<bool> putTrainingPlan(
+      String trainingPlanId, TrainingPlan trainingPlan) async {
+    final queryParameters = {'trainingPlanId': trainingPlanId};
+
+    String newPath = '/trainingPlan';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+
+    http.Response response =
+        await http.put(uri, body: jsonEncode(trainingPlan.toJsonWoId()));
 
     if (response.statusCode == 201) {
       return true;
@@ -75,18 +134,37 @@ class PlanHttpHelper {
     return false;
   }
 
-  Future<bool> putTrainingPlan(
-      String trainingPlanId, TrainingPlan trainingPlan) async {
-    final queryParameters = {'trainingPlan': trainingPlanId};
+  Future<bool> putAccount(String userId, String trainingPlanId) async {
+    final queryParameters = {'userId': userId};
 
-    String newPath = '$path/trainingPlan';
+    String newPath = '/account';
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
-    http.Response response = await http.put(uri, body: {trainingPlan});
+    Account account = await getAccount(userId);
+
+    http.Response response = await http.put(uri,
+        body: jsonEncode(account.toJsonNewActivePlan(trainingPlanId)));
 
     if (response.statusCode == 201) {
       return true;
     }
     return false;
+  }
+
+  Future<Account> getAccount(String userId) async {
+    final queryParameters = {'userId': userId};
+    Account account;
+
+    String newPath = '/account';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+
+    http.Response res = await http.get(uri);
+
+    if (res.statusCode == 200) {
+      account = Account.fromJSON(jsonDecode(res.body));
+    } else {
+      throw Exception('Failed to load account');
+    }
+    return account;
   }
 }

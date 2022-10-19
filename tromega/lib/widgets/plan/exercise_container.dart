@@ -36,7 +36,7 @@ class _ExerciseContainerState extends State<ExerciseContainer>
       return Container(
           margin:
               const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-          height: 110,
+          height: 130,
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -55,22 +55,37 @@ class _ExerciseContainerState extends State<ExerciseContainer>
                 ExerciseGif(gif: exercise.exercise.gifUrl),
                 Expanded(
                     child: Column(children: <Widget>[
-                  Row(children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
-                        child: Text(exercise.exercise.name,
-                            style: Theme.of(context).textTheme.headlineLarge)),
-                    Expanded(
-                        child: IconButton(
-                            alignment: Alignment.topRight,
-                            icon: const Icon(Icons.close),
-                            iconSize: 15,
-                            onPressed: () {
-                              widget.exercises.remove(exercise);
-                              setState(() {});
-                              widget.update(100);
-                            }))
-                  ]),
+                  IntrinsicHeight(
+                    child: Row(children: [
+                      Flexible(
+                        flex: 9,
+                        fit: FlexFit.tight,
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 5),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(exercise.exercise.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
+                            )),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                              icon: const Icon(Icons.close),
+                              alignment: Alignment.topRight,
+                              iconSize: 15,
+                              onPressed: () {
+                                widget.exercises.remove(exercise);
+                                setState(() {});
+                                widget.update(100);
+                              }),
+                        ],
+                      ),
+                    ]),
+                  ),
                   Expanded(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

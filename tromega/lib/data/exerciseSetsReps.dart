@@ -11,8 +11,14 @@ class ExerciseSetsReps {
             exerciseSetsReps.reps);
 
   ExerciseSetsReps.fromJSON(Map<String, dynamic> importMap) {
-    exercise = Exercise.fromJSON(importMap['exercise'] ?? {});
+    exercise = Exercise.fromJSON(importMap['exerciseId'] ?? {});
     sets = importMap['sets'] ?? 0;
     reps = importMap['reps'] ?? 0;
   }
+
+  Map toJson() => {
+        'exerciseId': exercise.toJson(),
+        'sets': sets.toString(),
+        'reps': reps.toString()
+      };
 }

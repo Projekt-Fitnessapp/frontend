@@ -19,7 +19,7 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-        height: 110,
+        height: 130,
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -38,12 +38,10 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
               ExerciseGif(gif: widget.exercise.exercise.gifUrl),
               Expanded(
                   child: Column(children: <Widget>[
-                Row(children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 5),
-                      child: Text(widget.exercise.exercise.name,
-                          style: Theme.of(context).textTheme.headlineLarge)),
-                ]),
+                Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 5),
+                    child: Text(widget.exercise.exercise.name,
+                        style: Theme.of(context).textTheme.headlineSmall)),
                 Expanded(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/exerciseSetsReps.dart';
 import '../../data/trainingDay.dart';
+import './exercise_gif.dart';
 
 class ExerciseContainerAdding extends StatelessWidget {
   const ExerciseContainerAdding(
@@ -18,7 +19,7 @@ class ExerciseContainerAdding extends StatelessWidget {
         },
         child: Container(
             margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-            height: 110,
+            height: 130,
             decoration: BoxDecoration(
               color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -34,63 +35,59 @@ class ExerciseContainerAdding extends StatelessWidget {
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Row(children: <Widget>[
-                  Image.network(
-                    exercise.exercise.gifUrl,
-                    fit: BoxFit.cover,
-                    height: 110,
-                    alignment: Alignment.center,
-                  ),
+                  ExerciseGif(gif: exercise.exercise.gifUrl),
                   Expanded(
-                      child: Column(children: <Widget>[
-                    Row(children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(left: 10, top: 5),
-                          child: Text(exercise.exercise.name,
-                              style: Theme.of(context).textTheme.headlineLarge))
-                    ]),
-                    Expanded(
-                        child: Column(children: <Widget>[
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(left: 10, top: 10),
-                                child: Text("Muskel:",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium)),
-                            Expanded(
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.only(right: 10, top: 10),
-                                    child: Text(
-                                        textAlign: TextAlign.end,
-                                        exercise.exercise.muscle,
+                        Padding(
+                            padding: EdgeInsets.only(left: 10, top: 5),
+                            child: Text(exercise.exercise.name,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall)),
+                        Expanded(
+                            child: Column(children: <Widget>[
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 10),
+                                    child: Text("Muskel:",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium)))
-                          ]),
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text("Equipment:",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium)),
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(right: 10),
-                                    child: Text(
-                                        textAlign: TextAlign.end,
-                                        exercise.exercise.equipment,
+                                            .titleMedium)),
+                                Expanded(
+                                    child: Padding(
+                                        padding:
+                                            EdgeInsets.only(right: 10, top: 10),
+                                        child: Text(
+                                            textAlign: TextAlign.end,
+                                            exercise.exercise.muscle,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium)))
+                              ]),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text("Equipment:",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium)))
-                          ]),
-                    ]))
-                  ])),
+                                            .titleMedium)),
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(right: 10),
+                                        child: Text(
+                                            textAlign: TextAlign.end,
+                                            exercise.exercise.equipment,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium)))
+                              ]),
+                        ]))
+                      ])),
                 ]))));
   }
 }

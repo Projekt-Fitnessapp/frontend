@@ -6,6 +6,8 @@ import '../../widgets/shared/app_bar.dart';
 import '../../data/trainingDay.dart';
 import '../../data/exercise.dart';
 import '../../data/exerciseSetsReps.dart';
+import '../../data/plan_http_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddExercise extends StatefulWidget {
   final TrainingDay day;
@@ -16,32 +18,42 @@ class AddExercise extends StatefulWidget {
 }
 
 class _AddExerciseState extends State<AddExercise> {
-  final exercises = [
-    ExerciseSetsReps(
-        Exercise(
-          "",
-          "Deadlift",
-          "Lift the bar.",
-          "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
-          "back",
-          "barbell",
-        ),
-        3,
-        10),
-    ExerciseSetsReps(
-        Exercise(
-          "",
-          "Lat Pulldown",
-          "Pull the bar.",
-          "http://d205bpvrqc9yn1.cloudfront.net/2330.gif",
-          "back",
-          "barbell",
-        ),
-        3,
-        10)
+  var exercises = [
+    // ExerciseSetsReps(
+    //     Exercise(
+    //       "",
+    //       "Deadlift",
+    //       "Lift the bar.",
+    //       "http://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    //       "back",
+    //       "barbell",
+    //     ),
+    //     3,
+    //     10),
+    // ExerciseSetsReps(
+    //     Exercise(
+    //       "",
+    //       "Lat Pulldown",
+    //       "Pull the bar.",
+    //       "http://d205bpvrqc9yn1.cloudfront.net/2330.gif",
+    //       "back",
+    //       "barbell",
+    //     ),
+    //     3,
+    //     10)
   ];
 
   String searchWord = "";
+
+  late PlanHttpHelper planHttpHelper;
+  bool fetching = true;
+
+  @override
+  initState() {
+    planHttpHelper = PlanHttpHelper();
+    fetchData();
+    super.initState();
+  }
 
   onSearchTextChanged(String text) {
     List<ExerciseSetsReps> searchResults = [];
@@ -119,5 +131,13 @@ class _AddExerciseState extends State<AddExercise> {
       ]),
       bottomNavigationBar: const BottomMenu(index: 1),
     );
+  }
+
+  void fetchData() async {
+    List<ExerciseSetsReps> initExercises = await planHttpHelper.getExercise();
+    setState(() {
+      exercises = initExercises;
+      fetching = false;
+    });
   }
 }
