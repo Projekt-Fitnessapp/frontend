@@ -41,7 +41,10 @@ dependencies:
   flutter_gif: ^0.0.4
   gif: ^2.2.0
   shared_preferences: ^2.0.15
+<<<<<<< HEAD
   custom_timer: ^0.1.2
+=======
+>>>>>>> 8e2c68cd21fd5bb5f27d4293f44ec948bfcb47bb
 
 dev_dependencies:
   flutter_test:

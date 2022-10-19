@@ -120,7 +120,7 @@ class TrackingHttpHelper {
 
       /// gets the execution from the last completed training
       int pos = lastSession.executions
-          .indexWhere((exec) => exec.exercise.id == exerciseId);
+          .indexWhere((exec) => exec.exercise.getId == exerciseId);
       if (pos >= 0) {
         return lastSession.executions[pos];
       }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../data/classes.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class RepsDialog extends StatefulWidget {
+  //Dialog und Button für die Auswahl der Wiederholungen in der Edit Training View
+
   RepsDialog({Key? key, required this.reps, required this.changeReps})
       : super(key: key);
   int reps;
@@ -20,6 +21,7 @@ class _RepsDialogState extends State<RepsDialog> {
         child: ElevatedButton(
           child: Text("${widget.reps} Wdh"),
           onPressed: () {
+            //Dialog mit Number Picker
             showDialog(
                 context: context,
                 builder: (context) =>
@@ -34,6 +36,7 @@ class _RepsDialogState extends State<RepsDialog> {
                               maxValue: 100,
                               value: widget.reps,
                               onChanged: (int value) {
+                                //Aktualisierung der Satzanzahl im Trainingsplan
                                 setState(() {});
                                 super.setState(() {
                                   widget.reps = value;

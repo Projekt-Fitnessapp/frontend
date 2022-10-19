@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import '../data/classes.dart';
-import 'package:gif/gif.dart';
-import '../widgets/sets_dialog.dart';
-import '../widgets/reps_dialog.dart';
-import '../widgets/exercise_gif.dart';
+import '../../data/exerciseSetsReps.dart';
+import 'sets_dialog.dart';
+import 'reps_dialog.dart';
+import 'exercise_gif.dart';
 
 class ExerciseContainer extends StatefulWidget {
+  //Der Container für die Übungskarten in der  Edit Training View
+
   const ExerciseContainer(
       {Key? key,
       required this.exercises,
       required this.indexExercise,
       required this.update})
       : super(key: key);
-  final List<Exercise> exercises;
+  final List<ExerciseSetsReps> exercises;
   final int indexExercise;
   final ValueChanged<int> update;
 
@@ -35,9 +36,9 @@ class _ExerciseContainerState extends State<ExerciseContainer>
     if (widget.indexExercise < widget.exercises.length) {
       var exercise = widget.exercises[widget.indexExercise];
       return Container(
+          height: 120,
           margin:
               const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-          height: 110,
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -53,25 +54,38 @@ class _ExerciseContainerState extends State<ExerciseContainer>
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Row(children: <Widget>[
-                ExerciseGif(gif: exercise.gif),
+                ExerciseGif(gif: exercise.exercise.gifUrl),
                 Expanded(
                     child: Column(children: <Widget>[
-                  Row(children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
-                        child: Text(exercise.name,
-                            style: Theme.of(context).textTheme.headlineLarge)),
-                    Expanded(
-                        child: IconButton(
-                            alignment: Alignment.topRight,
-                            icon: const Icon(Icons.close),
-                            iconSize: 15,
-                            onPressed: () {
-                              widget.exercises.remove(exercise);
-                              setState(() {});
-                              widget.update(100);
-                            }))
-                  ]),
+                  IntrinsicHeight(
+                    child: Row(children: [
+                      Flexible(
+                        flex: 9,
+                        fit: FlexFit.tight,
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 5),
+                            child: Text(exercise.exercise.name,
+                                textAlign: TextAlign.center,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall)),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                              icon: const Icon(Icons.close),
+                              alignment: Alignment.topRight,
+                              iconSize: 15,
+                              onPressed: () {
+                                //Löscehn von ausgewählten Übungen und Aktualisierung
+                                widget.exercises.remove(exercise);
+                                setState(() {});
+                                widget.update(100);
+                              }),
+                        ],
+                      ),
+                    ]),
+                  ),
                   Expanded(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

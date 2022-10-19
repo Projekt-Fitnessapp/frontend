@@ -158,7 +158,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
             ),
           ),
           HistoryDataBlock(
-            exerciseId: exec.exercise.id,
+            exerciseId: exec.exercise.getId,
             trainingDayId: widget.trainingDayId,
           ),
         ],
