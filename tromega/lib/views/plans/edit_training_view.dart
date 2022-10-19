@@ -8,6 +8,7 @@ import '../../widgets/plan/edit_plan_view_column.dart';
 import '../../data/trainingDay.dart';
 import '../../data/plan_http_helper.dart';
 import '../../data/trainingPlan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditPlanView extends StatefulWidget {
   EditPlanView({Key? key, required this.trainingPlan}) : super(key: key);
@@ -126,22 +127,40 @@ class _EditPlanViewState extends State<EditPlanView> {
   }
 
   void onSave(TrainingPlan trainingPlan) async {
-    var response = await planHttpHelper.putTrainingPlan(
-        "634dad62663403c8063adc41", trainingPlan);
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PlanOverview(),
-        ));
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("userId");
+    userId ??= "634dad62663403c8063adc41";
+    var response = await planHttpHelper.putTrainingPlan(userId, trainingPlan);
+    if (response) {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlanOverview(),
+          ));
+    } else {
+      showInSnackbar(context, "Speichern fehlgeschlagen");
+    }
+  }
+
+  void showInSnackbar(BuildContext context, String value) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).primaryColorLight,
+        content: Text(value),
+      ),
+    );
   }
 
   void newTrainingDay() async {
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("userId");
+    userId ??= "634dad62663403c8063adc41";
     TrainingDay trainingDay = TrainingDay(
         "",
         "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
         []);
-    var response = await planHttpHelper.postTrainingDay(
-        trainingDay, "634dad62663403c8063adc41");
+    var response = await planHttpHelper.postTrainingDay(trainingDay, userId);
     widget.trainingPlanCopy.trainingDays.add(TrainingDay(
         response,
         "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",

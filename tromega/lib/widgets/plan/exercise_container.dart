@@ -34,9 +34,9 @@ class _ExerciseContainerState extends State<ExerciseContainer>
     if (widget.indexExercise < widget.exercises.length) {
       var exercise = widget.exercises[widget.indexExercise];
       return Container(
+          height: 120,
           margin:
               const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-          height: 130,
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -62,13 +62,10 @@ class _ExerciseContainerState extends State<ExerciseContainer>
                         fit: FlexFit.tight,
                         child: Padding(
                             padding: const EdgeInsets.only(left: 10, top: 5),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(exercise.exercise.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
-                            )),
+                            child: Text(exercise.exercise.name,
+                                textAlign: TextAlign.center,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall)),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,

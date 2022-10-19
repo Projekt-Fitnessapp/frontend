@@ -19,7 +19,7 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-        height: 130,
+        height: 120,
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),

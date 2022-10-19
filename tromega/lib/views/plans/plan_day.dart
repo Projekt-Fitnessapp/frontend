@@ -60,6 +60,8 @@ class _PlanDayViewState extends State<PlanDayView> {
         ),
         ElevatedButton(
             onPressed: (() async {
+              //hi matthias, hier ist die id für deine tracking view, einfach mitgeben
+              var trainingId = widget.trainingDay.getId;
               await Navigator.push(
                   context,
                   MaterialPageRoute(
