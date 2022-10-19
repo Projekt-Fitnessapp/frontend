@@ -31,12 +31,13 @@ class _EditPlanViewState extends State<EditPlanView> {
   initState() {
     super.initState();
     planHttpHelper = PlanHttpHelper();
+    _pageViewController = PageController(initialPage: 0);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _pageViewController = PageController(initialPage: 0);
+    _pageViewController.dispose();
   }
 
   @override
