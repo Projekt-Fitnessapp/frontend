@@ -4,7 +4,13 @@ import 'package:tromega/widgets/tracking/interactives/changeable_row_item.dart';
 import '../../../data/execution_set.dart';
 
 class SetDisplay extends StatefulWidget {
-  const SetDisplay({Key? key, required this.position, required this.thisSet, required this.highlighted, required this.onChange}) : super(key: key);
+  const SetDisplay(
+      {Key? key,
+      required this.position,
+      required this.thisSet,
+      required this.highlighted,
+      required this.onChange})
+      : super(key: key);
   final int position;
   final ExecutionSet thisSet;
   final Function onChange;
@@ -40,6 +46,7 @@ class _SetDisplayState extends State<SetDisplay> {
             setState(() {
               thisSet.weight = value;
             });
+            recalculate10RM();
           },
         ),
         ChangeableRowItem(
@@ -50,16 +57,19 @@ class _SetDisplayState extends State<SetDisplay> {
             setState(() {
               thisSet.reps = value;
             });
+            recalculate10RM();
           },
         ),
         RowItem(
-          value: ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498).toStringAsFixed(1),
+          value: thisSet.tenRM.toStringAsFixed(1),
           highlighted: widget.highlighted,
         ),
         Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
-            color: widget.highlighted ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
+            color: widget.highlighted
+                ? Theme.of(context).primaryColor
+                : Theme.of(context).backgroundColor,
           ),
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.15,
@@ -82,5 +92,11 @@ class _SetDisplayState extends State<SetDisplay> {
         ),
       ],
     );
+  }
+
+  void recalculate10RM() {
+    setState(() {
+      thisSet.tenRM = ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498);
+    });
   }
 }

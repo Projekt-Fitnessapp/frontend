@@ -41,9 +41,9 @@ class ExecutionSet {
   Map<String, dynamic> toJson() {
     return {
       'executionType': typeToString(executionType),
-      'weight': weight.round(),
+      'weight': weight,
       'reps': reps,
-      '10RM': tenRM.round(),
+      '10RM': tenRM,
     };
   }
 

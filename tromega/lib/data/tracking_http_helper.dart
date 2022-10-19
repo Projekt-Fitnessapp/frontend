@@ -33,7 +33,11 @@ class TrackingHttpHelper {
     print(res.statusCode);
     if (res.statusCode == 200) {
       print(res.body);
-      return TrainingSession.fromJSON(jsonDecode(res.body));
+      TrainingSession lastSession =
+          TrainingSession.fromJSON(jsonDecode(res.body));
+      if (lastSession.executions.isNotEmpty) {
+        return lastSession;
+      }
     }
 
     /// By now there is No session completed by user
@@ -84,9 +88,11 @@ class TrackingHttpHelper {
       uri,
       body: jsonEncode(session.toJson()),
       headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
+    print(uri);
 
     // debugging purpose
     print(jsonEncode(session.toJson()));
