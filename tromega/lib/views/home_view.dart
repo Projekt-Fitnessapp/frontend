@@ -19,13 +19,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late DateTime dateToday;
   late Color colorDot;
-  late TrackingHttpHelper trackingHttpHelper;
+  late HomeHttpHelper homeHttpHelper;
   late Trainweek trainigsDaten;
   bool fetching = true;
 
   @override
   void initState() {
-    trackingHttpHelper = TrackingHttpHelper();
+    homeHttpHelper = HomeHttpHelper();
     fetchData();
     dateToday = DateTime.now();
     colorDot = const Color.fromARGB(1000, 4, 146, 240);
@@ -58,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ],
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                                  const BorderRadius.all(Radius.circular(10))),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CalendarTimeline(
@@ -151,11 +151,16 @@ class _HomeViewState extends State<HomeView> {
                               primary: const Color.fromARGB(1000, 0, 48, 80),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const TrackingView()));
+                              homeHttpHelper
+                                  .getNextTrainingDayId()
+                                  .then((trainingDayId) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TrackingView(
+                                              trainingDayId: trainingDayId,
+                                            )));
+                              });
                             },
                             child: Text(
                               'Training starten',
@@ -189,7 +194,7 @@ class _HomeViewState extends State<HomeView> {
 
   void fetchData() async {
     //gets the trainingsdata of last week (when has the user trained)
-    Trainweek trainweek = await trackingHttpHelper.getLastTrainday();
+    Trainweek trainweek = await homeHttpHelper.getLastTrainday();
 
     setState(() {
       fetching = false;

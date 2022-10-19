@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/RowItem.dart';
-import 'package:tromega/widgets/tracking/SetRow.dart';
+import 'package:tromega/widgets/tracking/displays/row_item.dart';
+import 'package:tromega/widgets/tracking/displays/set_display.dart';
 
-import '../../data/executionSet.dart';
+import '../../../data/execution_set.dart';
 
-class SetDisplay extends StatefulWidget {
-  const SetDisplay(
+class AllSetsDisplay extends StatefulWidget {
+  const AllSetsDisplay(
       {Key? key,
       required this.executionSets,
       required this.onAddSet,
       required this.onRemoveSet,
+      required this.onFinishSet,
       required this.changeExecutionStatus,
       required this.onFinishExecution})
       : super(key: key);
   final List<ExecutionSet> executionSets;
   final Function onAddSet;
   final Function onRemoveSet;
+  final Function onFinishSet;
   final Function changeExecutionStatus;
   final Function onFinishExecution;
 
   @override
-  State<SetDisplay> createState() => _SetDisplayState();
+  State<AllSetsDisplay> createState() => _AllSetsDisplayState();
 }
 
-class _SetDisplayState extends State<SetDisplay> {
+class _AllSetsDisplayState extends State<AllSetsDisplay> {
   List<ExecutionSet> sets = [];
 
   @override
@@ -36,13 +38,13 @@ class _SetDisplayState extends State<SetDisplay> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SetTableHead(),
+        buildSetTableHead(),
         Column(
           children: sets
               .asMap()
               .entries
               .map(
-                (entry) => SetRow(
+                (entry) => SetDisplay(
                   position: entry.key,
                   thisSet: entry.value,
                   highlighted: entry.key == getFirstToDo(),
@@ -51,6 +53,9 @@ class _SetDisplayState extends State<SetDisplay> {
                       int firstToDo = getFirstToDo() == -1 ? sets.length : getFirstToDo();
                       if (entry.key + 1 == firstToDo || entry.key == firstToDo) {
                         sets[entry.key].done = !entry.value.done;
+                        if (sets[entry.key].done) {
+                          widget.onFinishSet();
+                        }
                       }
                       if (!sets[entry.key].done) {
                         widget.changeExecutionStatus(false);
@@ -98,7 +103,7 @@ class _SetDisplayState extends State<SetDisplay> {
     );
   }
 
-  Widget SetTableHead() {
+  Widget buildSetTableHead() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: const [

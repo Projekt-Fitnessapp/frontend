@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/execution.dart';
-import '../../data/tracking_http_helper.dart';
+import '../../../data/tracking_http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
-  const HistoryDataBlock({Key? key, required this.exerciseId})
-      : super(key: key);
-  final String exerciseId;
+  const HistoryDataBlock({Key? key, required this.exerciseId, required this.trainingDayId}) : super(key: key);
+  final String exerciseId, trainingDayId;
 
   @override
   State<HistoryDataBlock> createState() => _HistoryDataBlockState();
 }
 
 class _HistoryDataBlockState extends State<HistoryDataBlock> {
-  late Execution lastExecution;
-  late DateTime date;
+  late Execution? lastExecution;
   late TrackingHttpHelper httpHelper;
   bool fetching = true;
 
   @override
   void initState() {
-    httpHelper = TrackingHttpHelper();
+    httpHelper = const TrackingHttpHelper();
     fetchData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return fetching
+    return fetching || lastExecution == null
         ? Container()
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -43,7 +41,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
-                          'Training am ${date.day}.${date.month}.${date.year}',
+                          'Training vom ${lastExecution!.date.day}.${lastExecution!.date.month}.${lastExecution!.date.year}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -77,33 +75,19 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
-                              .asMap()
-                              .entries
-                              .map((entry) => HistoryDataCell(
-                                  context, entry.key.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.asMap().entries.map((entry) => buildHistoryDataCell(context, entry.key.toString())).toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
-                              .map((elem) => HistoryDataCell(
-                                  context, elem.weight.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.weight.toString())).toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
-                              .map((elem) => HistoryDataCell(
-                                  context, elem.reps.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.reps.toString())).toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution.sets
-                              .map((elem) => HistoryDataCell(
-                                  context, elem.tenRM.toString()))
-                              .toList(),
+                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.tenRM.toString())).toList(),
                         ),
                       ],
                     ),
@@ -117,7 +101,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
           );
   }
 
-  Widget HistoryDataCell(BuildContext context, String value) {
+  Widget buildHistoryDataCell(BuildContext context, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Text(
@@ -128,12 +112,11 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
   }
 
   void fetchData() async {
-    Execution exec = await httpHelper.getLastExecution(widget.exerciseId);
+    Execution? exec = await httpHelper.getLastExecution(widget.trainingDayId, widget.exerciseId);
 
-    if (mounted) {
+    if (mounted && exec!=null) {
       setState(() {
         lastExecution = exec;
-        date = DateTime(0);
         fetching = false;
       });
     }

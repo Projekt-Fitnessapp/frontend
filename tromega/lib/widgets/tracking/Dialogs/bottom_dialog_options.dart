@@ -17,12 +17,12 @@ class BottomDialogOptions extends StatelessWidget {
         ),
         child: Column(
           children: [
-            OptionsButton(
+            buildOptionsButton(
               icon: const Icon(Icons.check_rounded),
               text: 'Training abschließen',
               onPressed: onFinish,
             ),
-            OptionsButton(
+            buildOptionsButton(
               icon: const Icon(Icons.replay_sharp),
               text: 'Training zurücksetzen',
               onPressed: onReset,
@@ -33,7 +33,7 @@ class BottomDialogOptions extends StatelessWidget {
     );
   }
 
-  Widget OptionsButton({icon: Icon, text: String, onPressed: Function}) {
+  Widget buildOptionsButton({icon: Icon, text: String, onPressed: Function}) {
     return TextButton(
       onPressed: onPressed,
       child: Padding(

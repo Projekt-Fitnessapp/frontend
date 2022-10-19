@@ -24,6 +24,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   initState() {
     value = widget.dropDownValue;
+    super.initState();
   }
 
   changeValue(changedValue) {

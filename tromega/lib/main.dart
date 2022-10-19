@@ -11,11 +11,8 @@ import 'views/account/my_profile_view.dart';
 
 // Secondary Views
 import 'views/plans/edit_training_view.dart';
-import 'views/in_training/track_training_view.dart';
-import 'views/account/add_my_data_view.dart';
 import 'views/account/sso_view.dart';
 import 'views/account/edit_profile_view.dart';
-import './views/test_and_dev_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,18 +27,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: tromegaTheme(),
       routes: {
-        '/': (context) => const DevView(),
+        '/': (context) => const LoginView(),
         '/home': (context) => const HomeView(),
         '/myWorkoutPlans': (context) => const PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
         '/socialSpace': (context) => const SocialSpaceView(),
         '/myProfile': (context) => const ProfileView(),
-        '/testTracking': (context) => const TrackingView(),
         '/testEditPlan': (context) =>
             EditPlanView(trainingPlan: TrainingPlan.fromJSON({})),
-        '/addMyDataView': (context) => const AddMyDataView(),
-        '/myLogin': (context) => const LoginView(),
-        '/editProfile': (context) => const EditProfile()
+        '/editProfile': (context) => const EditProfile(),
       },
     );
   }
