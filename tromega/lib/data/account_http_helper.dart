@@ -10,10 +10,10 @@ import 'package:tromega/data/body.dart';
 class AccountHttpHelper {
   final String authority = 'api.fitnessapp.gang-of-fork.de';
 
-  Future<bool> accountExist(String googleId) async {
+  Future<bool> accountExist(String userId) async {
     String newPath = '/account';
     Map<String, dynamic> querys = Map();
-    querys["googleId"] = googleId;
+    querys["userId"] = userId;
     Uri uri = Uri.https(authority, newPath, querys);
     print(uri);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,11 +33,11 @@ class AccountHttpHelper {
     }
   }
 
-  Future<Account> getAccount(String googleId) async {
+  Future<Account> getAccount(String userId) async {
     Account account;
     String newPath = '/account';
     Map<String, dynamic> querys = Map();
-    querys["googleId"] = googleId;
+    querys["userId"] = userId;
     Uri uri = Uri.https(authority, newPath, querys);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -75,11 +75,11 @@ class AccountHttpHelper {
     }
   }
 
-  Future<Body> getBody(String googleId) async {
+  Future<Body> getBody(String userId) async {
     Body body;
     String newPath = '/body';
     Map<String, dynamic> querys = Map();
-    querys["googleId"] = googleId;
+    querys["userId"] = userId;
     Uri uri = Uri.https(authority, newPath, querys);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

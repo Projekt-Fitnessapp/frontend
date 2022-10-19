@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/data/body.dart';
-import 'package:tromega/data/classes.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
 import 'package:tromega/widgets/account/routebutton_widget.dart';
 
-class SecondQuestionWidget extends StatefulWidget {
-  const SecondQuestionWidget({Key? key, required this.onFinished})
-      : super(key: key);
+class QuestionWidget extends StatefulWidget {
+  const QuestionWidget({Key? key, required this.onFinished}) : super(key: key);
 
   final Function onFinished;
 
@@ -18,16 +16,22 @@ class SecondQuestionWidget extends StatefulWidget {
   _SecondQuestionWidget createState() => _SecondQuestionWidget();
 }
 
-class _SecondQuestionWidget extends State<SecondQuestionWidget> {
-  late AccountHttpHelper account_http_helper;
-  late TextEditingController height;
+class _SecondQuestionWidget extends State<QuestionWidget> {
+  late AccountHttpHelper accountHttpHelper;
+  late TextEditingController changedName;
+  late TextEditingController changedHeight;
+  late TextEditingController changedWeight;
+  late Body thisBody;
+  late Account thisAccount;
 
   @override
   void initState() {
+    accountHttpHelper = AccountHttpHelper();
+    changedName = TextEditingController();
+    changedHeight = TextEditingController();
+    changedWeight = TextEditingController();
+    sendData();
     super.initState();
-
-    account_http_helper = AccountHttpHelper();
-    height = TextEditingController();
   }
 
   String dropdownValue = "Ja";
@@ -74,30 +78,33 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            buildQuestion(text: 'Wie heißt du?'),
+            AnswerFieldWidget(controller: changedName),
             buildQuestion(text: 'Wie alt bist du?'),
-          buildTextField(color),
-          buildQuestion(text: 'Wie groß bist du?'),
-          AnswerFieldWidget(controller: height),
-          buildQuestion(text: 'Wie viel wiegst du?'),
-          buildTextField(color),
-          buildQuestion(text: 'Was ist dein Trainingsziel?'),
-          const SizedBox(height: 16),
-          DropDownWidget(
-            color: color,
-            dropDownOptions: fitnessGoals,
-            dropDownValue: value1,
-            dropdownCallback: dropdownCallback3,
-          ),
-          const SizedBox(height: 16),
-          buildQuestion(text: 'Mit welchem Geschlecht identifizierst du dich?'),
-          const SizedBox(height: 16),
-          DropDownWidget(
-            color: color,
-            dropDownOptions: gender,
-            dropDownValue: value2,
-            dropdownCallback: dropdownCallback2,
-          ),
-          const SizedBox(height: 32),
+            buildTextField(color),
+            buildQuestion(text: 'Wie groß bist du?'),
+            AnswerFieldWidget(controller: changedHeight),
+            buildQuestion(text: 'Wie viel wiegst du?'),
+            AnswerFieldWidget(controller: changedWeight),
+            buildQuestion(text: 'Was ist dein Trainingsziel?'),
+            const SizedBox(height: 16),
+            DropDownWidget(
+              color: color,
+              dropDownOptions: fitnessGoals,
+              dropDownValue: value1,
+              dropdownCallback: dropdownCallback3,
+            ),
+            const SizedBox(height: 16),
+            buildQuestion(
+                text: 'Mit welchem Geschlecht identifizierst du dich?'),
+            const SizedBox(height: 16),
+            DropDownWidget(
+              color: color,
+              dropDownOptions: gender,
+              dropDownValue: value2,
+              dropdownCallback: dropdownCallback2,
+            ),
+            const SizedBox(height: 32),
             buildQuestion(text: 'Hast du bereits Erfahrung mit Training?'),
             const SizedBox(height: 16),
             DropDownWidget(
@@ -121,11 +128,21 @@ class _SecondQuestionWidget extends State<SecondQuestionWidget> {
                 onClick: () {
                   widget.onFinished();
                   Navigator.pushNamed(context, '/myProfile');
-                  setState(() {});
+                  setState(() {
+                    thisBody.height = int.parse(changedHeight.text);
+                    thisBody.weight = int.parse(changedWeight.text);
+                    thisAccount.name = changedName.text;
+                    thisAccount.sex = value2;
+                  });
                 })
           ],
         ),
       ),
     );
+  }
+
+  void sendData() async {
+    accountHttpHelper.postAccount(thisAccount);
+    accountHttpHelper.postBody(thisBody);
   }
 }

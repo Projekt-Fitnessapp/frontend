@@ -36,11 +36,11 @@ class MyApp extends StatelessWidget {
         '/myWorkoutPlans': (context) => PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
         '/socialSpace': (context) => const SocialSpaceView(),
-        '/myProfile': (context) =>   const ProfileView(),
+        '/myProfile': (context) => const ProfileView(),
         '/testTracking': (context) => const TrackingView(),
         '/testEditPlan': (context) => EditPlanView(),
         '/myLogin': (context) => const LoginView(),
-        '/editProfile': (context) => const EditProfile()
+        '/editProfile': (context) => const EditProfile(),
       },
     );
   }

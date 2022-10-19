@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert' show json;
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
@@ -24,7 +21,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  late AccountHttpHelper account_http_helper;
+  late AccountHttpHelper accountHttpHelper;
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
   late SharedPreferences prefs;
@@ -32,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    account_http_helper = AccountHttpHelper();
+    accountHttpHelper = AccountHttpHelper();
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       setState(() {
         _currentUser = account;
@@ -49,9 +46,9 @@ class _LoginViewState extends State<LoginView> {
           print("token: $value.accessToken");
           prefs.setString('token', value.accessToken ?? '');
         });
-        account_http_helper.accountExist(_currentUser?.id ?? '').then((exists) {
+        accountHttpHelper.accountExist(_currentUser?.id ?? '').then((exists) {
           if (exists) {
-            account_http_helper
+            accountHttpHelper
                 .getAccount(_currentUser?.id ?? '')
                 .then((account) {
               print("userId: $account.id");
