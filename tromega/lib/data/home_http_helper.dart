@@ -52,11 +52,8 @@ class HomeHttpHelper {
         HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
     );
-    print(uri);
 
     /// Body equals an trainingDay --> get Id with _id
-    print(res.statusCode);
-    print(res.body);
     return jsonDecode(res.body)['_id'] ?? '';
   }
 }
