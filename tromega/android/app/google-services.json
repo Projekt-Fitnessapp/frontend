@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "105604883550",
+    "project_id": "tromega-21238",
+    "storage_bucket": "tromega-21238.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105604883550:android:4a86afd74037b63ac400cf",
+        "android_client_info": {
+          "package_name": "com.example.tromega"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105604883550-md97kk50e56l1a6tv0mtln3uvaptf32a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLyKVtVh0ej4VVsL7YvjSJV7io-KQdvi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105604883550-md97kk50e56l1a6tv0mtln3uvaptf32a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "105604883550-ebnip0q2uj6mpcpm633hpamkftrjigm3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tromega"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
