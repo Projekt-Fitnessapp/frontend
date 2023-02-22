@@ -7,7 +7,7 @@ import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId: '295340044275-gaijjn9sijdombkv0b5fjejin7ur105s.apps.googleusercontent.com',
+  serverClientId: '295340044275-gaijjn9sijdombkv0b5fjejin7ur105s.apps.googleusercontent.com',
   scopes: <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
