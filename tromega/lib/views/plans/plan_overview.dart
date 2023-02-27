@@ -5,6 +5,7 @@ import '../../widgets/shared/app_bar.dart';
 import 'package:tromega/data/plan_http_helper.dart';
 import 'package:tromega/data/trainingPlan.dart';
 import './edit_training_view.dart';
+import './generate_training_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanOverview extends StatefulWidget {
@@ -88,7 +89,9 @@ class _PlanOverviewState extends State<PlanOverview> {
                                                 style: Theme.of(context)
                                                     .elevatedButtonTheme
                                                     .style,
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  newGeneratedTrainingPlan();
+                                                },
                                                 child: Text(
                                                     createTrainingsplanChoice2))
                                           ]);
@@ -145,6 +148,28 @@ class _PlanOverviewState extends State<PlanOverview> {
           context,
           MaterialPageRoute(
             builder: (context) => EditPlanView(trainingPlan: trainingPlan),
+          ));
+    } else {
+      showInSnackbar(context, "Fehler bei Erstellung");
+    }
+  }
+
+  void newGeneratedTrainingPlan() async {
+    //Erstellung eines generierten Trainingsplans
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("userId");
+    userId ??= "634dad62663403c8063adc41";
+    TrainingPlan trainingPlan =
+        TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
+    var response = await planHttpHelper.postTrainingPlan(userId, trainingPlan);
+    print(response);
+    if (response != "") {
+      trainingPlan.setId = response; //setzen der id für spätere updates
+      //navigation zur generierung des neuen Plans
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GeneratePlanView(trainingPlan: trainingPlan),
           ));
     } else {
       showInSnackbar(context, "Fehler bei Erstellung");
