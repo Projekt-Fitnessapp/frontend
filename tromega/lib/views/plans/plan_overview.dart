@@ -169,7 +169,7 @@ class _PlanOverviewState extends State<PlanOverview> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => GeneratePlanView(trainingPlan: trainingPlan),
+            builder: (context) => GeneratePlanView(),
           ));
     } else {
       showInSnackbar(context, "Fehler bei Erstellung");
