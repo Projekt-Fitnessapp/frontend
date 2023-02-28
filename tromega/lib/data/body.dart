@@ -9,12 +9,13 @@ class Body {
     _id = importMap['_id'] ?? '';
     userId = importMap['userId'] ?? '';
     date = DateTime.parse(importMap['date'] ?? '19700101');
-    height = int.parse(importMap['height'] ?? '');
-    weight = int.parse(importMap['weight'] ?? '');
+    height = importMap["height"] ?? 1;
+    weight = importMap['weight'] ?? 1;
   }
 
   Map<String, dynamic> toJson() {
     return {
+      "userId": userId,
       "date": date.toIso8601String(),
       "height": height,
       "weight": weight,

@@ -27,7 +27,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   @override
   void initState() {
     thisBody = Body("", "", DateTime.now(), 0, 0);
-    thisAccount = Account("", "", "", DateTime.now(),"", "", List.empty());
+    thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
     accountHttpHelper = AccountHttpHelper();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
@@ -35,39 +35,18 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     super.initState();
   }
 
-  String dropdownValue = "Ja";
-  List<String> dropDownOptions = ["Ja", "Ein bisschen", "Nein"];
-  void dropdownCallback3(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        dropdownValue = selectedValue;
-      });
-    }
-  }
+  String trainingExperience = "Ja";
+  List<String> experienceOptions = ["Ja", "Ein bisschen", "Nein"];
 
-  late String value1 = "Muskeln aufbauen";
-  late List<String> fitnessGoals = [
+  String trainingGoal = "Muskeln aufbauen";
+  late List<String> trainingOptions = [
     "Muskeln aufbauen",
     "Ausdauer verbessern",
     "Gewicht verlieren"
   ];
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        value1 = selectedValue;
-      });
-    }
-  }
 
-  late String value2 = "male";
-  late List<String> gender = ["male", "female"];
-  void dropdownCallback2(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        value2 = selectedValue;
-      });
-    }
-  }
+  late String gender = "male";
+  late List<String> genderOptions = ["male", "female"];
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +70,11 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
             const SizedBox(height: 16),
             DropDownWidget(
               color: color,
-              dropDownOptions: fitnessGoals,
-              dropDownValue: value1,
-              dropdownCallback: dropdownCallback3,
+              items: trainingOptions,
+              currentValue: trainingGoal,
+              itemCallBack: (String trainingGoal) {
+                this.trainingGoal = trainingGoal;
+              },
             ),
             const SizedBox(height: 16),
             buildQuestion(
@@ -101,18 +82,22 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
             const SizedBox(height: 16),
             DropDownWidget(
               color: color,
-              dropDownOptions: gender,
-              dropDownValue: value2,
-              dropdownCallback: dropdownCallback2,
+              items: genderOptions,
+              currentValue: gender,
+              itemCallBack: (String gender) {
+                this.gender = gender;
+              },
             ),
             const SizedBox(height: 32),
             buildQuestion(text: 'Hast du bereits Erfahrung mit Training?'),
             const SizedBox(height: 16),
             DropDownWidget(
               color: color,
-              dropDownOptions: dropDownOptions,
-              dropDownValue: dropdownValue,
-              dropdownCallback: dropdownCallback3,
+              items: experienceOptions,
+              currentValue: trainingExperience,
+              itemCallBack: (String trainingExperience) {
+                this.trainingExperience = trainingExperience;
+              },
             ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
@@ -127,11 +112,16 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 color: color,
                 text: 'Registrieren',
                 onClick: () {
+                  print("registriert");
                   setState(() {
                     thisBody.height = int.parse(changedHeight.text);
+                    print(thisBody.height);
                     thisBody.weight = int.parse(changedWeight.text);
                     thisAccount.name = changedName.text;
-                    thisAccount.sex = value2;
+                    print(thisAccount.name);
+                    thisAccount.sex = gender;
+                    print(thisAccount.sex);
+                    print(gender);
                   });
                   widget.onFinished(thisAccount, thisBody);
                 })

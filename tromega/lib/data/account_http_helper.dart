@@ -58,15 +58,17 @@ class AccountHttpHelper {
     Uri uri = Uri.https(authority, newPath);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     account.google_id = prefs.getString('googleId') ?? '';
-    String jsonBody = jsonEncode(account.toJson());
+    Map<dynamic, dynamic> accountToPost = account.toJson();
+    accountToPost.remove("_id");
+    String jsonBody = jsonEncode(accountToPost);
     http.Response res = await http.post(uri,
         headers: {
-          HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+          //HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
           HttpHeaders.contentTypeHeader: "application/json"
         },
         body: jsonBody);
     if (res.statusCode == 201) {
-      prefs.setString('userId', account.getId());
+      await prefs.setString('userId', jsonDecode(res.body)["userId"]);
       return true;
     } else {
       return false;
@@ -102,17 +104,19 @@ class AccountHttpHelper {
   Future<bool> postBody(Body body) async {
     String newPath = '/body';
     Uri uri = Uri.https(authority, newPath);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String jsonBody = jsonEncode(body.toJson());
+    print(jsonBody);
     http.Response res = await http.post(
       uri,
       headers: {
-        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+        HttpHeaders.contentTypeHeader: "application/json"
+        //HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
       body: jsonBody,
     );
-
+    print(res.statusCode);
+    print(res.body);
     if (res.statusCode == 201) {
       return true;
     } else {
