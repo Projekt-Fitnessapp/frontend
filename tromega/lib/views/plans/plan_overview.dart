@@ -99,14 +99,16 @@ class _PlanOverviewState extends State<PlanOverview> {
                           ),
                         ],
                       ),
-                      ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: trainingPlans.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return TrainingsplanBtn(
-                                trainingPlan: trainingPlans[index]);
-                          }),
+                      Expanded(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: trainingPlans.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TrainingsplanBtn(
+                                  trainingPlan: trainingPlans[index]);
+                            }),
+                      ),
                     ],
                   ),
                 ),

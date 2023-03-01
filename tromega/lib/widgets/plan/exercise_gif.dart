@@ -16,8 +16,6 @@ class _ExerciseGifState extends State<ExerciseGif>
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 80,
-        margin: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 0),
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),

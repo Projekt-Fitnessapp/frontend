@@ -56,48 +56,53 @@ class _ExerciseContainerState extends State<ExerciseContainer>
               child: Row(children: <Widget>[
                 ExerciseGif(gif: exercise.exercise.gifUrl),
                 Expanded(
-                    child: Column(children: <Widget>[
-                  IntrinsicHeight(
-                    child: Row(children: [
-                      Flexible(
-                        flex: 9,
-                        fit: FlexFit.tight,
-                        child: Padding(
-                            padding: const EdgeInsets.only(left: 10, top: 5),
-                            child: Text(exercise.exercise.name,
-                                textAlign: TextAlign.center,
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall)),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                              icon: const Icon(Icons.close),
-                              alignment: Alignment.topRight,
-                              iconSize: 15,
-                              onPressed: () {
-                                //Löscehn von ausgewählten Übungen und Aktualisierung
-                                widget.exercises.remove(exercise);
-                                setState(() {});
-                                widget.update(100);
-                              }),
-                        ],
-                      ),
-                    ]),
-                  ),
-                  Expanded(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                        SetsDialog(
-                            sets: widget.exercises[widget.indexExercise].sets,
-                            changeSets: _changeSets),
-                        RepsDialog(
-                            reps: widget.exercises[widget.indexExercise].reps,
-                            changeReps: _changeReps),
-                      ])),
-                ])),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                      Row(children: [
+                        Flexible(
+                          flex: 9,
+                          fit: FlexFit.tight,
+                          child: Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 5),
+                              child: Text(exercise.exercise.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall)),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                                icon: const Icon(Icons.close),
+                                alignment: Alignment.topRight,
+                                iconSize: 15,
+                                onPressed: () {
+                                  //Löscehn von ausgewählten Übungen und Aktualisierung
+                                  widget.exercises.remove(exercise);
+                                  setState(() {});
+                                  widget.update(100);
+                                }),
+                          ],
+                        ),
+                      ]),
+                      Expanded(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                            SetsDialog(
+                                sets:
+                                    widget.exercises[widget.indexExercise].sets,
+                                changeSets: _changeSets),
+                            RepsDialog(
+                                reps:
+                                    widget.exercises[widget.indexExercise].reps,
+                                changeReps: _changeReps),
+                          ])),
+                    ])),
               ])));
     } else {
       return Container();

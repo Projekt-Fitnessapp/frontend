@@ -41,8 +41,15 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
                   child: Column(children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.only(left: 10, top: 5),
-                    child: Text(widget.exercise.exercise.name,
-                        style: Theme.of(context).textTheme.headlineSmall)),
+                    child: SizedBox(
+                      height: 50,
+                      child: Text(widget.exercise.exercise.name,
+                          maxLines: 2,
+                          textHeightBehavior: TextHeightBehavior(
+                              applyHeightToLastDescent: true),
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headlineSmall),
+                    )),
                 Expanded(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

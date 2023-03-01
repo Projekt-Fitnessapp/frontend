@@ -70,8 +70,11 @@ class _PlanDayViewState extends State<PlanDayView> {
                   ));
             }),
             child: const Text("Training starten")),
-        for (var exercise in widget.trainingDay.exercises)
-          ExerciseContainerPlan(exercise: exercise)
+        Expanded(
+            child: ListView(shrinkWrap: true, children: [
+          for (var exercise in widget.trainingDay.exercises)
+            ExerciseContainerPlan(exercise: exercise)
+        ]))
       ]),
       bottomNavigationBar: const BottomMenu(index: 1),
     );
