@@ -112,16 +112,11 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 color: color,
                 text: 'Registrieren',
                 onClick: () {
-                  print("registriert");
                   setState(() {
                     thisBody.height = int.parse(changedHeight.text);
-                    print(thisBody.height);
                     thisBody.weight = int.parse(changedWeight.text);
                     thisAccount.name = changedName.text;
-                    print(thisAccount.name);
                     thisAccount.sex = gender;
-                    print(thisAccount.sex);
-                    print(gender);
                   });
                   widget.onFinished(thisAccount, thisBody);
                 })

@@ -106,7 +106,6 @@ class AccountHttpHelper {
     Uri uri = Uri.https(authority, newPath);
 
     String jsonBody = jsonEncode(body.toJson());
-    print(jsonBody);
     http.Response res = await http.post(
       uri,
       headers: {
@@ -115,8 +114,7 @@ class AccountHttpHelper {
       },
       body: jsonBody,
     );
-    print(res.statusCode);
-    print(res.body);
+    
     if (res.statusCode == 201) {
       return true;
     } else {
