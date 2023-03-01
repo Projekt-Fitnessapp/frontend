@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 
 class AnswerFieldWidget extends StatefulWidget {
   final int maxLines;
-  final String text;
-  final ValueChanged<String> onChanged;
+  late TextEditingController controller;
 
-  const AnswerFieldWidget({
-    Key? key,
-    this.maxLines = 1,
-    required this.text,
-    required this.onChanged,
-  }) : super(key: key);
+  AnswerFieldWidget({Key? key, this.maxLines = 1, required this.controller}) : super(key: key);
 
   @override
   State<AnswerFieldWidget> createState() => _AnswerFieldWidgetState();
@@ -22,7 +16,7 @@ class _AnswerFieldWidgetState extends State<AnswerFieldWidget> {
   void initState() {
     super.initState();
 
-    controller = TextEditingController(text: widget.text);
+    controller = TextEditingController();
   }
 
   @override
@@ -36,7 +30,7 @@ class _AnswerFieldWidgetState extends State<AnswerFieldWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextField(
-        controller: controller,
+        controller: widget.controller,
         style: const TextStyle(height: 0.5),
         decoration: const InputDecoration(
             suffixIcon: Icon(Icons.unfold_more),

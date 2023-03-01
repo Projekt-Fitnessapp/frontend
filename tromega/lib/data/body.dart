@@ -1,12 +1,24 @@
 class Body {
-  late String _id, userId, height, weight;
+  late String _id, userId;
+  late DateTime date;
+  late int height, weight;
 
-  Body(this._id, this.userId, this.height, this.weight);
+  Body(this._id, this.userId, this.date, this.height, this.weight);
 
   Body.fromJSON(Map<String, dynamic> importMap) {
     _id = importMap['_id'] ?? '';
-    userId = importMap['_userid'] ?? '';
-    height = importMap['height'] ?? '1.80';
-    weight = importMap['weight'] ?? '70';
+    userId = importMap['userId'] ?? '';
+    date = DateTime.parse(importMap['date'] ?? '19700101');
+    height = importMap["height"] ?? 1;
+    weight = importMap['weight'] ?? 1;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "userId": userId,
+      "date": date.toIso8601String(),
+      "height": height,
+      "weight": weight,
+    };
   }
 }

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/executionSet.dart';
-import '../../data/execution.dart';
-import './ExecutionNoteDisplay.dart';
-import './SetDisplay.dart';
+import 'package:tromega/data/execution_set.dart';
+import 'package:tromega/widgets/tracking/displays/history_data_block.dart';
+import '../Dialogs/execution_settings.dart';
+import '../../../data/execution.dart';
+import 'execution_note_display.dart';
+import 'all_sets_display.dart';
 
 class ExecutionPage extends StatefulWidget {
-  const ExecutionPage({Key? key, required this.execution, required this.position}) : super(key: key);
+  const ExecutionPage(
+      {Key? key, required this.execution, required this.trainingDayId, required this.position, required this.onRebuild, required this.onFinishSet, required this.toNextExecution})
+      : super(key: key);
   final Execution execution;
+  final String trainingDayId;
+  final Function toNextExecution;
+  final Function onRebuild;
+  final Function onFinishSet;
   final int position;
   @override
   State<ExecutionPage> createState() => _ExecutionPageState();
@@ -41,7 +49,16 @@ class _ExecutionPageState extends State<ExecutionPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ExecutionSettings(
+                          exec: exec,
+                        );
+                      },
+                    );
+                  },
                   icon: Icon(
                     Icons.settings,
                     color: Theme.of(context).primaryColor,
@@ -102,24 +119,47 @@ class _ExecutionPageState extends State<ExecutionPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: SetDisplay(
+            child: AllSetsDisplay(
               executionSets: exec.sets,
               onAddSet: () {
                 setState(() {
                   ExecutionSet tempSet = ExecutionSet(ExecutionType.WORKING, 10, 0, 0, false);
-                  if(exec.sets.isNotEmpty) {
+                  if (exec.sets.isNotEmpty) {
                     tempSet = ExecutionSet.clone(exec.sets.last);
                     tempSet.done = false;
-                  } 
+                  }
                   exec.sets.add(tempSet);
+                  exec.done = false;
                 });
+                widget.onRebuild();
               },
               onRemoveSet: () {
                 setState(() {
                   exec.sets.removeLast();
+                  if (!exec.sets.any((element) => element.done == false)) {
+                    exec.done = true;
+                    widget.toNextExecution();
+                  }
                 });
               },
+              changeExecutionStatus: (isDone) {
+                setState(() {
+                  exec.done = isDone;
+                });
+                widget.onRebuild();
+              },
+              onFinishExecution: () {
+                setState(() {
+                  exec.done = true;
+                });
+                widget.toNextExecution();
+              },
+              onFinishSet: () => widget.onFinishSet(),
             ),
+          ),
+          HistoryDataBlock(
+            exerciseId: exec.exercise.getId,
+            trainingDayId: widget.trainingDayId,
           ),
         ],
       ),

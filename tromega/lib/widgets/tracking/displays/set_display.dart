@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/widgets/tracking/RowItem.dart';
-import 'package:tromega/widgets/tracking/ChangeableRowItem.dart';
-import '../../data/executionSet.dart';
+import 'package:tromega/widgets/tracking/displays/row_item.dart';
+import 'package:tromega/widgets/tracking/interactives/changeable_row_item.dart';
+import '../../../data/execution_set.dart';
 
-class SetRow extends StatefulWidget {
-  const SetRow(
+class SetDisplay extends StatefulWidget {
+  const SetDisplay(
       {Key? key,
       required this.position,
       required this.thisSet,
@@ -17,10 +17,10 @@ class SetRow extends StatefulWidget {
   final bool highlighted;
 
   @override
-  State<SetRow> createState() => _SetRowState();
+  State<SetDisplay> createState() => _SetDisplayState();
 }
 
-class _SetRowState extends State<SetRow> {
+class _SetDisplayState extends State<SetDisplay> {
   late ExecutionSet thisSet;
 
   @override
@@ -46,6 +46,7 @@ class _SetRowState extends State<SetRow> {
             setState(() {
               thisSet.weight = value;
             });
+            recalculate10RM();
           },
         ),
         ChangeableRowItem(
@@ -56,10 +57,11 @@ class _SetRowState extends State<SetRow> {
             setState(() {
               thisSet.reps = value;
             });
+            recalculate10RM();
           },
         ),
         RowItem(
-          value: widget.thisSet.tenRM.toString(),
+          value: thisSet.tenRM.toStringAsFixed(1),
           highlighted: widget.highlighted,
         ),
         Container(
@@ -73,6 +75,7 @@ class _SetRowState extends State<SetRow> {
             width: MediaQuery.of(context).size.width * 0.15,
             height: 40,
             child: IconButton(
+              splashColor: Colors.transparent,
               onPressed: () {
                 widget.onChange();
               },
@@ -80,12 +83,20 @@ class _SetRowState extends State<SetRow> {
                 Icons.check_rounded,
                 color: widget.highlighted
                     ? Theme.of(context).backgroundColor
-                    : Theme.of(context).primaryColor,
+                    : thisSet.done
+                        ? Theme.of(context).primaryColorLight
+                        : Theme.of(context).primaryColor,
               ),
             ),
           ),
         ),
       ],
     );
+  }
+
+  void recalculate10RM() {
+    setState(() {
+      thisSet.tenRM = ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498).round();
+    });
   }
 }
