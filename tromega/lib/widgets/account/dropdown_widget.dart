@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
 
 class DropDownWidget extends StatefulWidget {
-  const DropDownWidget({
+  DropDownWidget({
     super.key,
     required this.color,
-    required this.dropDownOptions,
-    required this.dropDownValue,
-    required this.dropdownCallback,
+    required this.items,
+    required this.currentValue,
+    required this.itemCallBack,
   });
 
   final Color color;
-  final List<String> dropDownOptions;
-  final String dropDownValue;
-  final Function dropdownCallback;
+  List<String> items;
+  String currentValue;
+  ValueChanged<String> itemCallBack;
 
   @override
-  State<DropDownWidget> createState() => _DropDownWidgetState();
+  State<DropDownWidget> createState() => _DropDownWidgetState(currentValue);
 }
 
 class _DropDownWidgetState extends State<DropDownWidget> {
-  late String value;
+  List<DropdownMenuItem<String>> dropDownItems = [];
+  String currentValue;
+
+  _DropDownWidgetState(this.currentValue);
 
   @override
   initState() {
-    value = widget.dropDownValue;
     super.initState();
+    for (String item in widget.items) {
+      dropDownItems.add(DropdownMenuItem(
+          value: item,
+          child: Text(
+            item,
+          )));
+    }
   }
 
-  changeValue(changedValue) {
-    setState(() {
-      value = changedValue;
-    });
+  @override
+  void didUpdateWidget(DropDownWidget oldWidget) {
+    if (this.currentValue != widget.currentValue) {
+      setState(() {
+        this.currentValue = widget.currentValue;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -46,14 +59,11 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                   borderRadius: BorderRadius.all(Radius.circular(5.0)))),
           child: DropdownButtonHideUnderline(
             child: DropdownButton(
-              items: widget.dropDownOptions
-                  .map<DropdownMenuItem<String>>((String mascot) {
-                return DropdownMenuItem<String>(
-                    value: mascot, child: Text(mascot));
-              }).toList(),
-              value: widget.dropDownValue,
-              onChanged: ((String? changedValue) {
-                changeValue(changedValue);
+              items: dropDownItems,
+              value: currentValue,
+              onChanged: (selectedItem) => setState(() {
+                currentValue = selectedItem as String;
+                widget.itemCallBack(currentValue);
               }),
               iconEnabledColor: widget.color,
               icon: const Icon(Icons.expand_more),

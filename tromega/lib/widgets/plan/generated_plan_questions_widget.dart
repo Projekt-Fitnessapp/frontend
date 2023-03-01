@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/generate_plan_http_helper.dart';
 import 'package:tromega/data/body.dart';
+import 'package:tromega/data/generatedPlanPreferences.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
@@ -21,55 +22,23 @@ class GeneratePlanQuestionWidget extends StatefulWidget {
 class _SecondGeneratePlanQuestionWidget
     extends State<GeneratePlanQuestionWidget> {
   late GeneratePlanHttpHelper generatePlanHttpHelper;
-  late TextEditingController changedName;
-  late TextEditingController changedHeight;
-  late TextEditingController changedWeight;
-  late Body thisBody;
-  late Account thisAccount;
+  late GeneratedPlanPreferences preferences;
 
   @override
   void initState() {
-    thisBody = Body("", "", DateTime.now(), 0, 0);
+    preferences = GeneratedPlanPreferences("", "", "", "");
     generatePlanHttpHelper = GeneratePlanHttpHelper();
-    changedName = TextEditingController();
-    changedHeight = TextEditingController();
-    changedWeight = TextEditingController();
     super.initState();
   }
 
-  String dropdownValue = "Ja";
-  List<String> dropDownOptions = ["Ja", "Ein bisschen", "Nein"];
-  void dropdownCallback3(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        dropdownValue = selectedValue;
-      });
-    }
-  }
+  String numberOfTraininssession = "2";
+  late List<String> numberOfTraininssessionOptions = ["2", "4", "6"];
 
-  late String value1 = "Muskeln aufbauen";
-  late List<String> fitnessGoals = [
-    "Muskeln aufbauen",
-    "Ausdauer verbessern",
-    "Gewicht verlieren"
-  ];
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        value1 = selectedValue;
-      });
-    }
-  }
+  String trainingsStatus = "Untrainiert";
+  late List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
 
-  late String value2 = "male";
-  late List<String> gender = ["male", "female"];
-  void dropdownCallback2(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        value2 = selectedValue;
-      });
-    }
-  }
+  String trainingsType = "Mit Maschinen";
+  late List<String> trainingsTypeOptions = ["Mit Maschinen", "Ohne Maschinen"];
 
   @override
   Widget build(BuildContext context) {
@@ -82,42 +51,48 @@ class _SecondGeneratePlanQuestionWidget
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildQuestion(text: 'Wie oft willst du trainieren?'),
-            buildTextField(color),
-            buildQuestion(text: 'Wie alt bist du?'),
-            buildTextField(color),
-            buildQuestion(text: 'Wie groß bist du?'),
-            AnswerFieldWidget(controller: changedHeight),
-            buildQuestion(text: 'Wie viel wiegst du?'),
-            AnswerFieldWidget(controller: changedWeight),
-            buildQuestion(text: 'Was ist dein Trainingsziel?'),
             const SizedBox(height: 16),
             DropDownWidget(
               color: color,
-              dropDownOptions: fitnessGoals,
-              dropDownValue: value1,
-              dropdownCallback: dropdownCallback3,
+              items: numberOfTraininssessionOptions,
+              currentValue: numberOfTraininssession,
+              itemCallBack: (String numberOfTraininssession) {
+                this.numberOfTraininssession = numberOfTraininssession;
+              },
             ),
             const SizedBox(height: 16),
-            buildQuestion(
-                text: 'Mit welchem Geschlecht identifizierst du dich?'),
+            buildQuestion(text: 'Wie traniert bist du?'),
             const SizedBox(height: 16),
             DropDownWidget(
               color: color,
-              dropDownOptions: gender,
-              dropDownValue: value2,
-              dropdownCallback: dropdownCallback2,
+              items: trainingStatusOptions,
+              currentValue: trainingsStatus,
+              itemCallBack: (String trainingsStatus) {
+                this.trainingsStatus = trainingsStatus;
+              },
+            ),
+            const SizedBox(height: 16),
+            buildQuestion(text: 'Wie kannst du tranieren?'),
+            const SizedBox(height: 16),
+            DropDownWidget(
+              color: color,
+              items: trainingsTypeOptions,
+              currentValue: trainingsType,
+              itemCallBack: (String trainingsType) {
+                this.trainingsType = trainingsType;
+              },
             ),
             RouteButtonWidget(
                 color: color,
                 text: 'Plan generieren',
                 onClick: () {
                   setState(() {
-                    thisBody.height = int.parse(changedHeight.text);
-                    thisBody.weight = int.parse(changedWeight.text);
-                    thisAccount.name = changedName.text;
-                    thisAccount.sex = value2;
+                    preferences.numberOfTraininssession =
+                        numberOfTraininssession;
+                    preferences.trainingsStatus = trainingsStatus;
+                    preferences.trainingsType = trainingsType;
                   });
-                  widget.onFinished(thisBody);
+                  widget.onFinished(preferences);
                 })
           ],
         ),
