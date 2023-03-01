@@ -23,7 +23,7 @@ class Account {
       'google_id': google_id,
       'birthdate': birthdate.toIso8601String(),
       'sex': sex,
-      'trainingPlans': trainingPlans.toString()
+      'trainingPlans': trainingPlans
     };
   }
 

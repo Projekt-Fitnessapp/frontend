@@ -7,7 +7,6 @@ import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
-  serverClientId: '295340044275-gaijjn9sijdombkv0b5fjejin7ur105s.apps.googleusercontent.com',
   scopes: <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
@@ -87,13 +86,6 @@ class _LoginViewState extends State<LoginView> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          ListTile(
-            leading: GoogleUserCircleAvatar(
-              identity: user,
-            ),
-            title: Text(user.displayName ?? ''),
-            subtitle: Text(user.email),
-          ),
           const Text('Signed in successfully.'),
           ElevatedButton.icon(
             icon: const FaIcon(
