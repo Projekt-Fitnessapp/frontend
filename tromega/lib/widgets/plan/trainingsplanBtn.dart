@@ -14,6 +14,8 @@ class TrainingsplanBtn extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           child: Text(trainingPlan.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.headlineLarge),
           onPressed: () async {
             //Navigation in die PlanDetailsview mit dem ausgewählten Trainingsplan

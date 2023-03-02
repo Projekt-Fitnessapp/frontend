@@ -31,6 +31,7 @@ class _PlanDayViewState extends State<PlanDayView> {
           child: Row(
             children: [
               Flexible(
+                flex: 9,
                 fit: FlexFit.tight,
                 child: Align(
                   alignment: Alignment.topLeft,
@@ -39,6 +40,7 @@ class _PlanDayViewState extends State<PlanDayView> {
                 ),
               ),
               Flexible(
+                  flex: 1,
                   fit: FlexFit.tight,
                   child: Align(
                     alignment: Alignment.topRight,

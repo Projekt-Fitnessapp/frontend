@@ -26,12 +26,13 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
+                Flexible(
+                  flex: 9,
                   child: Text(widget.trainingPlan.name,
                       style: Theme.of(context).textTheme.headlineLarge),
                 ),
                 Flexible(
+                    flex: 1,
                     fit: FlexFit.tight,
                     child: Align(
                       alignment: Alignment.topRight,
