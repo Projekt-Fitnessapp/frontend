@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../app.dart';
 import '../../widgets/bottom_menu.dart';
 import './plan_overview.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -27,7 +28,13 @@ class EditPlanView extends StatefulWidget {
 
 class _EditPlanViewState extends State<EditPlanView> {
   late PlanHttpHelper planHttpHelper;
-  void _update(int count) {}
+  int _count = 0;
+
+  //Methode zum aktualisieren von Daten, wird an Child View weitergegeben
+  void _update(int count) {
+    setState(() => _count = count);
+  }
+
   late PageController _pageViewController;
   int pageIndex = 0;
 
@@ -132,7 +139,6 @@ class _EditPlanViewState extends State<EditPlanView> {
           ],
         ))
       ]),
-      bottomNavigationBar: const BottomMenu(index: 1),
     );
   }
 
@@ -147,7 +153,7 @@ class _EditPlanViewState extends State<EditPlanView> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const PlanOverview(),
+            builder: (context) => App(currentIndex: 1),
           ));
     } else {
       //Visualisierung des fehlerhaften speicherns (api request failed)

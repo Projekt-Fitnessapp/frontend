@@ -9,9 +9,6 @@ class StatisticsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Hier Icon einfügen')),
       body: const Text('NTH but we\'ll see'),
-      bottomNavigationBar: const BottomMenu(
-        index: 2
-      ),
     );
   }
 }

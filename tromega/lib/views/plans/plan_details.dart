@@ -78,7 +78,6 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomMenu(index: 1),
     );
   }
 }

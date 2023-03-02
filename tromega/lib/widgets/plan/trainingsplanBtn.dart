@@ -19,7 +19,6 @@ class TrainingsplanBtn extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge),
           onPressed: () async {
             //Navigation in die PlanDetailsview mit dem ausgewählten Trainingsplan
-
             await Navigator.push(
                 context,
                 MaterialPageRoute(

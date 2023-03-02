@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 @immutable
 class BottomMenu extends StatelessWidget {
-  const BottomMenu({Key? key, required this.index}) : super(key: key);
+  const BottomMenu({Key? key, required this.index, required this.onSelectTab})
+      : super(key: key);
   final int index;
+  final onSelectTab;
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +35,7 @@ class BottomMenu extends StatelessWidget {
             ),
           ],
           onTap: (int index) {
-            String view = '';
-            switch (index) {
-              case 0:
-                view = '/home';
-                break;
-              case 1:
-                view = '/myWorkoutPlans';
-                break;
-              case 2:
-                view = '/myStatistics';
-                break;
-              case 3:
-                view = '/socialSpace';
-                break;
-              case 4:
-                view = '/myProfile';
-                break;
-            }
-            String? currentView = ModalRoute.of(context)?.settings.name;
-            if (currentView != view) {
-              Navigator.popAndPushNamed(context, view);
-            }
+            onSelectTab(index);
           }),
     );
   }

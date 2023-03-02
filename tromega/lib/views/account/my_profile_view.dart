@@ -69,7 +69,6 @@ class _ProfileViewState extends State<ProfileView> {
                 buildData(),
               ],
             ),
-      bottomNavigationBar: const BottomMenu(index: 4),
     );
   }
 

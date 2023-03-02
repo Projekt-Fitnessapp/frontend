@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/app.dart';
 import 'package:tromega/data/trainingPlan.dart';
 import 'package:tromega/widgets/shared/theme.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginView(),
         '/home': (context) => const HomeView(),
+        '/app': (context) => App(currentIndex: 0),
         '/myWorkoutPlans': (context) => const PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
         '/socialSpace': (context) => const SocialSpaceView(),

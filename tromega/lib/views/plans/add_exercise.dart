@@ -12,8 +12,8 @@ import 'package:collection/collection.dart';
 class AddExercise extends StatefulWidget {
   //View zum Hinzufügen von Übungen zu einem Trainingsplan
   final TrainingDay day;
-  final Filter filter;
-  const AddExercise({Key? key, required this.day, required this.filter})
+  Filter filter;
+  AddExercise({Key? key, required this.day, required this.filter})
       : super(key: key);
 
   @override
@@ -22,6 +22,7 @@ class AddExercise extends StatefulWidget {
 
 class _AddExerciseState extends State<AddExercise> {
   var exercises = [];
+  List<ExerciseSetsReps> initExercises = [];
 
   String searchWord = "";
 
@@ -105,33 +106,65 @@ class _AddExerciseState extends State<AddExercise> {
                             alignment: Alignment.topRight,
                             iconSize: 32,
                             onPressed: () async {
-                              //await Navigator.push(
-                              //    context,
-                              //    MaterialPageRoute(
-                              //        builder: (context) =>
-                              //            FilterView(filter: widget.filter)));
+                              widget.filter = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FilterView(filter: widget.filter)));
+                              print(widget.filter.equipment);
+                              setState(() {
+                                print("filtering");
+                                fetchData();
+                              });
                             }),
                       )
                     ],
                   )),
               Expanded(
-                  child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: <Widget>[
-                    for (var exercise in searchResultsExercises)
-                      //Übungskarten
-                      ExerciseContainerAdding(
-                          exercise: exercise, day: widget.day),
-                  ]))
+                  child: ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.purple,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.purple
+                    ],
+                    stops: [
+                      0.0,
+                      0.05,
+                      0.95,
+                      1.0
+                    ], // 10% purple, 80% transparent, 10% purple
+                  ).createShader(rect);
+                },
+                blendMode: BlendMode.dstOut,
+                child:
+                    ListView(scrollDirection: Axis.vertical, children: <Widget>[
+                  for (var exercise in searchResultsExercises)
+                    //Übungskarten
+                    ExerciseContainerAdding(
+                        exercise: exercise, day: widget.day),
+                ]),
+              ))
             ]),
-      bottomNavigationBar: const BottomMenu(index: 1),
     );
   }
 
   void fetchData() async {
-    Function eq = const ListEquality().equals;
-    List<ExerciseSetsReps> initExercises =
+    initExercises =
         await planHttpHelper.getExercise(); //Abfragen der Übungen von der API
+    initExercises = filterData(initExercises);
+    setState(() {
+      exercises = initExercises;
+      fetching = false;
+    });
+  }
+
+  List<ExerciseSetsReps> filterData(initExercises) {
+    print(initExercises);
     List<ExerciseSetsReps> filteredExercises = [];
     if (!(widget.filter.equipment.isEmpty && widget.filter.muscle.isEmpty)) {
       for (var exercise in initExercises) {
@@ -147,9 +180,6 @@ class _AddExerciseState extends State<AddExercise> {
     } else {
       filteredExercises = initExercises;
     }
-    setState(() {
-      exercises = filteredExercises;
-      fetching = false;
-    });
+    return filteredExercises;
   }
 }

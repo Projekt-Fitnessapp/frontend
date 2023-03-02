@@ -34,7 +34,7 @@ class _SetsDialogState extends State<SetsDialog> {
                             child: NumberPicker(
                               textStyle:
                                   Theme.of(context).textTheme.titleMedium,
-                              minValue: 0,
+                              minValue: 1,
                               maxValue: 10,
                               value: widget.sets,
                               onChanged: (int value) {
