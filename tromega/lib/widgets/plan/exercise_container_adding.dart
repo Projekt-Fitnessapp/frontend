@@ -41,7 +41,6 @@ class ExerciseContainerAdding extends StatelessWidget {
                   ExerciseGif(gif: exercise.exercise.gifUrl),
                   Expanded(
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                         Padding(
@@ -75,31 +74,35 @@ class ExerciseContainerAdding extends StatelessWidget {
                                             right: 10, top: 10),
                                         child: Text(
                                             textAlign: TextAlign.end,
-                                            exercise.exercise.muscle,
+                                            exercise.exercise.muscle
+                                                .split(" ")[0],
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium)))
                               ]),
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Text("Equipment:",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium)),
-                                Expanded(
-                                    child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: Text(
-                                            textAlign: TextAlign.end,
-                                            exercise.exercise.equipment,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium)))
-                              ]),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2.0),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text("Equipment:",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium)),
+                                  Expanded(
+                                      child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: Text(
+                                              textAlign: TextAlign.end,
+                                              exercise.exercise.equipment,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium)))
+                                ]),
+                          ),
                         ])
                       ])),
                 ]))));

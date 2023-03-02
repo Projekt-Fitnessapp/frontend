@@ -48,6 +48,7 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
                           textHeightBehavior: TextHeightBehavior(
                               applyHeightToLastDescent: true),
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headlineSmall),
                     )),
                 Expanded(

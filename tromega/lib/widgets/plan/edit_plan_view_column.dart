@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'exercise_container.dart';
 import '../../data/trainingDay.dart';
 import '../../data/trainingPlan.dart';
+import '../../data/filter.dart';
 import '../../views/plans/add_exercise.dart';
+import '../../views/plans/filter_exercises.dart';
 
 class EditPlanViewColumn extends StatefulWidget {
   //View einzelner Trainingstage der Edit Training View
@@ -69,7 +71,8 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddExercise(day: widget.day),
+                        builder: (context) => AddExercise(
+                            day: widget.day, filter: Filter([], [])),
                       ));
                   setState(() {});
                 },
