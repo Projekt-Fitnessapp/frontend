@@ -1,11 +1,8 @@
-import 'package:tromega/data/generatedPlanPreferences.dart';
-
 import '../../widgets/plan/trainingsplanBtn.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import 'package:tromega/data/plan_http_helper.dart';
-import 'package:tromega/data/generate_plan_http_helper.dart';
 import 'package:tromega/data/trainingPlan.dart';
 import './edit_training_view.dart';
 import './generate_training_view.dart';
@@ -29,7 +26,6 @@ class _PlanOverviewState extends State<PlanOverview> {
   late List<TrainingPlan> trainingPlans = [];
 
   late PlanHttpHelper planHttpHelper;
-  late GeneratePlanHttpHelper generatePlanHttpHelper;
   bool fetching = true;
 
   @override
@@ -159,27 +155,12 @@ class _PlanOverviewState extends State<PlanOverview> {
   }
 
   void newGeneratedTrainingPlan() async {
-    //Erstellung eines generierten Trainingsplans
-    final prefs = await SharedPreferences.getInstance();
-    var userId = prefs.getString("userId");
-    userId ??= "634dad62663403c8063adc41";
-    GeneratedPlanPreferences generatedPlanPreferences =
-        GeneratedPlanPreferences("", "", "", "");
-    var response = await generatePlanHttpHelper.postGeneratedPlanPreferences(
-        userId, generatedPlanPreferences);
-    if (response != "") {
-      generatedPlanPreferences.setId =
-          response; //setzen der id für spätere updates
-      //navigation zur generierung des neuen Plans
-      await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GeneratePlanView(
-                generatedPlanPreferences: generatedPlanPreferences),
-          ));
-    } else {
-      showInSnackbar(context, "Fehler bei Erstellung");
-    }
+    //navigation zur editierung des neuen Plans
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GeneratePlanView(),
+        ));
   }
 
   //Snackbar für Alerts

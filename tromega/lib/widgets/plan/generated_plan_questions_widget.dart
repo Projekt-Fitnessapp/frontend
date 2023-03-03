@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/account.dart';
-import 'package:tromega/data/generate_plan_http_helper.dart';
-import 'package:tromega/data/body.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/generatedPlanPreferences.dart';
-import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
 import 'package:tromega/widgets/account/routebutton_widget.dart';
@@ -21,14 +18,20 @@ class GeneratePlanQuestionWidget extends StatefulWidget {
 
 class _SecondGeneratePlanQuestionWidget
     extends State<GeneratePlanQuestionWidget> {
-  late GeneratePlanHttpHelper generatePlanHttpHelper;
   late GeneratedPlanPreferences preferences;
 
   @override
   void initState() {
-    preferences = GeneratedPlanPreferences("", "", "", "");
-    generatePlanHttpHelper = GeneratePlanHttpHelper();
+    getUserId();
     super.initState();
+  }
+
+  getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("userId");
+    userId ??= "634dad62663403c8063adc41";
+
+    preferences = GeneratedPlanPreferences(userId, "", "", "");
   }
 
   String numberOfTraininssession = "2";
@@ -82,6 +85,7 @@ class _SecondGeneratePlanQuestionWidget
                 this.trainingsType = trainingsType;
               },
             ),
+            const SizedBox(height: 16),
             RouteButtonWidget(
                 color: color,
                 text: 'Plan generieren',

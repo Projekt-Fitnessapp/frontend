@@ -7,13 +7,11 @@ class GeneratePlanHttpHelper {
   final String authority = 'api.fitnessapp.gang-of-fork.de';
 
   Future<String> postGeneratedPlanPreferences(
-      String userId, GeneratedPlanPreferences generatedPlanPreferences) async {
-    final queryParameters = {'userId': userId};
-
+      GeneratedPlanPreferences generatedPlanPreferences) async {
     String newPath = '/generatedTrainingsplan';
-    Uri uri = Uri.https(authority, newPath, queryParameters);
+    Uri uri = Uri.https(authority, newPath);
 
-    final body = jsonEncode(generatedPlanPreferences.toJsonWoId());
+    final body = jsonEncode(generatedPlanPreferences.toJson());
 
     http.Response response = await http.post(uri,
         headers: {"Content-Type": "application/json"}, body: body);
@@ -21,6 +19,6 @@ class GeneratePlanHttpHelper {
     if (response.statusCode == 201) {
       return response.body;
     }
-    return "";
+    return "Error beim senden der Daten";
   }
 }

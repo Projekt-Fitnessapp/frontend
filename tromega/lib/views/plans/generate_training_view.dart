@@ -5,17 +5,9 @@ import '../../data/generate_plan_http_helper.dart';
 import '../../data/generatedPlanPreferences.dart';
 
 class GeneratePlanView extends StatefulWidget {
-  //View zum generieren von Trainingsplänen
-  GeneratePlanView({Key? key, required this.generatedPlanPreferences})
-      : super(key: key);
-  final GeneratedPlanPreferences generatedPlanPreferences;
-  late GeneratedPlanPreferences generatedPlanPreferencesCopy =
-      GeneratedPlanPreferences(
-          generatedPlanPreferences.getId,
-          generatedPlanPreferences.numberOfTraininssession,
-          generatedPlanPreferences.trainingsStatus,
-          generatedPlanPreferences.trainingsType);
+  const GeneratePlanView({super.key});
 
+  //View zum generieren von Trainingsplänen
   @override
   State<GeneratePlanView> createState() => _GeneratePlanViewState();
 }
@@ -38,13 +30,13 @@ class _GeneratePlanViewState extends State<GeneratePlanView> {
         children: [
           const SizedBox(height: 24),
           GeneratePlanQuestionWidget(
-              onFinished: (GeneratedPlanPreferences generatedPlanPreferences) {
-            generatePlanHttpHelper
-                .postGeneratedPlanPreferences(
-                    generatedPlanPreferences.getId, generatedPlanPreferences)
-                .then(
-                    (value) => Navigator.pushNamed(context, '/myWorkoutPlans'));
-          })
+            onFinished: (GeneratedPlanPreferences generatedPlanPreferences) {
+              generatePlanHttpHelper
+                  .postGeneratedPlanPreferences(generatedPlanPreferences)
+                  .then((value) =>
+                      Navigator.pushNamed(context, '/myWorkoutPlans'));
+            },
+          )
         ],
       ),
     );
