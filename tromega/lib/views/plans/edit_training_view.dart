@@ -64,8 +64,16 @@ class _EditPlanViewState extends State<EditPlanView> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: EditableText(
-                          textWidthBasis: TextWidthBasis.longestLine,
+                      child: TextField(
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none),
+                          onChanged: (value) {
+                            widget.trainingPlanCopy.name = value;
+                          },
                           onSubmitted: (value) {
                             widget.trainingPlanCopy.name = value;
                           },
@@ -74,8 +82,7 @@ class _EditPlanViewState extends State<EditPlanView> {
                             text: widget.trainingPlanCopy.name,
                           ),
                           style: Theme.of(context).textTheme.headlineLarge!,
-                          backgroundCursorColor: Colors.black,
-                          cursorColor: Colors.white,
+                          cursorColor: Theme.of(context).primaryColor,
                           focusNode: FocusNode(),
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(20)

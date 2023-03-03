@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'exercise_container.dart';
 import '../../data/trainingDay.dart';
 import '../../data/trainingPlan.dart';
@@ -38,19 +39,40 @@ class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
         Expanded(
             child: Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: EditableText(
+                child: TextField(
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none),
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    inputFormatters: [LengthLimitingTextInputFormatter(15)],
+                    showCursor: true,
+                    toolbarOptions: const ToolbarOptions(
+                      paste: true,
+                      cut: true,
+                      copy: true,
+                      selectAll: true,
+                    ),
+                    enableInteractiveSelection: true,
+                    onEditingComplete: () {
+                      widget.update(100);
+                    },
+                    onChanged: (value) {
+                      //Aktualisiserung des Trainingsplan Namens
+                      widget.day.name = value;
+                    },
                     onSubmitted: (value) {
                       //Aktualisiserung des Trainingsplan Namens
                       widget.day.name = value;
-                      widget.update(100);
                     },
                     textAlign: TextAlign.center,
                     controller: TextEditingController(
                       text: widget.day.name,
                     ),
                     style: Theme.of(context).textTheme.headlineLarge!,
-                    backgroundCursorColor: Colors.black,
-                    cursorColor: Colors.white,
                     focusNode: FocusNode())))
       ]),
       Expanded(
