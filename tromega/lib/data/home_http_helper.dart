@@ -56,4 +56,23 @@ class HomeHttpHelper {
     /// Body equals an trainingDay --> get Id with _id
     return jsonDecode(res.body)['_id'] ?? '';
   }
+
+  Future<String> getNextTrainingDayName() async {
+    // gets the TrainingDayId of the next trainingDay to be completed
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> queries = {
+      'userId': prefs.getString('userId') ?? '',
+    };
+
+    Uri uri = Uri.https(authority, '/nextTraining', queries);
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
+
+    /// Body equals an trainingDay --> get Id with _id
+    return jsonDecode(res.body)['name'] ?? '';
+  }
 }

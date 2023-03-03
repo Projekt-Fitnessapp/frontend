@@ -21,6 +21,7 @@ class _HomeViewState extends State<HomeView> {
   late Color colorDot;
   late HomeHttpHelper homeHttpHelper;
   late Trainweek trainigsDaten;
+  late String nextTraining;
   bool fetching = true;
 
   @override
@@ -139,9 +140,9 @@ class _HomeViewState extends State<HomeView> {
                             padding:
                                 const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 30.0),
                             child: Text(
-                              'Legs',
-                              style: Theme.of(context).textTheme.titleLarge,
-                              textAlign: TextAlign.center,
+                              nextTraining,
+                              //style: Theme.of(context).textTheme.titleLarge,
+                              //textAlign: TextAlign.center,
                             ),
                           ),
                           ElevatedButton(
@@ -195,10 +196,14 @@ class _HomeViewState extends State<HomeView> {
   void fetchData() async {
     //gets the trainingsdata of last week (when has the user trained)
     Trainweek trainweek = await homeHttpHelper.getLastTrainday();
+    String getNextTraining = await homeHttpHelper.getNextTrainingDayName();
 
     setState(() {
+      print("_________________");
+      print(getNextTraining);
       fetching = false;
       trainigsDaten = trainweek;
+      nextTraining = getNextTraining;
     });
   }
 }
