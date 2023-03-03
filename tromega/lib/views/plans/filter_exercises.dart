@@ -21,8 +21,8 @@ class FilterView extends StatefulWidget {
 }
 
 class _FilterViewState extends State<FilterView> {
-  List<String> _selectedMuscle = [];
-  List<String> _selectedEquipment = [];
+  late List<String> _selectedMuscle;
+  late List<String> _selectedEquipment;
 
   static final List<String> _muscleSelection = [
     "Brust",
