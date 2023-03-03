@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../app.dart';
 import '../widgets/bottom_menu.dart';
-import '../views/social_space_view.dart';
+import 'social_space/social_space_view.dart';
 import '../views/plans/plan_overview.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import '../../data/home_http_helper.dart';

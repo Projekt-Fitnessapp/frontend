@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tromega/views/account/my_profile_view.dart';
 import 'package:tromega/views/home_view.dart';
 import 'package:tromega/views/plans/plan_overview.dart';
-import 'package:tromega/views/social_space_view.dart';
+import 'package:tromega/views/social_space/social_space_view.dart';
 import 'package:tromega/views/statistics_view.dart';
 import 'package:tromega/widgets/bottom_menu.dart';
 

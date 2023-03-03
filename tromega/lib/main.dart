@@ -7,7 +7,7 @@ import 'package:tromega/widgets/shared/theme.dart';
 import './views/home_view.dart';
 import 'views/plans/plan_overview.dart';
 import './views/statistics_view.dart';
-import './views/social_space_view.dart';
+import 'views/social_space/social_space_view.dart';
 import 'views/account/my_profile_view.dart';
 
 // Secondary Views
