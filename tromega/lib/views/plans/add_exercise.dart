@@ -111,9 +111,7 @@ class _AddExerciseState extends State<AddExercise> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           FilterView(filter: widget.filter)));
-                              print(widget.filter.equipment);
                               setState(() {
-                                print("filtering");
                                 fetchData();
                               });
                             }),
@@ -164,7 +162,6 @@ class _AddExerciseState extends State<AddExercise> {
   }
 
   List<ExerciseSetsReps> filterData(initExercises) {
-    print(initExercises);
     List<ExerciseSetsReps> filteredExercises = [];
     if (!(widget.filter.equipment.isEmpty && widget.filter.muscle.isEmpty)) {
       for (var exercise in initExercises) {

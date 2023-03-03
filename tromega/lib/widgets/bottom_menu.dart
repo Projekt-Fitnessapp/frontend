@@ -20,9 +20,9 @@ class BottomMenu extends StatelessWidget {
           buttonBackgroundColor: Theme.of(context).primaryColor,
           items: const [
             Icon(Icons.house_rounded, color: Colors.white),
-            Icon(Icons.calendar_month, color: Colors.white),
+            Icon(Icons.list, color: Colors.white),
             Icon(
-              Icons.show_chart_sharp,
+              Icons.line_axis,
               color: Colors.white,
             ),
             Icon(
