@@ -12,7 +12,6 @@ import 'views/account/my_profile_view.dart';
 // Secondary Views
 import 'views/plans/edit_training_view.dart';
 import 'views/account/sso_view.dart';
-import 'views/account/edit_profile_view.dart';
 
 void main() {
   runApp(const MyApp());

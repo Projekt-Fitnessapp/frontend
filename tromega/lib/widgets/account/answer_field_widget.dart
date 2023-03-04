@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AnswerFieldWidget extends StatefulWidget {
   final int maxLines;
+  final String regExp;
   late TextEditingController controller;
 
-  AnswerFieldWidget({Key? key, this.maxLines = 1, required this.controller}) : super(key: key);
+  AnswerFieldWidget(
+      {Key? key,
+      this.maxLines = 1,
+      required this.controller,
+      required this.regExp})
+      : super(key: key);
 
   @override
   State<AnswerFieldWidget> createState() => _AnswerFieldWidgetState();
@@ -30,6 +37,7 @@ class _AnswerFieldWidgetState extends State<AnswerFieldWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextField(
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(widget.regExp))],
         controller: widget.controller,
         style: const TextStyle(height: 0.5),
         decoration: const InputDecoration(
