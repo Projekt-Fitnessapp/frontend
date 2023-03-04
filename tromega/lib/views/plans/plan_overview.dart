@@ -159,7 +159,7 @@ class _PlanOverviewState extends State<PlanOverview> {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GeneratePlanView(),
+          builder: (context) => const GeneratePlanView(),
         ));
   }
 

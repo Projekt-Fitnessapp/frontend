@@ -1,5 +1,6 @@
 class GeneratedPlanPreferences {
-  late String _id, numberOfTraininssession, trainingsStatus, trainingsType;
+  late String _id, trainingsStatus, trainingsType;
+  late int numberOfTraininssession;
 
   GeneratedPlanPreferences(this._id, this.numberOfTraininssession,
       this.trainingsStatus, this.trainingsType);

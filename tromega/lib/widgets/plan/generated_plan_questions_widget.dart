@@ -31,7 +31,7 @@ class _SecondGeneratePlanQuestionWidget
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
 
-    preferences = GeneratedPlanPreferences(userId, "", "", "");
+    preferences = GeneratedPlanPreferences(userId, 2, "", "");
   }
 
   String numberOfTraininssession = "2";
@@ -58,7 +58,7 @@ class _SecondGeneratePlanQuestionWidget
             DropDownWidget(
               color: color,
               items: numberOfTraininssessionOptions,
-              currentValue: numberOfTraininssession,
+              currentValue: numberOfTraininssession.toString(),
               itemCallBack: (String numberOfTraininssession) {
                 this.numberOfTraininssession = numberOfTraininssession;
               },
@@ -92,7 +92,7 @@ class _SecondGeneratePlanQuestionWidget
                 onClick: () {
                   setState(() {
                     preferences.numberOfTraininssession =
-                        numberOfTraininssession;
+                        int.parse(numberOfTraininssession);
                     preferences.trainingsStatus = trainingsStatus;
                     preferences.trainingsType = trainingsType;
                   });
