@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AnswerFieldWidget extends StatefulWidget {
-  final int maxLines;
+  final int maxLength;
   final String regExp;
+  final String hintText;
+  final String suffixText;
   late TextEditingController controller;
 
   AnswerFieldWidget(
       {Key? key,
-      this.maxLines = 1,
+      required this.maxLength,
+      required this.hintText,
+      required this.suffixText,
       required this.controller,
       required this.regExp})
       : super(key: key);
@@ -36,15 +40,20 @@ class _AnswerFieldWidgetState extends State<AnswerFieldWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      child: TextField(
-        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(widget.regExp))],
+      child: TextFormField(
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(widget.regExp)),
+          LengthLimitingTextInputFormatter(widget.maxLength),
+        ],
         controller: widget.controller,
         style: const TextStyle(height: 0.5),
-        decoration: const InputDecoration(
-            suffixIcon: Icon(Icons.unfold_more),
-            enabledBorder: OutlineInputBorder(
+        decoration: InputDecoration(
+            hintText: widget.hintText,
+            suffixText: widget.suffixText,
+            suffixIcon: const Icon(Icons.unfold_more),
+            enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(width: 2, color: Colors.grey)),
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
                 borderSide: BorderSide(width: 2, color: Colors.grey))),
       ),
     );
