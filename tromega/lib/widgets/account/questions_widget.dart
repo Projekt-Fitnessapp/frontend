@@ -6,6 +6,7 @@ import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
 import 'package:tromega/widgets/account/routebutton_widget.dart';
+import 'package:intl/intl.dart';
 
 class QuestionWidget extends StatefulWidget {
   const QuestionWidget({Key? key, required this.onFinished}) : super(key: key);
@@ -18,6 +19,7 @@ class QuestionWidget extends StatefulWidget {
 
 class _SecondQuestionWidget extends State<QuestionWidget> {
   late AccountHttpHelper accountHttpHelper;
+  late TextEditingController changedBirthday;
   late TextEditingController changedName;
   late TextEditingController changedHeight;
   late TextEditingController changedWeight;
@@ -29,6 +31,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     thisBody = Body("", "", DateTime.now(), 0, 0);
     thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
     accountHttpHelper = AccountHttpHelper();
+    changedBirthday = TextEditingController();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
     changedWeight = TextEditingController();
@@ -50,6 +53,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    DateFormat format = DateFormat('yyyy-MM-dd');
     final color = Theme.of(context).primaryColor;
     return Padding(
       padding: const EdgeInsets.all(15),
@@ -59,13 +63,25 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildQuestion(text: 'Wie heißt du?'),
-            AnswerFieldWidget(controller: changedName),
+            AnswerFieldWidget(
+              controller: changedName,
+              regExp: r'^[a-zA-Z ]+$',
+            ),
             buildQuestion(text: 'Wie alt bist du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+              controller: changedBirthday,
+              regExp: r'^[\d-]+$',
+            ),
             buildQuestion(text: 'Wie groß bist du?'),
-            AnswerFieldWidget(controller: changedHeight),
+            AnswerFieldWidget(
+              controller: changedHeight,
+              regExp: r'^[1-2]?[0-9]{1,2}',
+            ),
             buildQuestion(text: 'Wie viel wiegst du?'),
-            AnswerFieldWidget(controller: changedWeight),
+            AnswerFieldWidget(
+              controller: changedWeight,
+              regExp: r'^[1-2]?[0-9]{1,2}',
+            ),
             buildQuestion(text: 'Was ist dein Trainingsziel?'),
             const SizedBox(height: 16),
             DropDownWidget(
@@ -115,6 +131,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                   setState(() {
                     thisBody.height = int.parse(changedHeight.text);
                     thisBody.weight = int.parse(changedWeight.text);
+                    thisAccount.birthdate = format.parse(changedBirthday.text);
                     thisAccount.name = changedName.text;
                     thisAccount.sex = gender;
                   });
