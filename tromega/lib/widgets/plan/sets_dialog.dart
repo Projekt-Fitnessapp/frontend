@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
+import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
 
 class SetsDialog extends StatefulWidget {
   //Dialog und Button für die Auswahl der Wiederholungen in der Edit Training View
@@ -22,31 +22,24 @@ class _SetsDialogState extends State<SetsDialog> {
           child: Text("${widget.sets} Sätze"),
           onPressed: () {
             //Dialog mit NumberPicker
-            showDialog(
+            showModalBottomSheet(
                 context: context,
                 builder: (context) =>
                     StatefulBuilder(builder: (context, setState) {
-                      return Dialog(
-                          insetPadding: const EdgeInsets.all(150),
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          child: SizedBox(
-                            width: double.minPositive,
-                            child: NumberPicker(
-                              textStyle:
-                                  Theme.of(context).textTheme.titleMedium,
-                              minValue: 0,
-                              maxValue: 10,
-                              value: widget.sets,
-                              onChanged: (int value) {
-                                //Aktualisierung der Satzanzahl im trainingsplan
-                                setState(() {});
-                                super.setState(() {
-                                  widget.sets = value;
-                                  widget.changeSets(value);
-                                });
-                              },
-                            ),
-                          ));
+                      return BottomDialogPicker(
+                        title: "Sätze",
+                        stepSize: 1,
+                        startValue: widget.sets,
+                        isDecimal: false,
+                        onChangeValue: (int value) {
+                          //Aktualisierung der Satzanzahl im trainingsplan
+                          setState(() {});
+                          super.setState(() {
+                            widget.sets = value;
+                            widget.changeSets(value);
+                          });
+                        },
+                      );
                     }));
           },
         ));

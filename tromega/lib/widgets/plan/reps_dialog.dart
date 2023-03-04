@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
 
 class RepsDialog extends StatefulWidget {
   //Dialog und Button für die Auswahl der Wiederholungen in der Edit Training View
@@ -22,27 +23,23 @@ class _RepsDialogState extends State<RepsDialog> {
           child: Text("${widget.reps} Wdh"),
           onPressed: () {
             //Dialog mit Number Picker
-            showDialog(
+            showModalBottomSheet(
                 context: context,
                 builder: (context) =>
                     StatefulBuilder(builder: (context, setState) {
-                      return Dialog(
-                          insetPadding: const EdgeInsets.all(150),
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          child: NumberPicker(
-                              textStyle:
-                                  Theme.of(context).textTheme.titleMedium,
-                              minValue: 0,
-                              maxValue: 100,
-                              value: widget.reps,
-                              onChanged: (int value) {
-                                //Aktualisierung der Satzanzahl im Trainingsplan
-                                setState(() {});
-                                super.setState(() {
-                                  widget.reps = value;
-                                  widget.changeReps(value);
-                                });
-                              }));
+                      return BottomDialogPicker(
+                          title: "Wiederholungen",
+                          isDecimal: false,
+                          stepSize: 1,
+                          startValue: widget.reps,
+                          onChangeValue: (int value) {
+                            //Aktualisierung der Satzanzahl im Trainingsplan
+                            setState(() {});
+                            super.setState(() {
+                              widget.reps = value;
+                              widget.changeReps(value);
+                            });
+                          });
                     }));
           },
         ));

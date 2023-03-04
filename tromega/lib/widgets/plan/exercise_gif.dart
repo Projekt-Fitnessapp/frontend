@@ -4,7 +4,7 @@ import 'package:gif/gif.dart';
 class ExerciseGif extends StatefulWidget {
   //Gif mit Border und Container für Übungskarten
 
-  ExerciseGif({super.key, required this.gif});
+  const ExerciseGif({super.key, required this.gif});
   final String gif;
 
   @override
@@ -16,8 +16,6 @@ class _ExerciseGifState extends State<ExerciseGif>
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 80,
-        margin: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 0),
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -32,6 +30,13 @@ class _ExerciseGifState extends State<ExerciseGif>
         child: ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
             child: Gif(
+              placeholder: (context) => const SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: Padding(
+                    padding: EdgeInsets.all(35.0),
+                    child: CircularProgressIndicator(),
+                  )),
               image: Image.network(
                 widget.gif,
                 fit: BoxFit.cover,
