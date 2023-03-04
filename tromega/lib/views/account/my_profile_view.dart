@@ -4,10 +4,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/account_http_helper.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
+import 'package:intl/intl.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[
@@ -85,23 +85,29 @@ class _ProfileViewState extends State<ProfileView> {
         ],
       );
 
-  Widget buildData() => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          buildDataRow(text1: 'Alter', text2: "20"),
-          const SizedBox(height: 24),
-          buildDataRow(
-              text1: 'Größe', text2: "${lastBody.height.toString()} m"),
-          const SizedBox(height: 24),
-          buildDataRow(
-              text1: 'Gewicht', text2: "${lastBody.weight.toString()} kg"),
-          const SizedBox(height: 24),
-          buildDataRow(text1: 'Geschlecht', text2: lastAccount.sex.toString()),
-          const SizedBox(height: 24),
-          buildDataRow(text1: 'Trainingsziel', text2: "Muskeln aufbauen")
-        ],
-      ));
+  Widget buildData() {
+    DateFormat formatter = DateFormat.yMMMMd('de_DE');
+    var formattedDate = formatter.format(lastAccount.birthdate);
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            buildDataRow(
+                text1: 'Alter', text2: formattedDate),
+            const SizedBox(height: 24),
+            buildDataRow(
+                text1: 'Größe', text2: "${lastBody.height.toString()} m"),
+            const SizedBox(height: 24),
+            buildDataRow(
+                text1: 'Gewicht', text2: "${lastBody.weight.toString()} kg"),
+            const SizedBox(height: 24),
+            buildDataRow(
+                text1: 'Geschlecht', text2: lastAccount.sex.toString()),
+            const SizedBox(height: 24),
+            buildDataRow(text1: 'Trainingsziel', text2: "Muskeln aufbauen")
+          ],
+        ));
+  }
 
   Widget buildDataRow({required String text1, text2}) => Container(
         padding: const EdgeInsets.only(left: 10, right: 10),
