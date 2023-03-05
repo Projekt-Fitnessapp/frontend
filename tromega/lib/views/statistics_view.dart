@@ -143,7 +143,6 @@ class _StatisticsViewState extends State<StatisticsView> {
             ],
           ),
         ),
-        bottomNavigationBar: const BottomMenu(index: 2),
       ),
     );
   }

@@ -64,7 +64,7 @@ class _LoginViewState extends State<LoginView> {
               print("userId: $account.id");
               prefs.setString('userId', account.getId());
             });
-            Navigator.of(context).pushNamed('/home');
+            Navigator.of(context).pushNamed('/app');
           } else {
             print("failed");
             Navigator.of(context).push(MaterialPageRoute(

@@ -13,7 +13,9 @@ class Account {
     birthdate = DateTime.parse(importMap['birthdate'] ?? '19700101');
     sex = importMap['sex'] ?? '';
     activePlan = importMap['activePlan'] ?? '';
-    trainingPlans = (importMap['trainingPlans'] ?? []).map<String>((e) => e.toString()).toList();
+    trainingPlans = (importMap['trainingPlans'] ?? [])
+        .map<String>((e) => e.toString())
+        .toList();
   }
 
   Map toJson() {

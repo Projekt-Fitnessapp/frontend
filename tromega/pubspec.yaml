@@ -49,6 +49,9 @@ dependencies:
   mdcharts: ^4.0.6
   syncfusion_flutter_charts: ^20.4.52
   intl: ^0.18.0
+  loading_gifs: ^0.3.0
+  multi_select_flutter: ^4.1.3
+  drop_cap_text: ^1.1.3
 
 dev_dependencies:
   flutter_test:

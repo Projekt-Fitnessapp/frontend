@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../app.dart';
 import '../widgets/bottom_menu.dart';
-import '../views/social_space_view.dart';
+import 'social_space/social_space_view.dart';
 import '../views/plans/plan_overview.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import '../../data/home_http_helper.dart';
@@ -10,7 +11,8 @@ import '../views/in_training/track_training_view.dart';
 import '../views/plans/plan_overview.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key, this.onSelectTab}) : super(key: key);
+  final onSelectTab;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -185,11 +187,7 @@ class _HomeViewState extends State<HomeView> {
                                         Theme.of(context).textTheme.bodySmall,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PlanOverview()));
+                                        widget.onSelectTab(1);
                                       })),
                           )
                         ],
@@ -197,7 +195,6 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
-      bottomNavigationBar: const BottomMenu(index: 0),
     );
   }
 
