@@ -46,6 +46,9 @@ dependencies:
   shared_preferences: ^2.0.15
   custom_timer: ^0.1.2
   draw_graph: ^1.0.0
+  mdcharts: ^4.0.6
+  syncfusion_flutter_charts: ^20.4.52
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
