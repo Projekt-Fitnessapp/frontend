@@ -23,8 +23,10 @@ class TrainingOptionsButton extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmationDialog(
-                      question: 'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
-                      onConfirm: () => Navigator.popAndPushNamed(context, '/home'),
+                      question:
+                          'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
+                      onConfirm: () =>
+                          Navigator.popAndPushNamed(context, '/app'),
                     );
                   },
                 );
@@ -33,7 +35,7 @@ class TrainingOptionsButton extends StatelessWidget {
                 if (getNextToDo(0) == -1) {
                   _trackingHttpHelper.saveSession(thisSession).then((value) {
                     if (value) {
-                      Navigator.popAndPushNamed(context, '/home');
+                      Navigator.popAndPushNamed(context, '/app');
                     }
                   });
                 } else {
@@ -41,11 +43,14 @@ class TrainingOptionsButton extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return ConfirmationDialog(
-                        question: 'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
+                        question:
+                            'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
                         onConfirm: () {
-                          _trackingHttpHelper.saveSession(thisSession).then((value) {
+                          _trackingHttpHelper
+                              .saveSession(thisSession)
+                              .then((value) {
                             if (value) {
-                              Navigator.popAndPushNamed(context, '/home');
+                              Navigator.popAndPushNamed(context, '/app');
                             }
                           });
                         },
@@ -63,7 +68,8 @@ class TrainingOptionsButton extends StatelessWidget {
   }
 
   int getNextToDo(int index) {
-    int nextPage = thisSession.executions.indexWhere((elem) => elem.done == false, index);
+    int nextPage =
+        thisSession.executions.indexWhere((elem) => elem.done == false, index);
     if (nextPage != -1) {
       return nextPage;
     } else {

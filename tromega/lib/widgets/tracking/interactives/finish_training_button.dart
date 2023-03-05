@@ -3,7 +3,8 @@ import 'package:tromega/data/tracking_http_helper.dart';
 import '../../../data/training_session.dart';
 
 class FinishTrainingButton extends StatelessWidget {
-  const FinishTrainingButton({super.key, required this.trainingFinished, required this.thisSession});
+  const FinishTrainingButton(
+      {super.key, required this.trainingFinished, required this.thisSession});
   final bool trainingFinished;
   final TrainingSession thisSession;
   final TrackingHttpHelper _trackingHttpHelper = const TrackingHttpHelper();
@@ -18,7 +19,7 @@ class FinishTrainingButton extends StatelessWidget {
                 _trackingHttpHelper.saveSession(thisSession).then((value) {
                   if (value) {
                     showInSnackbar(context, 'Training Gespeichert');
-                    Navigator.popAndPushNamed(context, '/home');
+                    Navigator.popAndPushNamed(context, '/app');
                   } else {
                     showInSnackbar(context, 'Speichern fehlgeschlagen');
                   }

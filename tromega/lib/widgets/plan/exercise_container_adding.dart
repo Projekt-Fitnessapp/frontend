@@ -40,41 +40,49 @@ class ExerciseContainerAdding extends StatelessWidget {
                 child: Row(children: <Widget>[
                   ExerciseGif(gif: exercise.exercise.gifUrl),
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 5),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 5),
+                            child: SizedBox(
+                              height: 50,
                               child: Text(exercise.exercise.name,
-                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  textHeightBehavior: TextHeightBehavior(
+                                      applyHeightToFirstAscent: false),
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.start,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headlineSmall)),
-                          Column(children: <Widget>[
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, top: 10),
-                                      child: Text("Muskel:",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium)),
-                                  Expanded(
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10, top: 10),
-                                          child: Text(
-                                              textAlign: TextAlign.end,
-                                              exercise.exercise.muscle,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium)))
-                                ]),
-                            Row(
+                                      .headlineSmall),
+                            )),
+                        Column(children: <Widget>[
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, top: 10),
+                                    child: Text("Muskel:",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium)),
+                                Expanded(
+                                    child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, top: 10),
+                                        child: Text(
+                                            textAlign: TextAlign.end,
+                                            exercise.exercise.muscle
+                                                .split(" ")[0],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium)))
+                              ]),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2.0),
+                            child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Padding(
@@ -94,9 +102,9 @@ class ExerciseContainerAdding extends StatelessWidget {
                                                   .textTheme
                                                   .titleMedium)))
                                 ]),
-                          ])
-                        ]),
-                  )),
+                          ),
+                        ])
+                      ])),
                 ]))));
   }
 }
