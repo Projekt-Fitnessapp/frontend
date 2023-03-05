@@ -35,7 +35,14 @@ class _SecondGeneratePlanQuestionWidget
   }
 
   String numberOfTraininssession = "2";
-  late List<String> numberOfTraininssessionOptions = ["2", "4", "6"];
+  late List<String> numberOfTraininssessionOptions = [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ];
 
   String trainingsStatus = "Untrainiert";
   late List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
