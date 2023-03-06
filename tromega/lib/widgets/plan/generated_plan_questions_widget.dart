@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/generatedPlanPreferences.dart';
-import 'package:tromega/widgets/account/data_widget.dart';
-import 'package:tromega/widgets/account/dropdown_widget.dart';
-import 'package:tromega/widgets/account/routebutton_widget.dart';
+import 'package:tromega/widgets/shared/data_widget.dart';
+import 'package:tromega/widgets/shared/dropdown_widget.dart';
+import 'package:tromega/widgets/shared/routebutton_widget.dart';
 
 class GeneratePlanQuestionWidget extends StatefulWidget {
   const GeneratePlanQuestionWidget({Key? key, required this.onFinished})
@@ -34,8 +34,7 @@ class _SecondGeneratePlanQuestionWidget
     preferences = GeneratedPlanPreferences(userId, 2, "", "");
   }
 
-  String numberOfTraininssession = "2";
-  late List<String> numberOfTraininssessionOptions = [
+  final List<String> numberOfTrainingssessionOptions = [
     "2",
     "3",
     "4",
@@ -43,12 +42,13 @@ class _SecondGeneratePlanQuestionWidget
     "6",
     "7"
   ];
+  late String numberOfTrainingssession = numberOfTrainingssessionOptions[0];
 
-  String trainingsStatus = "Untrainiert";
-  late List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
+  final List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
+  late String trainingsStatus = trainingStatusOptions[0];
 
-  String trainingsType = "Mit Maschinen";
-  late List<String> trainingsTypeOptions = ["Mit Maschinen", "Ohne Maschinen"];
+  final List<String> trainingsTypeOptions = ["Mit Maschinen", "Ohne Maschinen"];
+  late String trainingsType = trainingsTypeOptions[0];
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +61,15 @@ class _SecondGeneratePlanQuestionWidget
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildQuestion(text: 'Wie oft willst du trainieren?'),
-            const SizedBox(height: 16),
             DropDownWidget(
               color: color,
-              items: numberOfTraininssessionOptions,
-              currentValue: numberOfTraininssession.toString(),
+              items: numberOfTrainingssessionOptions,
+              currentValue: numberOfTrainingssession,
               itemCallBack: (String numberOfTraininssession) {
-                this.numberOfTraininssession = numberOfTraininssession;
+                this.numberOfTrainingssession = numberOfTraininssession;
               },
             ),
-            const SizedBox(height: 16),
-            buildQuestion(text: 'Wie traniert bist du?'),
-            const SizedBox(height: 16),
+            buildQuestion(text: 'Wie trainiert bist du?'),
             DropDownWidget(
               color: color,
               items: trainingStatusOptions,
@@ -81,9 +78,7 @@ class _SecondGeneratePlanQuestionWidget
                 this.trainingsStatus = trainingsStatus;
               },
             ),
-            const SizedBox(height: 16),
             buildQuestion(text: 'Wie kannst du tranieren?'),
-            const SizedBox(height: 16),
             DropDownWidget(
               color: color,
               items: trainingsTypeOptions,
@@ -92,14 +87,13 @@ class _SecondGeneratePlanQuestionWidget
                 this.trainingsType = trainingsType;
               },
             ),
-            const SizedBox(height: 16),
             RouteButtonWidget(
                 color: color,
                 text: 'Plan generieren',
                 onClick: () {
                   setState(() {
                     preferences.numberOfTraininssession =
-                        int.parse(numberOfTraininssession);
+                        int.parse(numberOfTrainingssession);
                     preferences.trainingsStatus = trainingsStatus;
                     preferences.trainingsType = trainingsType;
                   });

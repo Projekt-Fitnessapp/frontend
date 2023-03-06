@@ -3,6 +3,7 @@ import '../../widgets/shared/app_bar.dart';
 import '../../widgets/plan/generated_plan_questions_widget.dart';
 import '../../data/generate_plan_http_helper.dart';
 import '../../data/generatedPlanPreferences.dart';
+import '../../app.dart';
 
 class GeneratePlanView extends StatefulWidget {
   const GeneratePlanView({super.key});
@@ -33,8 +34,11 @@ class _GeneratePlanViewState extends State<GeneratePlanView> {
             onFinished: (GeneratedPlanPreferences generatedPlanPreferences) {
               generatePlanHttpHelper
                   .postGeneratedPlanPreferences(generatedPlanPreferences)
-                  .then((value) =>
-                      Navigator.pushNamed(context, '/myWorkoutPlans'));
+                  .then((value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => App(currentIndex: 1),
+                      )));
             },
           )
         ],
