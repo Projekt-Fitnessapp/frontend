@@ -31,6 +31,7 @@ class _PlanDayViewState extends State<PlanDayView> {
           child: Row(
             children: [
               Flexible(
+                flex: 9,
                 fit: FlexFit.tight,
                 child: Align(
                   alignment: Alignment.topLeft,
@@ -39,6 +40,7 @@ class _PlanDayViewState extends State<PlanDayView> {
                 ),
               ),
               Flexible(
+                  flex: 1,
                   fit: FlexFit.tight,
                   child: Align(
                     alignment: Alignment.topRight,
@@ -70,10 +72,33 @@ class _PlanDayViewState extends State<PlanDayView> {
                   ));
             }),
             child: const Text("Training starten")),
-        for (var exercise in widget.trainingDay.exercises)
-          ExerciseContainerPlan(exercise: exercise)
+        Expanded(
+            child: ShaderMask(
+          shaderCallback: (Rect rect) {
+            return const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.purple,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.purple
+              ],
+              stops: [
+                0.0,
+                0.05,
+                0.95,
+                1.0
+              ], // 10% purple, 80% transparent, 10% purple
+            ).createShader(rect);
+          },
+          blendMode: BlendMode.dstOut,
+          child: ListView(shrinkWrap: true, children: [
+            for (var exercise in widget.trainingDay.exercises)
+              ExerciseContainerPlan(exercise: exercise)
+          ]),
+        ))
       ]),
-      bottomNavigationBar: const BottomMenu(index: 1),
     );
   }
 }

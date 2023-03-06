@@ -90,7 +90,6 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ],
             ),
-      bottomNavigationBar: const BottomMenu(index: 4),
     );
   }
 
