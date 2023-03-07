@@ -90,6 +90,26 @@ ThemeData tromegaTheme() {
         letterSpacing: -0.5,
       ),
 
+      // Indicator
+      displayLarge: TextStyle(
+        fontSize: 22,
+        fontFamily: 'Proxima Nova Bold',
+        color: Color(0xff5cbffb),
+        letterSpacing: -0.5,
+      ),
+      displayMedium: TextStyle(
+        fontSize: 16,
+        fontFamily: 'Proxima Nova Bold',
+        color: Color(0xff5cbffb),
+        letterSpacing: -0.5,
+      ),
+      displaySmall: TextStyle(
+        fontSize: 14,
+        fontFamily: 'Proxima Nova Bold',
+        color: Color(0xff5cbffb),
+        letterSpacing: -0.5,
+      ),
+
       // Body
       bodyLarge: TextStyle(
         fontSize: 16,

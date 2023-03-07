@@ -34,81 +34,69 @@ class ValuePicker extends StatefulWidget {
 
 class ValuePickerState extends State<ValuePicker> {
   late num currentValue;
-  late List<num> valueList;
-  ScrollController controller = ScrollController();
+  late int currentIndex;
+  late List<dynamic> valueList;
+  late ScrollController controller;
 
   @override
   void initState() {
-    currentValue = widget.standardValue ?? widget.minValue;
-    valueList = [10, 20, 30];  //widget.values ?? getListValues();
+    // adding white spaces, for animation purposes
+    valueList = [""];
+    valueList.addAll(widget.values ?? getListValues());
+    valueList.add("");
 
-    print(valueList);
+    currentValue = widget.standardValue ?? widget.minValue;
+    currentIndex = valueList.indexOf((element) => element == currentValue);
+
+    // set current position
+    controller = ScrollController(
+        keepScrollOffset: true, initialScrollOffset: (currentIndex - 1 * 30));
+    controller.addListener(() {
+      print(controller.position);
+      print(controller.offset);
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 90,
+      height: 96, // space for 3 values
       width: MediaQuery.of(context).size.width * 0.6,
       child: ListView.builder(
         itemCount: valueList.length,
         controller: controller,
         itemBuilder: (context, index) {
-          return Container(
-            height: 16,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
-            child: Text(valueList[index].toString(),
-                style: Theme.of(context).textTheme.headlineSmall),
+          return InkWell(
+            onTap: () {
+              setState(() {
+                currentIndex = index;
+              });
+              controller.animateTo((index - 1) * 30,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn);
+            },
+            onDoubleTap: () {
+              // Submit Value
+            },
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Text(valueList[index].toString(),
+                    style: index == currentIndex
+                        ? Theme.of(context).textTheme.displayLarge
+                        : Theme.of(context).textTheme.titleLarge),
+              ),
+            ),
           );
         },
       ),
-      // Stack(
-      //   children: [
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       mainAxisSize: MainAxisSize.min,
-      //       children: [
-      //         ShaderMask(
-      //           shaderCallback: (bounds) {
-      //             return const LinearGradient(
-      //                     colors: [Colors.white, Colors.transparent])
-      //                 .createShader(bounds);
-      //           },
-      //           child: const SizedBox(
-      //             height: 28,
-      //           ),
-      //         ),
-      //         Container(
-      //           height: 28,
-      //           decoration: const BoxDecoration(color: Colors.transparent),
-      //         ),
-      //         ShaderMask(
-      //           shaderCallback: (bounds) {
-      //             return const LinearGradient(
-      //                     colors: [Colors.transparent, Colors.white])
-      //                 .createShader(bounds);
-      //           },
-      //           child: const SizedBox(
-      //             height: 28,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //     ListView.builder(
-      //       itemCount: valueList.length,
-      //       controller: controller,
-      //       itemBuilder: (context, index) {
-      //         return Container(
-      //           height: 16,
-      //           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
-      //           child: Text(valueList[index].toString(),
-      //               style: Theme.of(context).textTheme.headlineSmall),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
     );
   }
 
@@ -116,11 +104,10 @@ class ValuePickerState extends State<ValuePicker> {
     List<num> items = [];
 
     for (num i = widget.minValue;
-        i < widget.maxValue;
+        i <= widget.maxValue;
         i = i + widget.stepSize) {
       items.add(i);
     }
-    items.add(widget.maxValue);
     return items;
   }
 }
