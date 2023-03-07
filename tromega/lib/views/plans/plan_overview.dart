@@ -5,6 +5,7 @@ import '../../widgets/shared/app_bar.dart';
 import 'package:tromega/data/plan_http_helper.dart';
 import 'package:tromega/data/trainingPlan.dart';
 import './edit_training_view.dart';
+import './generate_training_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanOverview extends StatefulWidget {
@@ -88,7 +89,9 @@ class _PlanOverviewState extends State<PlanOverview> {
                                                 style: Theme.of(context)
                                                     .elevatedButtonTheme
                                                     .style,
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  newGeneratedTrainingPlan();
+                                                },
                                                 child: Text(
                                                     createTrainingsplanChoice2))
                                           ]);
@@ -171,6 +174,15 @@ class _PlanOverviewState extends State<PlanOverview> {
     } else {
       showInSnackbar(context, "Fehler bei Erstellung");
     }
+  }
+
+  void newGeneratedTrainingPlan() async {
+    //navigation zur editierung des neuen Plans
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const GeneratePlanView(),
+        ));
   }
 
   //Snackbar für Alerts
