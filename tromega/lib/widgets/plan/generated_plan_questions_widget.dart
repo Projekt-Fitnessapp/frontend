@@ -92,7 +92,7 @@ class _SecondGeneratePlanQuestionWidget
                 text: 'Plan generieren',
                 onClick: () {
                   setState(() {
-                    preferences.numberOfTraininssession =
+                    preferences.numberOfTrainingssession =
                         int.parse(numberOfTrainingssession);
                     preferences.trainingsStatus = trainingsStatus;
                     preferences.trainingsType = trainingsType;

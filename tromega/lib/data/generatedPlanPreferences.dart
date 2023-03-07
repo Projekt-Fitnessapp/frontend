@@ -1,14 +1,14 @@
 class GeneratedPlanPreferences {
   late String _id, trainingsStatus, trainingsType;
-  late int numberOfTraininssession;
+  late int numberOfTrainingssession;
 
-  GeneratedPlanPreferences(this._id, this.numberOfTraininssession,
+  GeneratedPlanPreferences(this._id, this.numberOfTrainingssession,
       this.trainingsStatus, this.trainingsType);
 
   Map toJson() {
     return {
       'user_id': _id,
-      'numberOfTraininssession': numberOfTraininssession,
+      'numberOfTrainingssession': numberOfTrainingssession,
       'trainingsStatus': trainingsStatus,
       'trainingsType': trainingsType
     };
