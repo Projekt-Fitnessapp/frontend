@@ -31,20 +31,18 @@ class _StatisticsViewState extends State<StatisticsView> {
       StatsPair(26, DateFormat('yyyy-MM-dd').format(DateTime.utc(2018, 11, 9))),
     ];
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar_Icon(
-          actions: [],
-        ),
-        body: ListView(
-          shrinkWrap: true,
-          children: const [
-            Graph(exercise: "Pullup"),
-            Graph(exercise: "Pushup"),
-            Graph(exercise: "Weightlifting"),
-            Graph(exercise: "Test"),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar_Icon(
+        actions: const [],
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        children: const [
+          Graph(exercise: "Pullup"),
+          Graph(exercise: "Pushup"),
+          Graph(exercise: "Weightlifting"),
+          Graph(exercise: "Test"),
+        ],
       ),
     );
   }
