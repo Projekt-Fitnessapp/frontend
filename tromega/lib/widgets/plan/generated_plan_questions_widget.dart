@@ -65,8 +65,10 @@ class _SecondGeneratePlanQuestionWidget
               color: color,
               items: numberOfTrainingssessionOptions,
               currentValue: numberOfTrainingssession,
-              itemCallBack: (String numberOfTraininssession) {
-                this.numberOfTrainingssession = numberOfTraininssession;
+              itemCallBack: (String numberOfTrainingssession) {
+                setState(() {
+                  this.numberOfTrainingssession = numberOfTrainingssession;
+                });
               },
             ),
             buildQuestion(text: 'Wie trainiert bist du?'),
@@ -75,18 +77,28 @@ class _SecondGeneratePlanQuestionWidget
               items: trainingStatusOptions,
               currentValue: trainingsStatus,
               itemCallBack: (String trainingsStatus) {
-                this.trainingsStatus = trainingsStatus;
+                setState(() {
+                  this.trainingsStatus = trainingsStatus;
+                });
               },
             ),
-            buildQuestion(text: 'Wie kannst du tranieren?'),
-            DropDownWidget(
-              color: color,
-              items: trainingsTypeOptions,
-              currentValue: trainingsType,
-              itemCallBack: (String trainingsType) {
-                this.trainingsType = trainingsType;
-              },
-            ),
+            trainingsStatus == trainingStatusOptions[1]
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        buildQuestion(text: 'Wie kannst du tranieren?'),
+                        DropDownWidget(
+                          color: color,
+                          items: trainingsTypeOptions,
+                          currentValue: trainingsType,
+                          itemCallBack: (String trainingsType) {
+                            setState(() {
+                              this.trainingsType = trainingsType;
+                            });
+                          },
+                        ),
+                      ])
+                : Container(),
             RouteButtonWidget(
                 color: color,
                 text: 'Plan generieren',
