@@ -33,13 +33,17 @@ class ValuePicker extends StatefulWidget {
 }
 
 class ValuePickerState extends State<ValuePicker> {
-  late num currentValue;
+  final int _itemSize = 30;
+  late bool _scrolling;
   late int currentIndex;
+  late dynamic currentValue;
   late List<dynamic> valueList;
   late ScrollController controller;
 
   @override
   void initState() {
+    _scrolling = false;
+
     // adding white spaces, for animation purposes
     valueList = [""];
     valueList.addAll(widget.values ?? getListValues());
@@ -50,11 +54,16 @@ class ValuePickerState extends State<ValuePicker> {
 
     // set current position
     controller = ScrollController(
-        keepScrollOffset: true, initialScrollOffset: (currentIndex - 1 * 30));
-    controller.addListener(() {
-      print(controller.position);
-      print(controller.offset);
-    });
+        keepScrollOffset: true,
+        initialScrollOffset: (currentIndex - 1 * _itemSize).toDouble());
+
+    //controller.position.isScrollingNotifier.addListener(() {
+    //  if (controller.position.isScrollingNotifier.value) {
+    //    print("scroll started");
+    //  } else {
+    //    print("scroll stopped");
+    //  }
+    //});
     super.initState();
   }
 
@@ -67,35 +76,65 @@ class ValuePickerState extends State<ValuePicker> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 96, // space for 3 values
+      height: 90, // space for 3 values
       width: MediaQuery.of(context).size.width * 0.6,
-      child: ListView.builder(
-        itemCount: valueList.length,
-        controller: controller,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              setState(() {
-                currentIndex = index;
-              });
-              controller.animateTo((index - 1) * 30,
+      child: NotificationListener(
+        onNotification: (notification) {
+          if (mounted) {
+            if (notification is ScrollUpdateNotification) {
+              // only change if necessary
+              // +1 to ignore white space
+              // 0.5*_itemSize to highlight middle item
+              if (((controller.offset + 0.5 * _itemSize) ~/ _itemSize) + 1 !=
+                  currentIndex) {
+                setState(() {
+                  currentIndex =
+                      ((controller.offset + 0.5 * _itemSize) ~/ _itemSize) + 1;
+                });
+              }
+            } else if (notification is ScrollStartNotification) {
+              _scrolling = true;
+            } else if (_scrolling && notification is ScrollEndNotification) {
+              // catching multiple end notifications fired by animateTo()
+              _scrolling = false;
+              currentValue = valueList[currentIndex];
+              controller.animateTo(((currentIndex - 1) * _itemSize).toDouble(),
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeIn);
-            },
-            onDoubleTap: () {
-              // Submit Value
-            },
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                child: Text(valueList[index].toString(),
-                    style: index == currentIndex
-                        ? Theme.of(context).textTheme.displayLarge
-                        : Theme.of(context).textTheme.titleLarge),
-              ),
-            ),
-          );
+            }
+          }
+          return true;
         },
+        child: ListView.builder(
+          itemCount: valueList.length,
+          controller: controller,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  currentIndex = index;
+                  currentValue = valueList[currentIndex];
+                });
+                controller.animateTo(((index - 1) * _itemSize).toDouble(),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn);
+              },
+              onDoubleTap: () {
+                // Submit Value
+              },
+              child: Center(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text(valueList[index].toString(),
+                      style: index == currentIndex
+                          ? Theme.of(context).textTheme.displayLarge
+                          : Theme.of(context).textTheme.titleLarge),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
