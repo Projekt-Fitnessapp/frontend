@@ -45,9 +45,14 @@ class _SecondGeneratePlanQuestionWidget
   late String numberOfTrainingssession = numberOfTrainingssessionOptions[0];
 
   final List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
+  final List<String> trainingStatusOptionsEnglish = ["untrained", "trained"];
   late String trainingsStatus = trainingStatusOptions[0];
 
   final List<String> trainingsTypeOptions = ["Mit Maschinen", "Ohne Maschinen"];
+  final List<String> trainingsTypeOptionsEnglish = [
+    "withMachines",
+    "withoutMachines"
+  ];
   late String trainingsType = trainingsTypeOptions[0];
 
   @override
@@ -79,6 +84,9 @@ class _SecondGeneratePlanQuestionWidget
               itemCallBack: (String trainingsStatus) {
                 setState(() {
                   this.trainingsStatus = trainingsStatus;
+                  if (trainingsStatus == trainingStatusOptions[0]) {
+                    trainingsType = trainingsTypeOptions[0];
+                  }
                 });
               },
             ),
@@ -106,8 +114,20 @@ class _SecondGeneratePlanQuestionWidget
                   setState(() {
                     preferences.numberOfTrainingssession =
                         int.parse(numberOfTrainingssession);
-                    preferences.trainingsStatus = trainingsStatus;
-                    preferences.trainingsType = trainingsType;
+                    if (trainingsStatus == trainingStatusOptions[0]) {
+                      preferences.trainingsStatus =
+                          trainingStatusOptionsEnglish[0];
+                    } else if (trainingsStatus == trainingStatusOptions[1]) {
+                      preferences.trainingsStatus =
+                          trainingStatusOptionsEnglish[1];
+                    }
+                    if (trainingsType == trainingsTypeOptions[0]) {
+                      preferences.trainingsType =
+                          trainingsTypeOptionsEnglish[0];
+                    } else if (trainingsStatus == trainingStatusOptions[1]) {
+                      preferences.trainingsType =
+                          trainingsTypeOptionsEnglish[1];
+                    }
                   });
                   widget.onFinished(preferences);
                 })
