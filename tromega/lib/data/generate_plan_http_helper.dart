@@ -9,6 +9,8 @@ class GeneratePlanHttpHelper {
 
   Future<TrainingPlan> postGeneratedPlanPreferences(
       GeneratedPlanPreferences generatedPlanPreferences) async {
+    // Die gesammelten Präferenzen für generieten Trainingsplan ans Bakcned
+    // übermitteln
     String newPath = '/generatedTrainingsplan';
     Uri uri = Uri.https(authority, newPath);
     TrainingPlan trainingPlan;
@@ -18,6 +20,9 @@ class GeneratePlanHttpHelper {
     http.Response response = await http.post(uri,
         headers: {"Content-Type": "application/json"}, body: body);
 
+    // Bei erfolgreicher Übermittlung wird der generierte Plan zurückgegeben.
+    // Dieser wird hier von der JSON in ein Objekt überführt und an die
+    // GeneratePlanView zurückgegeben
     if (response.statusCode == 201) {
       trainingPlan = TrainingPlan.fromJSON(jsonDecode(response.body));
     } else {

@@ -34,6 +34,7 @@ class _SecondGeneratePlanQuestionWidget
     preferences = GeneratedPlanPreferences(userId, 2, "", "");
   }
 
+  // Erstellen der Dropdown Optionen für die Präfernezen des generierten Plans
   final List<String> numberOfTrainingssessionOptions = [
     "2",
     "3",
@@ -44,6 +45,8 @@ class _SecondGeneratePlanQuestionWidget
   ];
   late String numberOfTrainingssession = numberOfTrainingssessionOptions[0];
 
+  // Bei Trainings Status und Typ jeweils auch Englische Version für die
+  // Kommunikation mit dem Backend
   final List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
   final List<String> trainingStatusOptionsEnglish = ["untrained", "trained"];
   late String trainingsStatus = trainingStatusOptions[0];
@@ -84,12 +87,17 @@ class _SecondGeneratePlanQuestionWidget
               itemCallBack: (String trainingsStatus) {
                 setState(() {
                   this.trainingsStatus = trainingsStatus;
+                  // Anpassen des Trainingstyps (Erklärung siehe nächstes
+                  // Kommentar)
                   if (trainingsStatus == trainingStatusOptions[0]) {
                     trainingsType = trainingsTypeOptions[0];
                   }
                 });
               },
             ),
+            // Das dritte Dropdown (Trainingstyp) nur einblenden wenn Person
+            // angibt, dass sie trainiert ist, da sonst Training ohne Maschinen
+            // keinen Sinn macht
             trainingsStatus == trainingStatusOptions[1]
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,6 +122,8 @@ class _SecondGeneratePlanQuestionWidget
                   setState(() {
                     preferences.numberOfTrainingssession =
                         int.parse(numberOfTrainingssession);
+                    // Getätigte Auswahl in Englisch übersetzen, damit das
+                    // Backend die Daten verarbeiten kann
                     if (trainingsStatus == trainingStatusOptions[0]) {
                       preferences.trainingsStatus =
                           trainingStatusOptionsEnglish[0];

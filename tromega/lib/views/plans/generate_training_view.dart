@@ -34,10 +34,13 @@ class _GeneratePlanViewState extends State<GeneratePlanView> {
         children: [
           const SizedBox(height: 24),
           GeneratePlanQuestionWidget(
+            // Wenn Planpräferenzen abgeschickt werden diese ans Backend senden
+            // und warten bis generierter Plan zurückgegeben wird
             onFinished:
                 (GeneratedPlanPreferences generatedPlanPreferences) async {
               generatedTrainingsplan = await generatePlanHttpHelper
                   .postGeneratedPlanPreferences(generatedPlanPreferences);
+              // Generierten Plan an die Plan Detailansicht View übergeben
               Navigator.push(
                   context,
                   MaterialPageRoute(
