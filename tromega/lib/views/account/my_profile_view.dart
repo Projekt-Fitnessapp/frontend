@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/account_http_helper.dart';
-import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +22,6 @@ class _ProfileViewState extends State<ProfileView> {
   late Body lastBody;
   late AccountHttpHelper accountHttpHelper;
   bool fetching = true;
-  //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -67,7 +65,6 @@ class _ProfileViewState extends State<ProfileView> {
                     ElevatedButton.icon(
                       icon: const FaIcon(
                         FontAwesomeIcons.google,
-                        //color: Color.fromARGB(1000, 240, 157, 2)
                       ),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(200, 50),
