@@ -18,25 +18,16 @@ class Graph extends StatefulWidget {
 }
 
 class _GraphState extends State<Graph> {
-  bool fetching = false;
+  bool fetching = true;
 
-  final List<StatsPair> stats_pairs = [
-    StatsPair(10, DateFormat('yyyy-MM-dd').format(DateTime.utc(2011, 11, 9))),
-    StatsPair(25, DateFormat('yyyy-MM-dd').format(DateTime.utc(2012, 11, 9))),
-    StatsPair(50, DateFormat('yyyy-MM-dd').format(DateTime.utc(2013, 11, 9))),
-    StatsPair(56, DateFormat('yyyy-MM-dd').format(DateTime.utc(2014, 11, 9))),
-    StatsPair(44, DateFormat('yyyy-MM-dd').format(DateTime.utc(2015, 11, 9))),
-    StatsPair(54, DateFormat('yyyy-MM-dd').format(DateTime.utc(2016, 11, 9))),
-    StatsPair(34, DateFormat('yyyy-MM-dd').format(DateTime.utc(2017, 11, 9))),
-    StatsPair(26, DateFormat('yyyy-MM-dd').format(DateTime.utc(2018, 11, 9))),
-  ];
+  late List<StatsPair> stats_pairs = [];
 
   late StatsHttpHelper statsHttpHelper;
 
   @override
   void initState() {
     statsHttpHelper = StatsHttpHelper();
-    fetchData();
+    fetchData(widget.exercise);
     super.initState();
   }
 
@@ -61,10 +52,13 @@ class _GraphState extends State<Graph> {
                       series: <ChartSeries<StatsPair, String>>[
                         // Renders column chart
                         LineSeries<StatsPair, String>(
-                            dataSource: stats_pairs,
-                            xValueMapper: (StatsPair data, _) => data.date,
-                            yValueMapper: (StatsPair data, _) =>
-                                data.exerciseAmount)
+                          dataSource: stats_pairs,
+                          xValueMapper: (StatsPair data, _) =>
+                              "${data.date.day}-${data.date.month}-${data.date.year}",
+                          //data.date.toString(),
+                          yValueMapper: (StatsPair data, _) =>
+                              data.exerciseAmount,
+                        )
                       ]),
                 ),
               ],
@@ -72,12 +66,13 @@ class _GraphState extends State<Graph> {
           );
   }
 
-  void fetchData() async {
+  void fetchData(String exercise) async {
     //gets the trainingsdata of last week (when has the user trained)
-    dynamic test = await StatsHttpHelper().getBenchmarking();
+    List<StatsPair> stats =
+        await StatsHttpHelper().getBenchmarking(exercise.toLowerCase());
 
     setState(() {
-      print(test[0]['date']);
+      stats_pairs = stats;
       fetching = false;
     });
   }

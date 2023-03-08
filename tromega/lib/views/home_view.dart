@@ -201,13 +201,12 @@ class _HomeViewState extends State<HomeView> {
   void fetchData() async {
     //gets the trainingsdata of last week (when has the user trained)
     Trainweek trainweek = await homeHttpHelper.getLastTrainday();
-    String getNextTraining = await homeHttpHelper.getNextTrainingDayName();
+    String nextTrainingName = await homeHttpHelper.getNextTrainingDayName();
 
     setState(() {
-      print(getNextTraining);
       fetching = false;
       trainigsDaten = trainweek;
-      nextTraining = getNextTraining;
+      nextTraining = nextTrainingName;
     });
   }
 

@@ -1,6 +1,6 @@
 class StatsPair {
   late int exerciseAmount;
-  late String date;
+  late DateTime date;
 
   StatsPair(this.exerciseAmount, this.date);
 
@@ -8,13 +8,13 @@ class StatsPair {
     return exerciseAmount;
   }
 
-  String get getDate {
+  DateTime get getDate {
     return date;
   }
 
   StatsPair.fromJSON(Map<String, dynamic> importMap) {
-    exerciseAmount = int.parse(importMap['exercise_amount'] ?? 0);
-    date = importMap['date'] ?? '0';
+    exerciseAmount = importMap['exercise_amount'] ?? 0;
+    date = importMap['date'] ?? DateTime.utc(2000, 1, 1);
   }
 }
 

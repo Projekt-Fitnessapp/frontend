@@ -20,17 +20,6 @@ class StatisticsView extends StatefulWidget {
 class _StatisticsViewState extends State<StatisticsView> {
   @override
   Widget build(BuildContext context) {
-    final List<StatsPair> stats_pairs = [
-      StatsPair(10, DateFormat('yyyy-MM-dd').format(DateTime.utc(2011, 11, 9))),
-      StatsPair(25, DateFormat('yyyy-MM-dd').format(DateTime.utc(2012, 11, 9))),
-      StatsPair(50, DateFormat('yyyy-MM-dd').format(DateTime.utc(2013, 11, 9))),
-      StatsPair(56, DateFormat('yyyy-MM-dd').format(DateTime.utc(2014, 11, 9))),
-      StatsPair(44, DateFormat('yyyy-MM-dd').format(DateTime.utc(2015, 11, 9))),
-      StatsPair(54, DateFormat('yyyy-MM-dd').format(DateTime.utc(2016, 11, 9))),
-      StatsPair(34, DateFormat('yyyy-MM-dd').format(DateTime.utc(2017, 11, 9))),
-      StatsPair(26, DateFormat('yyyy-MM-dd').format(DateTime.utc(2018, 11, 9))),
-    ];
-
     return Scaffold(
       appBar: AppBar_Icon(
         actions: const [],
@@ -38,10 +27,10 @@ class _StatisticsViewState extends State<StatisticsView> {
       body: ListView(
         shrinkWrap: true,
         children: const [
-          Graph(exercise: "Pullup"),
-          Graph(exercise: "Pushup"),
+          Graph(exercise: "Pullups"),
+          Graph(exercise: "Pushups"),
           Graph(exercise: "Weightlifting"),
-          Graph(exercise: "Test"),
+          Graph(exercise: "Week_counter"),
         ],
       ),
     );
