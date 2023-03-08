@@ -76,11 +76,19 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
             ],
           ),
         ),
-        ElevatedButton(
-            onPressed: (() {
-              activatePlan(widget.trainingPlan.getId);
-            }),
-            child: const Text("Plan aktivieren")),
+        widget.trainingPlan.trainingDays.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: ElevatedButton(
+                      onPressed: (() {
+                        activatePlan(widget.trainingPlan.getId);
+                      }),
+                      child: const Text("Plan aktivieren")),
+                ),
+              )
+            : const Text(""),
         SizedBox(
             height: 50,
             child: SizedBox(
