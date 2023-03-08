@@ -1,3 +1,6 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../data/plan_http_helper.dart';
 import '../../widgets/plan/edit_plan_view_column.dart';
 import '../../widgets/plan/plan_view_column.dart';
 import './edit_training_view.dart';
@@ -21,8 +24,11 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   late PageController _pageViewController;
   int pageIndex = 0;
 
+  late PlanHttpHelper planHttpHelper;
+
   @override
   initState() {
+    planHttpHelper = PlanHttpHelper();
     super.initState();
     _pageViewController = PageController(initialPage: 0);
   }
@@ -39,11 +45,12 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
       appBar: AppBar_Icon(actions: const []),
       body: Column(children: [
         Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
           child: Row(
             children: [
               Flexible(
                 flex: 9,
+                fit: FlexFit.tight,
                 child: Text(widget.trainingPlan.name,
                     style: Theme.of(context).textTheme.headlineLarge),
               ),
@@ -69,6 +76,11 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
             ],
           ),
         ),
+        ElevatedButton(
+            onPressed: (() {
+              activatePlan(widget.trainingPlan.getId);
+            }),
+            child: const Text("Plan aktivieren")),
         SizedBox(
             height: 50,
             child: SizedBox(
@@ -103,6 +115,44 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
           ],
         ))
       ]),
+    );
+  }
+
+  void activatePlan(String id) async {
+    //Erstellung eines neuen leeren Trainingsplans
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("userId");
+    userId ??= "634dad62663403c8063adc41";
+    TrainingPlan trainingPlan =
+        TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
+    var response = await planHttpHelper.putActivePlan(userId, id);
+    print(response);
+    if (response) {
+      showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
+    } else {
+      showInSnackbarError(context, "Fehler bei der Aktivierung");
+    }
+  }
+
+  //Snackbar für Alerts
+  void showInSnackbar(BuildContext context, String value) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).primaryColorLight,
+        content: Text(value),
+      ),
+    );
+  }
+
+  //Snackbar für Errors
+  void showInSnackbarError(BuildContext context, String value) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(value),
+      ),
     );
   }
 }

@@ -23,6 +23,7 @@ class _HomeViewState extends State<HomeView> {
   late Color colorDot;
   late HomeHttpHelper homeHttpHelper;
   late Trainweek trainigsDaten;
+  late String nextTraining;
   bool fetching = true;
 
   @override
@@ -141,28 +142,36 @@ class _HomeViewState extends State<HomeView> {
                             padding:
                                 const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 30.0),
                             child: Text(
-                              'Legs',
-                              style: Theme.of(context).textTheme.titleLarge,
-                              textAlign: TextAlign.center,
+                              nextTraining,
+                              //style: Theme.of(context).textTheme.titleLarge,
+                              //textAlign: TextAlign.center,
                             ),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(200, 50),
                               maximumSize: const Size(200, 50),
-                              primary: const Color.fromARGB(1000, 0, 48, 80),
+                              primary: nextTraining != 'Kein Plan ausgewählt'
+                                  ? const Color.fromARGB(1000, 0, 48, 80)
+                                  : const Color.fromARGB(1000, 200, 200, 200),
                             ),
                             onPressed: () {
-                              homeHttpHelper
-                                  .getNextTrainingDayId()
-                                  .then((trainingDayId) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TrackingView(
-                                              trainingDayId: trainingDayId,
-                                            )));
-                              });
+                              nextTraining != 'Kein Plan ausgewählt'
+                                  ? homeHttpHelper
+                                      .getNextTrainingDayId()
+                                      .then((trainingDayId) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TrackingView(
+                                                    trainingDayId:
+                                                        trainingDayId,
+                                                  )));
+                                    })
+                                  : showInSnackbar(context,
+                                      'Bitte erst Training auswählen.');
+                              ;
                             },
                             child: Text(
                               'Training starten',
@@ -192,10 +201,22 @@ class _HomeViewState extends State<HomeView> {
   void fetchData() async {
     //gets the trainingsdata of last week (when has the user trained)
     Trainweek trainweek = await homeHttpHelper.getLastTrainday();
+    String nextTrainingName = await homeHttpHelper.getNextTrainingDayName();
 
     setState(() {
       fetching = false;
       trainigsDaten = trainweek;
+      nextTraining = nextTrainingName;
     });
+  }
+
+  void showInSnackbar(BuildContext context, String value) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).primaryColorLight,
+        content: Text(value),
+      ),
+    );
   }
 }

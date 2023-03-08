@@ -56,4 +56,18 @@ class HomeHttpHelper {
     /// Body equals an trainingDay --> get Id with _id
     return jsonDecode(res.body)['_id'] ?? '';
   }
+
+  Future<String> getNextTrainingDayName() async {
+    // gets the TrainingDayId of the next trainingDay to be completed
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final queryParameters = {
+      'userId': prefs.getString('userId') ?? '',
+    };
+
+    Uri uri = Uri.https(authority, '/nextTraining', queryParameters);
+    http.Response res = await http.get(uri);
+
+    /// Body equals an trainingDay --> get Id with _id
+    return jsonDecode(res.body)['name'] ?? 'Kein Plan ausgewählt';
+  }
 }

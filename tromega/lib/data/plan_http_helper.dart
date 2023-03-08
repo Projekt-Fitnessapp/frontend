@@ -135,6 +135,22 @@ class PlanHttpHelper {
     return false;
   }
 
+  Future<bool> putActivePlan(String userId, String trainingPlanId) async {
+    final queryParameters = {
+      'userId': userId,
+      'trainingPlanId': trainingPlanId,
+    };
+
+    String newPath = '/myPlans/active';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+    http.Response response =
+        await http.put(uri, headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   Future<bool> putAccount(String userId, String trainingPlanId) async {
     final queryParameters = {'userId': userId};
 
