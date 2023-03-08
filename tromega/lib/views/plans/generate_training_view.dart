@@ -3,7 +3,8 @@ import '../../widgets/shared/app_bar.dart';
 import '../../widgets/plan/generated_plan_questions_widget.dart';
 import '../../data/generate_plan_http_helper.dart';
 import '../../data/generatedPlanPreferences.dart';
-import '../../app.dart';
+import 'package:tromega/data/trainingPlan.dart';
+import './plan_details.dart';
 
 class GeneratePlanView extends StatefulWidget {
   const GeneratePlanView({super.key});
@@ -15,6 +16,8 @@ class GeneratePlanView extends StatefulWidget {
 
 class _GeneratePlanViewState extends State<GeneratePlanView> {
   late GeneratePlanHttpHelper generatePlanHttpHelper;
+
+  late TrainingPlan generatedTrainingsplan;
 
   @override
   void initState() {
@@ -31,14 +34,23 @@ class _GeneratePlanViewState extends State<GeneratePlanView> {
         children: [
           const SizedBox(height: 24),
           GeneratePlanQuestionWidget(
-            onFinished: (GeneratedPlanPreferences generatedPlanPreferences) {
-              generatePlanHttpHelper
-                  .postGeneratedPlanPreferences(generatedPlanPreferences)
+            onFinished:
+                (GeneratedPlanPreferences generatedPlanPreferences) async {
+              generatedTrainingsplan = await generatePlanHttpHelper
+                  .postGeneratedPlanPreferences(generatedPlanPreferences);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PlanDetailsView(trainingPlan: generatedTrainingsplan),
+                  ));
+              /*
                   .then((value) => Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => App(currentIndex: 1),
                       )));
+                      */
             },
           )
         ],
