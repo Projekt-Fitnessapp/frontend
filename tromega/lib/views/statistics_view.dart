@@ -30,7 +30,6 @@ class _StatisticsViewState extends State<StatisticsView> {
           Graph(exercise: "Pullups"),
           Graph(exercise: "Pushups"),
           Graph(exercise: "Weightlifting"),
-          Graph(exercise: "Week_counter"),
         ],
       ),
     );

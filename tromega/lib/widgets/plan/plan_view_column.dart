@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/widgets/plan/exercise_container_plan.dart';
+import '../../data/plan_http_helper.dart';
 import '../../views/in_training/track_training_view.dart';
 import 'exercise_container.dart';
 import '../../data/trainingDay.dart';
