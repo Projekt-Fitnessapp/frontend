@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:tromega/data/account_signin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
@@ -18,11 +18,12 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final GoogleSignInService _googleSignInService = GoogleSignInService();
   late Account lastAccount;
   late Body lastBody;
   late AccountHttpHelper accountHttpHelper;
   bool fetching = true;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -31,15 +32,10 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
   }
 
-  Future<void> _handleSignOut() async {
-    try {
-      await _googleSignIn.signOut().then((value) {
+  void handleSignOut() async {
+      await _googleSignInService.signOut().then((value) {
         Navigator.pushNamed(context, '/');
       });
-    } catch (error) {
-      print(error);
-    }
-    setState(() {});
   }
 
   @override
@@ -78,7 +74,7 @@ class _ProfileViewState extends State<ProfileView> {
                         maximumSize: const Size(200, 50),
                         primary: Color.fromARGB(1000, 0, 48, 80),
                       ),
-                      onPressed: _handleSignOut,
+                      onPressed: handleSignOut,
                       label: const Text(
                         'Sign Out',
                         style: TextStyle(
