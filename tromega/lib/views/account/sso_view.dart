@@ -19,12 +19,20 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
+    checkForUser();
     super.initState();
     accountHttpHelper = AccountHttpHelper();
   }
 
+  void didChangeDependencies() {
+    precacheImage(AssetImage("public/TrOmega_dark.png"), context);
+    super.didChangeDependencies();
+  }
+
   void handleSignIn() async {
-    await _googleSignInService.signIn();
+    await _googleSignInService.signIn()
+        ? showInSnackbar(context, "Login erfolgreich", false)
+        : showInSnackbar(context, "Login gescheitert", true);
     SharedPreferences.getInstance().then((prefs) {
       _googleSignInService.user?.authentication.then((value) {
         prefs.setString('token', value.accessToken ?? '');
@@ -90,5 +98,23 @@ class _LoginViewState extends State<LoginView> {
         ],
       ),
     );
+  }
+
+  //Snackbar für Alerts
+  void showInSnackbar(BuildContext context, String value, bool error) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor:
+            error ? Colors.red : Theme.of(context).primaryColorLight,
+        content: Text(value),
+      ),
+    );
+  }
+
+  void checkForUser() async {
+    prefs = await SharedPreferences.getInstance();
+    print(prefs.containsKey("userId"));
+    prefs.containsKey("userId") ? Navigator.of(context).pushNamed('/app') : "";
   }
 }
