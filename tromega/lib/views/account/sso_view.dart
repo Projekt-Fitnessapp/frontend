@@ -23,6 +23,11 @@ class _LoginViewState extends State<LoginView> {
     accountHttpHelper = AccountHttpHelper();
   }
 
+  void didChangeDependencies() {
+    precacheImage(AssetImage("public/TrOmega_dark.png"), context);
+    super.didChangeDependencies();
+  }
+
   void handleSignIn() async {
     await _googleSignInService.signIn()
         ? showInSnackbar(context, "Login erfolgreich", false)
