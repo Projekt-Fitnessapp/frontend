@@ -56,6 +56,7 @@ class _TrackingViewState extends State<TrackingView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar_Icon(
+        withBackButton: false,
         actions: fetching
             ? []
             : [
