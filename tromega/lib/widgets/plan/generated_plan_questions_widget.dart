@@ -34,6 +34,7 @@ class _SecondGeneratePlanQuestionWidget
     preferences = GeneratedPlanPreferences(userId, 2, "", "");
   }
 
+  // Erstellen der Dropdown Optionen für die Präfernezen des generierten Plans
   final List<String> numberOfTrainingssessionOptions = [
     "2",
     "3",
@@ -44,10 +45,17 @@ class _SecondGeneratePlanQuestionWidget
   ];
   late String numberOfTrainingssession = numberOfTrainingssessionOptions[0];
 
+  // Bei Trainings Status und Typ jeweils auch Englische Version für die
+  // Kommunikation mit dem Backend
   final List<String> trainingStatusOptions = ["Untrainiert", "Trainiert"];
+  final List<String> trainingStatusOptionsEnglish = ["untrained", "trained"];
   late String trainingsStatus = trainingStatusOptions[0];
 
   final List<String> trainingsTypeOptions = ["Mit Maschinen", "Ohne Maschinen"];
+  final List<String> trainingsTypeOptionsEnglish = [
+    "withMachines",
+    "withoutMachines"
+  ];
   late String trainingsType = trainingsTypeOptions[0];
 
   @override
@@ -65,8 +73,10 @@ class _SecondGeneratePlanQuestionWidget
               color: color,
               items: numberOfTrainingssessionOptions,
               currentValue: numberOfTrainingssession,
-              itemCallBack: (String numberOfTraininssession) {
-                this.numberOfTrainingssession = numberOfTraininssession;
+              itemCallBack: (String numberOfTrainingssession) {
+                setState(() {
+                  this.numberOfTrainingssession = numberOfTrainingssession;
+                });
               },
             ),
             buildQuestion(text: 'Wie trainiert bist du?'),
@@ -75,18 +85,36 @@ class _SecondGeneratePlanQuestionWidget
               items: trainingStatusOptions,
               currentValue: trainingsStatus,
               itemCallBack: (String trainingsStatus) {
-                this.trainingsStatus = trainingsStatus;
+                setState(() {
+                  this.trainingsStatus = trainingsStatus;
+                  // Anpassen des Trainingstyps (Erklärung siehe nächstes
+                  // Kommentar)
+                  if (trainingsStatus == trainingStatusOptions[0]) {
+                    trainingsType = trainingsTypeOptions[0];
+                  }
+                });
               },
             ),
-            buildQuestion(text: 'Wie kannst du tranieren?'),
-            DropDownWidget(
-              color: color,
-              items: trainingsTypeOptions,
-              currentValue: trainingsType,
-              itemCallBack: (String trainingsType) {
-                this.trainingsType = trainingsType;
-              },
-            ),
+            // Das dritte Dropdown (Trainingstyp) nur einblenden wenn Person
+            // angibt, dass sie trainiert ist, da sonst Training ohne Maschinen
+            // keinen Sinn macht
+            trainingsStatus == trainingStatusOptions[1]
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        buildQuestion(text: 'Wie kannst du tranieren?'),
+                        DropDownWidget(
+                          color: color,
+                          items: trainingsTypeOptions,
+                          currentValue: trainingsType,
+                          itemCallBack: (String trainingsType) {
+                            setState(() {
+                              this.trainingsType = trainingsType;
+                            });
+                          },
+                        ),
+                      ])
+                : Container(),
             RouteButtonWidget(
                 color: color,
                 text: 'Plan generieren',
@@ -94,8 +122,22 @@ class _SecondGeneratePlanQuestionWidget
                   setState(() {
                     preferences.numberOfTrainingssession =
                         int.parse(numberOfTrainingssession);
-                    preferences.trainingsStatus = trainingsStatus;
-                    preferences.trainingsType = trainingsType;
+                    // Getätigte Auswahl in Englisch übersetzen, damit das
+                    // Backend die Daten verarbeiten kann
+                    if (trainingsStatus == trainingStatusOptions[0]) {
+                      preferences.trainingsStatus =
+                          trainingStatusOptionsEnglish[0];
+                    } else if (trainingsStatus == trainingStatusOptions[1]) {
+                      preferences.trainingsStatus =
+                          trainingStatusOptionsEnglish[1];
+                    }
+                    if (trainingsType == trainingsTypeOptions[0]) {
+                      preferences.trainingsType =
+                          trainingsTypeOptionsEnglish[0];
+                    } else if (trainingsStatus == trainingStatusOptions[1]) {
+                      preferences.trainingsType =
+                          trainingsTypeOptionsEnglish[1];
+                    }
                   });
                   widget.onFinished(preferences);
                 })

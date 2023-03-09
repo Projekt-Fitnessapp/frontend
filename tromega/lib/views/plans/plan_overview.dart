@@ -177,7 +177,7 @@ class _PlanOverviewState extends State<PlanOverview> {
   }
 
   void newGeneratedTrainingPlan() async {
-    //navigation zur editierung des neuen Plans
+    //navigation zur generierung eines neuen Plans
     await Navigator.push(
         context,
         MaterialPageRoute(
