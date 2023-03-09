@@ -68,7 +68,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
               controller: changedName,
               hintText: "Vorname Nachname",
               suffixText: "",
-              regExp: r'^[a-zA-Z ]+$',
+              regExp: r'[A-Za-zÄÖÜäöüß ]',
             ),
             buildQuestion(text: 'Wann hast du Geburtstag?'),
             AnswerFieldWidget(
@@ -76,7 +76,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
               controller: changedBirthday,
               hintText: "YYYY-MM-DD",
               suffixText: "",
-              regExp: r'^[\d-]+$',
+              regExp: r'[0-9-]',
             ),
             buildQuestion(text: 'Wie groß bist du?'),
             AnswerFieldWidget(
@@ -94,17 +94,6 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
               suffixText: "kg",
               regExp: r'^[1-2]?[0-9]{1,2}',
             ),
-            buildQuestion(text: 'Was ist dein Trainingsziel?'),
-            const SizedBox(height: 16),
-            DropDownWidget(
-              color: color,
-              items: trainingOptions,
-              currentValue: trainingGoal,
-              itemCallBack: (String trainingGoal) {
-                this.trainingGoal = trainingGoal;
-              },
-            ),
-            const SizedBox(height: 16),
             buildQuestion(
                 text: 'Mit welchem Geschlecht identifizierst du dich?'),
             const SizedBox(height: 16),
@@ -116,25 +105,14 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 this.gender = gender;
               },
             ),
-            const SizedBox(height: 32),
-            buildQuestion(text: 'Hast du bereits Erfahrung mit Training?'),
-            const SizedBox(height: 16),
-            DropDownWidget(
-              color: color,
-              items: experienceOptions,
-              currentValue: trainingExperience,
-              itemCallBack: (String trainingExperience) {
-                this.trainingExperience = trainingExperience;
-              },
-            ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
             buildTextField(color),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
             buildTextField(color),
-            buildQuestion(text: 'Wie viel Kilo stemmst du?'),
+            buildQuestion(text: 'Wie viele Kniebeugen schaffst du?'),
             buildTextField(color),
-            buildQuestion(text: 'Wie häufig gehst du trainieren?'),
+            buildQuestion(text: 'Wie viele Crunches schaffst du?'),
             buildTextField(color),
             RouteButtonWidget(
                 color: color,

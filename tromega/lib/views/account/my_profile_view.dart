@@ -110,7 +110,7 @@ class _ProfileViewState extends State<ProfileView> {
             buildDataRow(text1: 'Alter', text2: formattedDate),
             const SizedBox(height: 24),
             buildDataRow(
-                text1: 'Größe', text2: "${lastBody.height.toString()} m"),
+                text1: 'Größe', text2: "${lastBody.height.toString()} cm"),
             const SizedBox(height: 24),
             buildDataRow(
                 text1: 'Gewicht', text2: "${lastBody.weight.toString()} kg"),

@@ -50,7 +50,6 @@ class _AnswerFieldWidgetState extends State<AnswerFieldWidget> {
         decoration: InputDecoration(
             hintText: widget.hintText,
             suffixText: widget.suffixText,
-            suffixIcon: const Icon(Icons.unfold_more),
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(width: 2, color: Colors.grey)),
             border: const OutlineInputBorder(
