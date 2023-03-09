@@ -49,6 +49,8 @@ class TrainingOptionsButton extends StatelessWidget {
                           _trackingHttpHelper
                               .saveSession(thisSession)
                               .then((value) {
+                            print("frühzeitig beenden");
+                            print(value);
                             if (value) {
                               Navigator.popAndPushNamed(context, '/app');
                             }

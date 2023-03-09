@@ -33,8 +33,8 @@ class ExecutionSet {
     } else {
       reps = importMap['reps'].round();
     }
-    weight = importMap['weight'] ?? 0;
-    tenRM = importMap['tenRM'] ?? 0;
+    weight = importMap['weight']?.toDouble() ?? 0.0;
+    tenRM = importMap['tenRM']?.toDouble() ?? 0.0;
     done = false;
   }
 

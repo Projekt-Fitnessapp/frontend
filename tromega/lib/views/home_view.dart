@@ -159,14 +159,15 @@ class _HomeViewState extends State<HomeView> {
                               nextTraining != 'Kein Plan ausgewählt'
                                   ? homeHttpHelper
                                       .getNextTrainingDayId()
-                                      .then((trainingDayId) {
+                                      .then((ids) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   TrackingView(
                                                     trainingDayId:
-                                                        trainingDayId,
+                                                        ids[0],
+                                                    trainingPlanId: ids[1]
                                                   )));
                                     })
                                   : showInSnackbar(context,

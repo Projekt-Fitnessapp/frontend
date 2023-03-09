@@ -38,7 +38,7 @@ class HomeHttpHelper {
     return lastSevenDays;
   }
 
-  Future<String> getNextTrainingDayId() async {
+  Future<List<String>> getNextTrainingDayId() async {
     // gets the TrainingDayId of the next trainingDay to be completed
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> queries = {
@@ -53,8 +53,14 @@ class HomeHttpHelper {
       },
     );
 
+    // return object expanded to surpass trainingPlanId for tracking purposes
+    List<String> ids = [];
+    ids.add(jsonDecode(res.body)['_id'] ?? '');
+    ids.add(jsonDecode(res.body)['trainingPlanId'] ?? '');
+
+
     /// Body equals an trainingDay --> get Id with _id
-    return jsonDecode(res.body)['_id'] ?? '';
+    return ids;
   }
 
   Future<String> getNextTrainingDayName() async {
