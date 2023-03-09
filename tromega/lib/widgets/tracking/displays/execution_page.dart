@@ -60,7 +60,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
                     );
                   },
                   icon: Icon(
-                    Icons.settings,
+                    Icons.info_outline,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
