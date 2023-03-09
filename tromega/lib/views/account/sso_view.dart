@@ -27,25 +27,20 @@ class _LoginViewState extends State<LoginView> {
     await _googleSignInService.signIn();
     SharedPreferences.getInstance().then((prefs) {
       _googleSignInService.user?.authentication.then((value) {
-        print("token: $value.accessToken");
         prefs.setString('token', value.accessToken ?? '');
       });
       prefs.setString('googleId', _googleSignInService.user?.id ?? '');
-      print(_googleSignInService.user?.id);
       accountHttpHelper
           .accountExist(_googleSignInService.user?.id ?? '')
           .then((exists) {
         if (exists) {
-          print('exists');
           accountHttpHelper
               .getAccount(_googleSignInService.user?.id ?? '')
               .then((account) {
-            print("userId: $account.id");
             prefs.setString('userId', account.getId());
           });
           Navigator.of(context).pushNamed('/app');
         } else {
-          print("failed");
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => AddMyDataView(
                     googleId: _googleSignInService.user?.id ?? '',

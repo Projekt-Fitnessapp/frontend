@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInService {
@@ -12,7 +13,7 @@ class GoogleSignInService {
       final account = await _googleSignIn.signIn();
       _user = account;
     } catch (error) {
-      print('Failed to sign in with Google: $error');
+      debugPrint('Failed to sign in with Google: $error');
     }
   }
 
@@ -21,7 +22,9 @@ class GoogleSignInService {
       await _googleSignIn.signOut();
       _user = null;
     } catch (error) {
-      print('Failed to sign out from Google: $error');
+      debugPrint('Failed to sign out from Google: $error');
     }
   }
+
+  
 }
