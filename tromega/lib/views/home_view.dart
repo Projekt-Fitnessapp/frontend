@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../app.dart';
@@ -7,6 +9,7 @@ import '../views/plans/plan_overview.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import '../../data/home_http_helper.dart';
 import '../../data/trainday.dart';
+import '../../data/quote.dart';
 import '../views/in_training/track_training_view.dart';
 import '../views/plans/plan_overview.dart';
 
@@ -25,10 +28,26 @@ class _HomeViewState extends State<HomeView> {
   late Trainweek trainigsDaten;
   late String nextTraining;
   bool fetching = true;
+  final rng = Random();
+  late int rnd;
+
+  List<Quote> quotes = [
+    Quote("Arnold Schwarzenegger",
+        "The resistance that you fight physically in the gym and the resistance that you fight in life can only build a strong character."),
+    Quote("Ronnie Coleman",
+        "Everybody wants to be a bodybuilder, but nobody wants to lift no heavy-ass weights!"),
+    Quote("Jay Cutler",
+        "For me, life is continuously being hungry. The meaning of life is not simply to exist, to survive, but to move ahead, to go up, to achieve, to conquer."),
+    Quote("Dorian Yates",
+        "If you're capable of sending a legible text message between sets, you probably aren't working hard enough."),
+    Quote("Frank Zane",
+        "The most important thing about motivation is goal setting. You should always have a goal.")
+  ];
 
   @override
   void initState() {
     homeHttpHelper = HomeHttpHelper();
+    rnd = rng.nextInt(4);
     fetchData();
     dateToday = DateTime.now();
     colorDot = const Color.fromARGB(1000, 4, 146, 240);
@@ -109,89 +128,102 @@ class _HomeViewState extends State<HomeView> {
               child: SizedBox(
                 //Box in the center
                 width: 320,
-                height: 190,
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 5,
-                          blurRadius: 10,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
-                  child: Container(
-                      alignment: Alignment.topCenter,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(1.0, 15.0, 1.0, 1.0),
-                            child: Text(
-                              'Nächstes Training',
-                              style: Theme.of(context).textTheme.headlineLarge,
-                              textAlign: TextAlign.center,
+                height: 270,
+                child: Column(
+                  children: [
+                    Text(quotes[rnd].quote),
+                    Text(quotes[rnd].author),
+                    SizedBox(
+                      height: 35,
+                    ),
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 5,
+                              blurRadius: 10,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
                             ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 30.0),
-                            child: Text(
-                              nextTraining,
-                              //style: Theme.of(context).textTheme.titleLarge,
-                              //textAlign: TextAlign.center,
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(200, 50),
-                              maximumSize: const Size(200, 50),
-                              primary: nextTraining != 'Kein Plan ausgewählt'
-                                  ? const Color.fromARGB(1000, 0, 48, 80)
-                                  : const Color.fromARGB(1000, 200, 200, 200),
-                            ),
-                            onPressed: () {
-                              nextTraining != 'Kein Plan ausgewählt'
-                                  ? homeHttpHelper
-                                      .getNextTrainingDayId()
-                                      .then((trainingDayId) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  TrackingView(
-                                                    trainingDayId:
-                                                        trainingDayId,
-                                                  )));
-                                    })
-                                  : showInSnackbar(context,
-                                      'Bitte erst Training auswählen.');
-                              ;
-                            },
-                            child: Text(
-                              'Training starten',
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
-                            child: RichText(
-                                text: TextSpan(
-                                    text: 'Anderen Tag auswählen',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        widget.onSelectTab(1);
-                                      })),
-                          )
-                        ],
-                      )),
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Container(
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    1.0, 15.0, 1.0, 1.0),
+                                child: Text(
+                                  'Nächstes Training',
+                                  style:
+                                      Theme.of(context).textTheme.headlineLarge,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    1.0, 1.0, 1.0, 30.0),
+                                child: Text(
+                                  nextTraining,
+                                  //style: Theme.of(context).textTheme.titleLarge,
+                                  //textAlign: TextAlign.center,
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(200, 50),
+                                  maximumSize: const Size(200, 50),
+                                  primary: nextTraining !=
+                                          'Kein Plan ausgewählt'
+                                      ? const Color.fromARGB(1000, 0, 48, 80)
+                                      : const Color.fromARGB(
+                                          1000, 200, 200, 200),
+                                ),
+                                onPressed: () {
+                                  nextTraining != 'Kein Plan ausgewählt'
+                                      ? homeHttpHelper
+                                          .getNextTrainingDayId()
+                                          .then((trainingDayId) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TrackingView(
+                                                        trainingDayId:
+                                                            trainingDayId,
+                                                      )));
+                                        })
+                                      : showInSnackbar(context,
+                                          'Bitte erst Training auswählen.');
+                                  ;
+                                },
+                                child: Text(
+                                  'Training starten',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: RichText(
+                                    text: TextSpan(
+                                        text: 'Anderen Tag auswählen',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            widget.onSelectTab(1);
+                                          })),
+                              )
+                            ],
+                          )),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -13,7 +13,6 @@ import 'views/account/my_profile_view.dart';
 // Secondary Views
 import 'views/plans/edit_training_view.dart';
 import 'views/account/sso_view.dart';
-import 'views/account/edit_profile_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,8 +35,7 @@ class MyApp extends StatelessWidget {
         '/socialSpace': (context) => const SocialSpaceView(),
         '/myProfile': (context) => const ProfileView(),
         '/testEditPlan': (context) =>
-            EditPlanView(trainingPlan: TrainingPlan.fromJSON({})),
-        '/editProfile': (context) => const EditProfile(),
+            EditPlanView(trainingPlan: TrainingPlan.fromJSON({}))
       },
     );
   }
