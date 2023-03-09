@@ -33,8 +33,13 @@ class _ProfileViewState extends State<ProfileView> {
 
   void handleSignOut() async {
     await _googleSignInService.signOut().then((value) {
-      prefs.clear();
-      Navigator.pushNamed(context, "/");
+      if (!value) {
+        showInSnackbar(context, "Logout gescheitert", true);
+      } else {
+        showInSnackbar(context, "Logout erfolgreich", false);
+        prefs.clear();
+        Navigator.pushNamed(context, "/");
+      }
     });
   }
 
@@ -139,6 +144,18 @@ class _ProfileViewState extends State<ProfileView> {
           ],
         ),
       );
+
+  //Snackbar für Alerts
+  void showInSnackbar(BuildContext context, String value, bool error) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor:
+            error ? Colors.red : Theme.of(context).primaryColorLight,
+        content: Text(value),
+      ),
+    );
+  }
 
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
