@@ -24,7 +24,9 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void handleSignIn() async {
-    await _googleSignInService.signIn();
+    await _googleSignInService.signIn()
+        ? showInSnackbar(context, "Login erfolgreich", false)
+        : showInSnackbar(context, "Login gescheitert", true);
     SharedPreferences.getInstance().then((prefs) {
       _googleSignInService.user?.authentication.then((value) {
         print("token: $value.accessToken");
@@ -93,6 +95,18 @@ class _LoginViewState extends State<LoginView> {
           const SizedBox(height: 24),
           signUpButton()
         ],
+      ),
+    );
+  }
+
+  //Snackbar für Alerts
+  void showInSnackbar(BuildContext context, String value, bool error) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor:
+            error ? Colors.red : Theme.of(context).primaryColorLight,
+        content: Text(value),
       ),
     );
   }
