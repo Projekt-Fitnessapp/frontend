@@ -12,9 +12,9 @@ class ValuePicker extends StatefulWidget {
       {super.key,
       this.type = ValueType.integer,
       this.values,
-      this.standardValue,
-      this.maxValue = 50,
-      this.minValue = 100,
+      this.initialValue,
+      this.maxValue = 100,
+      this.minValue = 1,
       this.stepSize = 1,
       this.onChange,
       this.onSubmit});
@@ -24,7 +24,7 @@ class ValuePicker extends StatefulWidget {
   final num maxValue;
   final num minValue;
   final num stepSize;
-  final num? standardValue;
+  final num? initialValue;
   final Function? onChange;
   final Function? onSubmit;
 
@@ -49,7 +49,7 @@ class ValuePickerState extends State<ValuePicker> {
     valueList.addAll(widget.values ?? getListValues());
     valueList.add("");
 
-    currentValue = widget.standardValue ?? widget.minValue;
+    currentValue = widget.initialValue ?? widget.minValue;
     currentIndex = valueList.indexOf((element) => element == currentValue);
 
     // set current position
@@ -57,13 +57,6 @@ class ValuePickerState extends State<ValuePicker> {
         keepScrollOffset: true,
         initialScrollOffset: (currentIndex - 1 * _itemSize).toDouble());
 
-    //controller.position.isScrollingNotifier.addListener(() {
-    //  if (controller.position.isScrollingNotifier.value) {
-    //    print("scroll started");
-    //  } else {
-    //    print("scroll stopped");
-    //  }
-    //});
     super.initState();
   }
 
@@ -76,7 +69,7 @@ class ValuePickerState extends State<ValuePicker> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 90, // space for 3 values
+      height: (_itemSize * 3),
       width: MediaQuery.of(context).size.width * 0.6,
       child: NotificationListener(
         onNotification: (notification) {
@@ -97,9 +90,13 @@ class ValuePickerState extends State<ValuePicker> {
             } else if (_scrolling && notification is ScrollEndNotification) {
               // catching multiple end notifications fired by animateTo()
               _scrolling = false;
+
               currentValue = valueList[currentIndex];
+              if (widget.onChange != null) {
+                widget.onChange!(currentValue);
+              }
               controller.animateTo(((currentIndex - 1) * _itemSize).toDouble(),
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 200),
                   curve: Curves.easeIn);
             }
           }
@@ -111,16 +108,17 @@ class ValuePickerState extends State<ValuePicker> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
+                if (currentIndex == index && widget.onSubmit != null) {
+                  widget.onSubmit!(currentValue);
+                }
+
                 setState(() {
                   currentIndex = index;
                   currentValue = valueList[currentIndex];
                 });
                 controller.animateTo(((index - 1) * _itemSize).toDouble(),
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 200),
                     curve: Curves.easeIn);
-              },
-              onDoubleTap: () {
-                // Submit Value
               },
               child: Center(
                 child: Container(

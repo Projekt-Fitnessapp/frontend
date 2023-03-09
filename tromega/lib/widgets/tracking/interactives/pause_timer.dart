@@ -1,22 +1,29 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:tromega/widgets/tracking/Dialogs/dialog_timer_picker.dart';
 import 'package:tromega/widgets/tracking/interactives/value_picker.dart';
 
 class PauseTimer extends StatefulWidget {
-  const PauseTimer({super.key, required this.controller});
+  const PauseTimer(
+      {super.key,
+      required this.controller,
+      required this.duration,
+      required this.updateTimer});
   final CustomTimerController controller;
+  final int duration;
+  final Function updateTimer;
 
   @override
   State<PauseTimer> createState() => _PauseTimerState();
 }
 
 class _PauseTimerState extends State<PauseTimer> {
-  late int timerSeconds;
+  late double _iconTurns;
 
   @override
   void initState() {
-    timerSeconds = 180;
+    _iconTurns = 0;
     super.initState();
   }
 
@@ -36,28 +43,42 @@ class _PauseTimerState extends State<PauseTimer> {
           onLongPress: () {
             showDialog(
                 context: context,
-                builder: (context) => const DialogTimerPicker()
-            );
+                builder: (context) => DialogTimerPicker(
+                    onSubmit: (newValue) {
+                      widget.updateTimer(newValue);
+                      Navigator.pop(context);
+                    },
+                    initialValue: widget.duration));
           },
           splashColor: Theme.of(context).backgroundColor,
           child: Row(
             children: [
-              IconButton(
-                  splashRadius: 8,
-                  padding: const EdgeInsets.all(0),
-                  constraints: const BoxConstraints(),
-                  onPressed: () {
-                    widget.controller.reset();
-                    widget.controller.pause();
-                  },
-                  icon: const Icon(Icons.restart_alt)),
+              AnimatedRotation(
+                turns: _iconTurns,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.decelerate,
+                child: IconButton(
+                    splashRadius: 8,
+                    padding: const EdgeInsets.all(0),
+                    constraints: const BoxConstraints(),
+                    onPressed: () {
+                      widget.controller.reset();
+                      widget.controller.pause();
+
+                      _animateResetIcon();
+
+                      // trigger to rerender button icons
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.restart_alt)),
+              ),
               IconButton(
                   splashRadius: 8,
                   padding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
                   constraints: const BoxConstraints(),
                   onPressed: () {
                     setState(() {
-                      if (widget.controller.state !=
+                      if (widget.controller.state.value !=
                           CustomTimerState.counting) {
                         widget.controller.start();
                       } else {
@@ -65,15 +86,14 @@ class _PauseTimerState extends State<PauseTimer> {
                       }
                     });
                   },
-                  icon: widget.controller.state != CustomTimerState.counting
-                      ? const Icon(Icons.play_arrow_outlined)
-                      : const Icon(Icons.pause_outlined)),
+                  icon:
+                      widget.controller.state.value != CustomTimerState.counting
+                          ? const Icon(Icons.play_arrow_outlined)
+                          : const Icon(Icons.pause_outlined)),
               CustomTimer(
                 controller: widget.controller,
-                begin: Duration(seconds: timerSeconds),
-                end: const Duration(),
-                builder: (remaining) {
-                  return Text('${remaining.minutes}:${remaining.seconds}',
+                builder: (state, time) {
+                  return Text('${time.minutes}:${time.seconds}',
                       style: Theme.of(context).textTheme.headlineLarge);
                 },
               ),
@@ -82,5 +102,11 @@ class _PauseTimerState extends State<PauseTimer> {
         ),
       ),
     );
+  }
+
+  void _animateResetIcon() {
+    setState(() {
+      _iconTurns += 1.0 / 8.0;
+    });
   }
 }

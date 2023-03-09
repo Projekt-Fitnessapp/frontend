@@ -16,16 +16,17 @@ class TrackingView extends StatefulWidget {
   State<TrackingView> createState() => _TrackingViewState();
 }
 
-class _TrackingViewState extends State<TrackingView> {
+class _TrackingViewState extends State<TrackingView>
+    with TickerProviderStateMixin {
   late TrainingSession lastSession;
   late TrainingSession thisSession;
   late TrackingHttpHelper trackingHttpHelper;
   late CustomTimerController _timerController;
+  late int timerSeconds;
   late String trainingDayId;
   bool trainingFinished = false;
   bool fetching = true;
   int highlightedPage = 0;
-
 
   final PageController _pageController = PageController(initialPage: 0);
 
@@ -34,7 +35,12 @@ class _TrackingViewState extends State<TrackingView> {
     /// hardcoded for debugging purposes
     trainingDayId = widget.trainingDayId;
     trackingHttpHelper = const TrackingHttpHelper();
-    _timerController = CustomTimerController();
+    timerSeconds = 180;
+    _timerController = CustomTimerController(
+      vsync: this,
+      begin: Duration(seconds: timerSeconds),
+      end: const Duration(),
+    );
     fetchData();
     super.initState();
   }
@@ -135,6 +141,13 @@ class _TrackingViewState extends State<TrackingView> {
                         visible: !trainingFinished,
                         child: PauseTimer(
                           controller: _timerController,
+                          duration: timerSeconds,
+                          updateTimer: (value) => setState(() {
+                            timerSeconds = value;
+                            _timerController.begin =
+                                Duration(seconds: timerSeconds);
+                            _timerController.reset();
+                          }),
                         ),
                       ),
                     ],
