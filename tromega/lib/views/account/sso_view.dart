@@ -19,6 +19,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
+    checkForUser();
     super.initState();
     accountHttpHelper = AccountHttpHelper();
   }
@@ -114,5 +115,11 @@ class _LoginViewState extends State<LoginView> {
         content: Text(value),
       ),
     );
+  }
+
+  void checkForUser() async {
+    prefs = await SharedPreferences.getInstance();
+    print(prefs.containsKey("userId"));
+    prefs.containsKey("userId") ? Navigator.of(context).pushNamed('/app') : "";
   }
 }

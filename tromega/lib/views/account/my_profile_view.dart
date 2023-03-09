@@ -21,6 +21,7 @@ class _ProfileViewState extends State<ProfileView> {
   late Account lastAccount;
   late Body lastBody;
   late AccountHttpHelper accountHttpHelper;
+  late SharedPreferences prefs;
   bool fetching = true;
 
   @override
@@ -31,9 +32,10 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void handleSignOut() async {
-      await _googleSignInService.signOut().then((value) {
-        Navigator.pushNamed(context, '/');
-      });
+    await _googleSignInService.signOut().then((value) {
+      prefs.clear();
+      Navigator.pushNamed(context, "/");
+    });
   }
 
   @override
@@ -139,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
       );
 
   void fetchData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
     Account account =
         await accountHttpHelper.getAccount(prefs.getString('googleId') ?? '');
     Body body =
