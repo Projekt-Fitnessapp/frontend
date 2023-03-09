@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
+import '../interactives/value_picker.dart';
 
 class BottomDialogPicker extends StatefulWidget {
-  const BottomDialogPicker(
-      {Key? key,
-      required this.title,
-      required this.startValue,
-      required this.isDecimal,
-      required this.onChangeValue,
-      required this.stepSize})
-      : super(key: key);
+  const BottomDialogPicker({
+    Key? key,
+    required this.title,
+    required this.onSubmit,
+    required this.forReps,
+    required this.startValue,
+  }) : super(key: key);
   final String title;
+  final Function onSubmit;
+  final bool forReps;
   final num startValue;
-  final bool isDecimal;
-  final Function onChangeValue;
-  final num stepSize;
 
   @override
   State<BottomDialogPicker> createState() => _BottomDialogPickerState();
@@ -44,7 +42,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ),
-          widget.isDecimal ? buildWeightPicker() : buildRepetitionPicker(),
+          widget.forReps ? buildRepetitionPicker() : buildWeightPicker(),
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -66,7 +64,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: ElevatedButton(
                     onPressed: () {
-                      widget.onChangeValue(value);
+                      widget.onSubmit(value);
                       Navigator.pop(context);
                     },
                     child: Text(
@@ -84,28 +82,29 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
   }
 
   Widget buildRepetitionPicker() {
-    return NumberPicker(
+    return ValuePicker(
       minValue: 0,
-      maxValue: 50,
-      step: widget.stepSize.toInt(),
-      value: value.toInt(),
-      onChanged: (newValue) {
-        setState(() {
-          value = newValue;
-        });
+      maxValue: 25,
+      stepSize: 1,
+      onChange: (newValue) => value = newValue,
+      onSubmit: (newValue) {
+        widget.onSubmit(newValue);
+        Navigator.pop(context);
       },
+      initialValue: value.toInt(),
     );
   }
 
   Widget buildWeightPicker() {
-    return DecimalNumberPicker(
+    return ValuePicker(
       minValue: 0,
       maxValue: 300,
-      value: value.toDouble(),
-      onChanged: (newValue) {
-        setState(() {
-          value = newValue;
-        });
+      stepSize: 2.5,
+      initialValue: value,
+      onChange: (newValue) => value = newValue,
+      onSubmit: (newValue) {
+        widget.onSubmit(newValue);
+        Navigator.pop(context);
       },
     );
   }
