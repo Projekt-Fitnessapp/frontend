@@ -55,7 +55,7 @@ class _PauseTimerState extends State<PauseTimer> {
             children: [
               AnimatedRotation(
                 turns: _iconTurns,
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 400),
                 curve: Curves.decelerate,
                 child: IconButton(
                     splashRadius: 8,
@@ -106,7 +106,7 @@ class _PauseTimerState extends State<PauseTimer> {
 
   void _animateResetIcon() {
     setState(() {
-      _iconTurns += 1.0 / 8.0;
+      _iconTurns -= 1.0;
     });
   }
 }
