@@ -50,7 +50,7 @@ class _TrackingViewState extends State<TrackingView>
     super.initState();
   }
 
-  @override 
+  @override
   void dispose() {
     _pageController.dispose();
     _timerController.dispose();
@@ -174,7 +174,8 @@ class _TrackingViewState extends State<TrackingView>
   void fetchData() async {
     // hard coded for now
     TrainingSession initSession =
-        await trackingHttpHelper.getLastSession(trainingDayId);
+        await trackingHttpHelper.getNextTrainingSession(trainingDayId);
+
     setState(() {
       lastSession = initSession;
       thisSession = TrainingSession.clone(initSession);
