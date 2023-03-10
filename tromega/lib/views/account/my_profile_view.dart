@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_signin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
+import 'package:tromega/data/benchmarking.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/account_http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -20,6 +21,7 @@ class _ProfileViewState extends State<ProfileView> {
   final GoogleSignInService _googleSignInService = GoogleSignInService();
   late Account lastAccount;
   late Body lastBody;
+  late Benchmarking lastBenchmarking;
   late AccountHttpHelper accountHttpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
@@ -123,7 +125,9 @@ class _ProfileViewState extends State<ProfileView> {
             buildDataRow(
                 text1: 'Geschlecht', text2: lastAccount.sex.toString()),
             const SizedBox(height: 24),
-            buildDataRow(text1: 'Trainingsziel', text2: "Muskeln aufbauen")
+            buildDataRow(
+                text1: 'Liegestütze',
+                text2: lastBenchmarking.exercise_amount.toString()),
           ],
         ));
   }
@@ -163,10 +167,13 @@ class _ProfileViewState extends State<ProfileView> {
         await accountHttpHelper.getAccount(prefs.getString('googleId') ?? '');
     Body body =
         await accountHttpHelper.getBody(prefs.getString('userId') ?? '');
+    Benchmarking benchmarking = await accountHttpHelper.getBenchmarking(
+        prefs.getString('userId') ?? '', "push_ups");
 
     setState(() {
       lastAccount = account;
       lastBody = body;
+      lastBenchmarking = benchmarking;
       fetching = false;
     });
   }

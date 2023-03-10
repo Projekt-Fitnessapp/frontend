@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/data/benchmarking.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
@@ -23,30 +24,24 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   late TextEditingController changedName;
   late TextEditingController changedHeight;
   late TextEditingController changedWeight;
+  late TextEditingController pushUps;
   late Body thisBody;
   late Account thisAccount;
+  late Benchmarking thisBenchmarking;
 
   @override
   void initState() {
     thisBody = Body("", "", DateTime.now(), 0, 0);
     thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
+    thisBenchmarking = Benchmarking("", "", "", 0, 0);
     accountHttpHelper = AccountHttpHelper();
     changedBirthday = TextEditingController();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
     changedWeight = TextEditingController();
+    pushUps = TextEditingController();
     super.initState();
   }
-
-  String trainingExperience = "Ja";
-  List<String> experienceOptions = ["Ja", "Ein bisschen", "Nein"];
-
-  String trainingGoal = "Muskeln aufbauen";
-  late List<String> trainingOptions = [
-    "Muskeln aufbauen",
-    "Ausdauer verbessern",
-    "Gewicht verlieren"
-  ];
 
   late String gender = "male";
   late List<String> genderOptions = ["male", "female"];
@@ -107,7 +102,12 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
             ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: pushUps,
+                regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
             buildTextField(color),
             buildQuestion(text: 'Wie viele Kniebeugen schaffst du?'),
@@ -124,8 +124,10 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                     thisAccount.birthdate = format.parse(changedBirthday.text);
                     thisAccount.name = changedName.text;
                     thisAccount.sex = gender;
+                    thisBenchmarking.exercise_amount = int.parse(pushUps.text);
+                    thisBenchmarking.exercise_name = "push_ups";
                   });
-                  widget.onFinished(thisAccount, thisBody);
+                  widget.onFinished(thisAccount, thisBody, thisBenchmarking);
                 })
           ],
         ),
