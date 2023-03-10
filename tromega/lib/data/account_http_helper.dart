@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
 import 'package:tromega/data/body.dart';
+import 'package:tromega/data/benchmarking.dart';
 
 class AccountHttpHelper {
   final String authority = 'api.fitnessapp.gang-of-fork.de';
@@ -114,7 +115,49 @@ class AccountHttpHelper {
       },
       body: jsonBody,
     );
-    
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<Benchmarking> getBenchmarking(String userId, String exercise_name) async {
+    Benchmarking benchmarking;
+    String newPath = '/body';
+    Map<String, dynamic> querys = Map();
+    querys["userId"] = userId;
+    querys["exercise_name"] = exercise_name;
+    Uri uri = Uri.https(authority, newPath, querys);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    http.Response res = await http.get(
+      uri,
+      headers: {
+        HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
+      },
+    );
+
+    if(res.statusCode == 200) {
+        benchmarking = Benchmarking.fromJSON(jsonDecode(res.body));
+    } else {
+      throw Exception("failed to get benchmarking");
+    }
+    return benchmarking;
+  }
+
+  Future<bool> postBenchmarking(Benchmarking benchmarking) async {
+    String newPath = '/benchmarking';
+    Uri uri = Uri.https(authority, newPath);
+
+    String jsonBody = jsonEncode(benchmarking.toJson());
+    http.Response res = await http.post(
+      uri,
+      headers: {HttpHeaders.contentTypeHeader: "application/json"},
+      body: jsonBody,
+    );
+
     if (res.statusCode == 201) {
       return true;
     } else {
