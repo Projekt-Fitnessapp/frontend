@@ -43,7 +43,6 @@ class _SetDisplayState extends State<SetDisplay> {
           displayFor: 'weight',
           highlighted: widget.highlighted,
           onChange: (value) {
-            print("weight changed");
             setState(() {
               thisSet.weight = value;
             });
@@ -55,7 +54,6 @@ class _SetDisplayState extends State<SetDisplay> {
           displayFor: 'reps',
           highlighted: widget.highlighted,
           onChange: (value) {
-            print("reps changed");
             setState(() {
               thisSet.reps = value;
             });

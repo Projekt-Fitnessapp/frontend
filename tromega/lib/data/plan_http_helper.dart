@@ -73,12 +73,10 @@ class PlanHttpHelper {
     Uri uri = Uri.https(authority, newPath, queryParameters);
 
     http.Response res = await http.get(uri);
-    print(res.body);
 
     if (res.statusCode == 200) {
       for (var plan in jsonDecode(res.body)) {
         trainingPlans.add(TrainingPlan.fromJSON(plan));
-        print(TrainingPlan.fromJSON(plan).getId);
       }
     } else {
       throw Exception('Failed to load myPlans');

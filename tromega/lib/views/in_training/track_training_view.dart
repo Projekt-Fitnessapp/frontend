@@ -172,8 +172,6 @@ class _TrackingViewState extends State<TrackingView>
   }
 
   void fetchData() async {
-    print(trainingDayId);
-    print(trainingPlanId);
     // hard coded for now
     TrainingSession initSession =
         await trackingHttpHelper.getLastSession(trainingDayId);

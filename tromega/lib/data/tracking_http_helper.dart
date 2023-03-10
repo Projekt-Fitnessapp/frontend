@@ -30,7 +30,6 @@ class TrackingHttpHelper {
     );
 
     if (res.statusCode == 200) {
-      print(res.body);
       TrainingSession lastSession =
           TrainingSession.fromJSON(jsonDecode(res.body));
       if (lastSession.executions.isNotEmpty) {
