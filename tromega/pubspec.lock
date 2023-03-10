@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+  cross_platform:
+    dependency: transitive
+    description:
+      name: cross_platform
+      sha256: "2c766b0775820c9e2c3fd0a5946fc00f910425959ca7cf6f6780bf4e593d3775"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -69,10 +77,25 @@ packages:
     dependency: "direct main"
     description:
       name: custom_timer
+<<<<<<< HEAD
       sha256: "65af2d6a3f6f232b224ad1dd06dbab9f8473be69800a32934cbd1e6d90276348"
       url: "https://pub.dev"
     source: hosted
     version: "0.2.3"
+=======
+      sha256: d83b9b22b9c8e44080ff3cd4b061b04ecb846aae64a1c6888b0a3acc1a61f697
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  draw_graph:
+    dependency: "direct main"
+    description:
+      name: draw_graph
+      sha256: "87d86164bfdd9073957f9732c49b3fa5e8106a2337849d0e14cdf7fe2379bd57"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+>>>>>>> 076213debb0e9ea0d88e2dc6548f8ce384d81dbc
   drop_cap_text:
     dependency: "direct main"
     description:
@@ -105,6 +128,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
+  flinq:
+    dependency: transitive
+    description:
+      name: flinq
+      sha256: "828d6cc2f2525f2c1fbf1803f1a526f4c6592068b70f46609131d0cc0562f514"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -180,10 +211,14 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_ios
+<<<<<<< HEAD
       sha256: eca3433737cfe8b231127d43a3e6527e07d5f8e4a0c00ce593aaaf7bc92bb135
+=======
+      sha256: "2575ef0d06dbe6923cedf39766da8305d407bb891d9f4a59502c642719776c5c"
+>>>>>>> 076213debb0e9ea0d88e2dc6548f8ce384d81dbc
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.2"
+    version: "5.6.0"
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -225,7 +260,7 @@ packages:
     source: hosted
     version: "1.1.0"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
@@ -272,6 +307,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+<<<<<<< HEAD
+=======
+  mdcharts:
+    dependency: "direct main"
+    description:
+      name: mdcharts
+      sha256: "4008b9170af896e17b50c6d60344b6b3f3cffa8e3fc39bcc93fb68f2d6035987"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.6"
+>>>>>>> 076213debb0e9ea0d88e2dc6548f8ce384d81dbc
   meta:
     dependency: transitive
     description:
@@ -376,6 +422,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   scrollable_positioned_list:
     dependency: transitive
     description:
@@ -477,6 +531,25 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+<<<<<<< HEAD
+=======
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      sha256: "6faeb211311559f99f3c816b75aa493e68d1cc263f62dec530d5e8098b71bae4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.52"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "4319454a92fe5aea1e90ff68c17703a39517ab05dd3074c34c9553e5f7cbf414"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.52"
+>>>>>>> 076213debb0e9ea0d88e2dc6548f8ce384d81dbc
   term_glyph:
     dependency: transitive
     description:
@@ -527,4 +600,8 @@ packages:
     version: "1.0.0"
 sdks:
   dart: ">=2.18.0 <3.0.0"
+<<<<<<< HEAD
   flutter: ">=3.0.0"
+=======
+  flutter: ">=3.3.0"
+>>>>>>> 076213debb0e9ea0d88e2dc6548f8ce384d81dbc

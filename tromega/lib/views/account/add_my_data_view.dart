@@ -32,9 +32,7 @@ class _AddMyDataViewState extends State<AddMyDataView> {
         children: [
           const SizedBox(height: 24),
           QuestionWidget(onFinished: (Account account, Body body) {
-            print("finished");
             accountHttpHelper.postAccount(account).then((account) {
-              print('in Post');
               SharedPreferences.getInstance().then((prefs) {
                 String userId = prefs.getString('userId') ?? '';
                 body.userId = userId;

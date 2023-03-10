@@ -6,6 +6,7 @@ import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
 import 'package:tromega/widgets/account/routebutton_widget.dart';
+import 'package:intl/intl.dart';
 
 class QuestionWidget extends StatefulWidget {
   const QuestionWidget({Key? key, required this.onFinished}) : super(key: key);
@@ -18,6 +19,7 @@ class QuestionWidget extends StatefulWidget {
 
 class _SecondQuestionWidget extends State<QuestionWidget> {
   late AccountHttpHelper accountHttpHelper;
+  late TextEditingController changedBirthday;
   late TextEditingController changedName;
   late TextEditingController changedHeight;
   late TextEditingController changedWeight;
@@ -29,6 +31,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     thisBody = Body("", "", DateTime.now(), 0, 0);
     thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
     accountHttpHelper = AccountHttpHelper();
+    changedBirthday = TextEditingController();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
     changedWeight = TextEditingController();
@@ -50,6 +53,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    DateFormat format = DateFormat('yyyy-MM-dd');
     final color = Theme.of(context).primaryColor;
     return Padding(
       padding: const EdgeInsets.all(15),
@@ -59,24 +63,37 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildQuestion(text: 'Wie heißt du?'),
-            AnswerFieldWidget(controller: changedName),
-            buildQuestion(text: 'Wie alt bist du?'),
-            buildTextField(color),
-            buildQuestion(text: 'Wie groß bist du?'),
-            AnswerFieldWidget(controller: changedHeight),
-            buildQuestion(text: 'Wie viel wiegst du?'),
-            AnswerFieldWidget(controller: changedWeight),
-            buildQuestion(text: 'Was ist dein Trainingsziel?'),
-            const SizedBox(height: 16),
-            DropDownWidget(
-              color: color,
-              items: trainingOptions,
-              currentValue: trainingGoal,
-              itemCallBack: (String trainingGoal) {
-                this.trainingGoal = trainingGoal;
-              },
+            AnswerFieldWidget(
+              maxLength: 30,
+              controller: changedName,
+              hintText: "Vorname Nachname",
+              suffixText: "",
+              regExp: r'[A-Za-zÄÖÜäöüß ]',
             ),
-            const SizedBox(height: 16),
+            buildQuestion(text: 'Wann hast du Geburtstag?'),
+            AnswerFieldWidget(
+              maxLength: 10,
+              controller: changedBirthday,
+              hintText: "YYYY-MM-DD",
+              suffixText: "",
+              regExp: r'[0-9-]',
+            ),
+            buildQuestion(text: 'Wie groß bist du?'),
+            AnswerFieldWidget(
+              maxLength: 3,
+              controller: changedHeight,
+              hintText: "0",
+              suffixText: "cm",
+              regExp: r'^[1-2]?[0-9]{1,2}',
+            ),
+            buildQuestion(text: 'Wie viel wiegst du?'),
+            AnswerFieldWidget(
+              maxLength: 3,
+              controller: changedWeight,
+              hintText: "0",
+              suffixText: "kg",
+              regExp: r'^[1-2]?[0-9]{1,2}',
+            ),
             buildQuestion(
                 text: 'Mit welchem Geschlecht identifizierst du dich?'),
             const SizedBox(height: 16),
@@ -88,25 +105,14 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 this.gender = gender;
               },
             ),
-            const SizedBox(height: 32),
-            buildQuestion(text: 'Hast du bereits Erfahrung mit Training?'),
-            const SizedBox(height: 16),
-            DropDownWidget(
-              color: color,
-              items: experienceOptions,
-              currentValue: trainingExperience,
-              itemCallBack: (String trainingExperience) {
-                this.trainingExperience = trainingExperience;
-              },
-            ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
             buildTextField(color),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
             buildTextField(color),
-            buildQuestion(text: 'Wie viel Kilo stemmst du?'),
+            buildQuestion(text: 'Wie viele Kniebeugen schaffst du?'),
             buildTextField(color),
-            buildQuestion(text: 'Wie häufig gehst du trainieren?'),
+            buildQuestion(text: 'Wie viele Crunches schaffst du?'),
             buildTextField(color),
             RouteButtonWidget(
                 color: color,
@@ -115,6 +121,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                   setState(() {
                     thisBody.height = int.parse(changedHeight.text);
                     thisBody.weight = int.parse(changedWeight.text);
+                    thisAccount.birthdate = format.parse(changedBirthday.text);
                     thisAccount.name = changedName.text;
                     thisAccount.sex = gender;
                   });
