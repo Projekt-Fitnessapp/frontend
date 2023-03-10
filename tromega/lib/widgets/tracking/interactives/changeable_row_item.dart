@@ -8,19 +8,19 @@ class ChangeableRowItem extends StatefulWidget {
       required this.value,
       required this.highlighted,
       required this.displayFor,
-      required this.onChangeValue})
+      required this.onChange})
       : super(key: key);
-  final String value;
+  final num value;
   final String displayFor;
   final bool highlighted;
-  final Function onChangeValue;
+  final Function onChange;
 
   @override
   State<ChangeableRowItem> createState() => _ChangeableRowItemState();
 }
 
 class _ChangeableRowItemState extends State<ChangeableRowItem> {
-  late String currentValue;
+  late num currentValue;
 
   @override
   void initState() {
@@ -56,24 +56,20 @@ class _ChangeableRowItemState extends State<ChangeableRowItem> {
                             title: widget.displayFor == 'reps'
                                 ? 'Wiederholungen'
                                 : 'Gewicht',
-                            isDecimal: false,
-                            // widget.displayFor == 'reps' ? false : true,
-                            startValue: widget.displayFor == 'reps'
-                                ? int.parse(currentValue)
-                                : double.parse(currentValue),
-                            stepSize: 1,
-                            onChangeValue: (value) {
+                            startValue: currentValue,
+                            forReps: widget.displayFor == 'reps',
+                            onSubmit: (value) {
                               setState(() {
-                                currentValue = value.toString();
+                                currentValue = value;
                               });
-                              widget.onChangeValue(value);
+                              widget.onChange(value);
                             },
                           );
                   },
                 );
               },
               child: Text(
-                currentValue,
+                currentValue.toString(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             )),

@@ -71,7 +71,11 @@ class TrackingHttpHelper {
       return false;
     }
 
-    Uri uri = Uri.https(authority, '/trainingSession');
+    Map<String, dynamic> queries = {
+      'trainingPlanId': session.trainingDayId,
+    };
+
+    Uri uri = Uri.https(authority, '/trainingSession', queries);
 
     session.userId = userId;
 
@@ -91,7 +95,7 @@ class TrackingHttpHelper {
       },
     );
 
-    return res.statusCode == 201;
+    return res.statusCode == 201 || res.statusCode == 202;
   }
 
   Future<Execution?> getLastExecution(

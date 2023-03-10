@@ -10,8 +10,11 @@ import '../../widgets/tracking/displays/execution_page.dart';
 import '../../widgets/tracking/interactives/exercise_thumbnail.dart';
 
 class TrackingView extends StatefulWidget {
-  const TrackingView({Key? key, required this.trainingDayId}) : super(key: key);
+  const TrackingView(
+      {Key? key, required this.trainingDayId, required this.trainingPlanId})
+      : super(key: key);
   final String trainingDayId;
+  final String trainingPlanId;
   @override
   State<TrackingView> createState() => _TrackingViewState();
 }
@@ -24,6 +27,7 @@ class _TrackingViewState extends State<TrackingView>
   late CustomTimerController _timerController;
   late int timerSeconds;
   late String trainingDayId;
+  late String trainingPlanId;
   bool trainingFinished = false;
   bool fetching = true;
   int highlightedPage = 0;
@@ -34,6 +38,7 @@ class _TrackingViewState extends State<TrackingView>
   initState() {
     /// hardcoded for debugging purposes
     trainingDayId = widget.trainingDayId;
+    trainingPlanId = widget.trainingPlanId;
     trackingHttpHelper = const TrackingHttpHelper();
     timerSeconds = 180;
     _timerController = CustomTimerController(
@@ -56,6 +61,7 @@ class _TrackingViewState extends State<TrackingView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar_Icon(
+        withBackButton: false,
         actions: fetching
             ? []
             : [
@@ -166,6 +172,8 @@ class _TrackingViewState extends State<TrackingView>
   }
 
   void fetchData() async {
+    print(trainingDayId);
+    print(trainingPlanId);
     // hard coded for now
     TrainingSession initSession =
         await trackingHttpHelper.getLastSession(trainingDayId);

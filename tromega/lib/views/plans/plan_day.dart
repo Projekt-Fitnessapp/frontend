@@ -68,7 +68,7 @@ class _PlanDayViewState extends State<PlanDayView> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        TrackingView(trainingDayId: trainingId),
+                        TrackingView(trainingDayId: trainingId, trainingPlanId: widget.trainingPlan.getId),
                   ));
             }),
             child: const Text("Training starten")),

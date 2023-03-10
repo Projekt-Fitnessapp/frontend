@@ -29,10 +29,9 @@ class _RepsDialogState extends State<RepsDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                           title: "Wiederholungen",
-                          isDecimal: false,
-                          stepSize: 1,
+                          forReps: true,
                           startValue: widget.reps,
-                          onChangeValue: (int value) {
+                          onSubmit: (int value) {
                             //Aktualisierung der Satzanzahl im Trainingsplan
                             setState(() {});
                             super.setState(() {

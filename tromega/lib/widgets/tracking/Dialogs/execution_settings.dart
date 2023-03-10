@@ -41,9 +41,8 @@ class _ExecutionSettingsState extends State<ExecutionSettings> with TickerProvid
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              PageButton(0, 'Info'),
-              PageButton(1, 'Ausführung'),
-              PageButton(2, 'Historie'),
+              PageButton(0, 'Ausführung'),
+              PageButton(1, 'Historie'),
             ],
           ),
           SizedBox(
@@ -54,12 +53,11 @@ class _ExecutionSettingsState extends State<ExecutionSettings> with TickerProvid
               scrollDirection: Axis.horizontal,
               physics: const PageScrollPhysics(),
               children: [
-                const Text('Info - WIP'),
                 ExecutionInfos(
                   gifUrl: exec.exercise.gifUrl,
                   instructions: exec.exercise.instruction,
                 ),
-                const Text('Historie - WIP'),
+                const Text('Historie - WIP'), // TODO: History Blöcke einbauen
               ],
             ),
           )

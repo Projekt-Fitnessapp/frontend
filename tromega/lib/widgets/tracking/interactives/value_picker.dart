@@ -24,7 +24,7 @@ class ValuePicker extends StatefulWidget {
   final num maxValue;
   final num minValue;
   final num stepSize;
-  final num? initialValue;
+  final dynamic initialValue;
   final Function? onChange;
   final Function? onSubmit;
 
@@ -49,13 +49,19 @@ class ValuePickerState extends State<ValuePicker> {
     valueList.addAll(widget.values ?? getListValues());
     valueList.add("");
 
-    currentValue = widget.initialValue ?? widget.minValue;
-    currentIndex = valueList.indexOf((element) => element == currentValue);
+    // set initial Value, if possible
+    if (valueList.contains(widget.initialValue)) {
+      currentValue = widget.initialValue;
+    } else {
+      // index 1 --> first real item
+      currentValue = valueList[1];
+    }
+    currentIndex = valueList.indexOf(currentValue);
 
     // set current position
     controller = ScrollController(
         keepScrollOffset: true,
-        initialScrollOffset: (currentIndex - 1 * _itemSize).toDouble());
+        initialScrollOffset: ((currentIndex - 1) * _itemSize).toDouble());
 
     super.initState();
   }
