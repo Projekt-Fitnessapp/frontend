@@ -46,8 +46,8 @@ class _LoginViewState extends State<LoginView> {
               .getAccount(_googleSignInService.user?.id ?? '')
               .then((account) {
             prefs.setString('userId', account.getId());
+            Navigator.of(context).pushNamed('/app');
           });
-          Navigator.of(context).pushNamed('/app');
         } else {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => AddMyDataView(
