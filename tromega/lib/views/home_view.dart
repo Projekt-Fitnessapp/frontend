@@ -138,63 +138,92 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     Container(
                       alignment: Alignment.bottomCenter,
-                      decoration:
-                          BoxDecoration(color: Colors.white, boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 5,
-                          blurRadius: 10,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 5,
+                              blurRadius: 10,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Container(
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    1.0, 15.0, 1.0, 1.0),
+                                child: Text(
+                                  'Nächstes Training',
+                                  style:
+                                      Theme.of(context).textTheme.headlineLarge,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    1.0, 1.0, 1.0, 30.0),
+                                child: Text(
+                                  nextTraining,
+                                  //style: Theme.of(context).textTheme.titleLarge,
+                                  //textAlign: TextAlign.center,
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(200, 50),
+                                  maximumSize: const Size(200, 50),
+                                  primary: nextTraining !=
+                                          'Kein Plan ausgewählt'
+                                      ? const Color.fromARGB(1000, 0, 48, 80)
+                                      : const Color.fromARGB(
+                                          1000, 200, 200, 200),
+                                ),
+                                onPressed: () {
+                                  nextTraining != 'Kein Plan ausgewählt'
+                                      ? homeHttpHelper
+                                          .getNextTrainingDayId()
+                                          .then((ids) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TrackingView(
+                                                        trainingDayId:
+                                                            ids[0],
+                                                        trainingPlanId: ids[1],
+                                                      )));
+                                        })
+                                      : showInSnackbar(context,
+                                          'Bitte erst Training auswählen.');
+                                  ;
+                                },
+                                child: Text(
+                                  'Training starten',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: RichText(
+                                    text: TextSpan(
+                                        text: 'Anderen Tag auswählen',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            widget.onSelectTab(1);
+                                          })),
+                              )
+                            ],
+                          )),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 30.0),
-                      child: Text(
-                        nextTraining,
-                        //style: Theme.of(context).textTheme.titleLarge,
-                        //textAlign: TextAlign.center,
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 50),
-                        maximumSize: const Size(200, 50),
-                        primary: nextTraining != 'Kein Plan ausgewählt'
-                            ? const Color.fromARGB(1000, 0, 48, 80)
-                            : const Color.fromARGB(1000, 200, 200, 200),
-                      ),
-                      onPressed: () {
-                        nextTraining != 'Kein Plan ausgewählt'
-                            ? homeHttpHelper.getNextTrainingDayId().then((ids) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TrackingView(
-                                            trainingDayId: ids[0],
-                                            trainingPlanId: ids[1])));
-                              })
-                            : showInSnackbar(
-                                context, 'Bitte erst Training auswählen.');
-                        ;
-                      },
-                      child: Text(
-                        'Training starten',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: RichText(
-                          text: TextSpan(
-                              text: 'Anderen Tag auswählen',
-                              style: Theme.of(context).textTheme.bodySmall,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  widget.onSelectTab(1);
-                                })),
-                    )
                   ],
                 ),
               ),

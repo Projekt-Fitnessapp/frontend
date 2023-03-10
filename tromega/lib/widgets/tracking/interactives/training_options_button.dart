@@ -23,11 +23,11 @@ class TrainingOptionsButton extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmationDialog(
-                      question:
-                          'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
-                      onConfirm: () =>
-                          Navigator.popAndPushNamed(context, '/app'),
-                    );
+                        question:
+                            'Sind Sie sich sicher? Ihr Fortschritt geht dabei verloren.',
+                        onConfirm: () {
+                          Navigator.popAndPushNamed(context, '/app');
+                        });
                   },
                 );
               },
@@ -44,7 +44,7 @@ class TrainingOptionsButton extends StatelessWidget {
                     builder: (context) {
                       return ConfirmationDialog(
                         question:
-                            'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
+                            'Sie haben noch nicht alle Übungen abgeschlossen. Training trotzdem beenden?',
                         onConfirm: () {
                           _trackingHttpHelper
                               .saveSession(thisSession)
