@@ -114,7 +114,6 @@ class _LoginViewState extends State<LoginView> {
 
   void checkForUser() async {
     prefs = await SharedPreferences.getInstance();
-    print(prefs.containsKey("userId"));
     prefs.containsKey("userId") ? Navigator.of(context).pushNamed('/app') : "";
   }
 }

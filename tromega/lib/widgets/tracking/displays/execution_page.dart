@@ -55,6 +55,7 @@ class _ExecutionPageState extends State<ExecutionPage> {
                       builder: (BuildContext context) {
                         return ExecutionSettings(
                           exec: exec,
+                          trainingDayId: widget.trainingDayId,
                         );
                       },
                     );

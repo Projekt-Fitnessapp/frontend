@@ -124,7 +124,9 @@ class TrackingHttpHelper {
       int pos = lastSession.executions
           .indexWhere((exec) => exec.exercise.getId == exerciseId);
       if (pos >= 0) {
-        return lastSession.executions[pos];
+        Execution lastExecution = lastSession.executions[pos];
+        lastExecution.date = lastSession.date;
+        return lastExecution;
       }
     }
     return null;
