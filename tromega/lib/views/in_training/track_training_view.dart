@@ -50,7 +50,7 @@ class _TrackingViewState extends State<TrackingView>
     super.initState();
   }
 
-  @override
+  @override 
   void dispose() {
     _pageController.dispose();
     _timerController.dispose();
