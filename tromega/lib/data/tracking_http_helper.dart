@@ -93,7 +93,9 @@ class TrackingHttpHelper {
       return Execution(e.id, userId, e.exercise, e.notes, newSets, e.done);
     }).toList();
 
-    /// reates a json from the current Session and sends it
+    print(session.toJson());
+
+    /// creates a json from the current Session and sends it
     http.Response res = await http.post(
       uri,
       body: jsonEncode(session.toJson()),
@@ -128,6 +130,7 @@ class TrackingHttpHelper {
     if (res.body.isNotEmpty) {
       TrainingSession lastSession =
           TrainingSession.fromJSON(jsonDecode(res.body));
+      print(jsonDecode(res.body));
 
       /// gets the execution from the last completed training
       int pos = lastSession.executions

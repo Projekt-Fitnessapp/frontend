@@ -34,7 +34,9 @@ class ExecutionSet {
       reps = importMap['reps'].round();
     }
     weight = importMap['weight']?.toDouble() ?? 0.0;
-    tenRM = importMap['tenRM']?.toDouble() ?? 0.0;
+
+    // calculate manually, backend does not send information
+    tenRM = ((weight * (36 / (37 - reps))) * 0.7498);
     done = false;
   }
 

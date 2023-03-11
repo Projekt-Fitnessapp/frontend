@@ -36,16 +36,18 @@ class _TrackingViewState extends State<TrackingView>
 
   @override
   initState() {
-    /// hardcoded for debugging purposes
     trainingDayId = widget.trainingDayId;
     trainingPlanId = widget.trainingPlanId;
     trackingHttpHelper = const TrackingHttpHelper();
+
+    // value is initial, can be changed at later points
     timerSeconds = 180;
     _timerController = CustomTimerController(
       vsync: this,
       begin: Duration(seconds: timerSeconds),
       end: const Duration(),
     );
+    
     fetchData();
     super.initState();
   }

@@ -82,7 +82,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                               .asMap()
                               .entries
                               .map((entry) => buildHistoryDataCell(
-                                  context, entry.key.toString()))
+                                  context, (entry.key +1).toString()))
                               .toList(),
                         ),
                         Column(
@@ -103,7 +103,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: lastExecution!.sets
                               .map((elem) => buildHistoryDataCell(
-                                  context, elem.tenRM.toString()))
+                                  context, elem.tenRM.toStringAsFixed(1)))
                               .toList(),
                         ),
                       ],

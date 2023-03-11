@@ -20,27 +20,55 @@ class PauseTimer extends StatefulWidget {
 
 class _PauseTimerState extends State<PauseTimer> {
   late double _iconTurns;
+  bool _animationState = false;
 
   @override
   void initState() {
     _iconTurns = 0;
+
+    widget.controller.state.addListener(() {
+      if (widget.controller.state.value == CustomTimerState.finished) {
+        setState(() {});
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(() {
+      if (widget.controller.state.value == CustomTimerState.finished) {
+        setState(() {});
+      }
+    });
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomLeft,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 600),
+        onEnd: () => setState(() {
+          if (widget.controller.state.value == CustomTimerState.finished) {
+            _animationState = !_animationState;
+          }
+        }),
         width: MediaQuery.of(context).size.width * 0.43,
         margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: Theme.of(context).highlightColor,
+          color: widget.controller.state.value == CustomTimerState.finished
+              ? _animationState
+                  ? Theme.of(context).highlightColor
+                  : Colors.red.shade600
+              : Theme.of(context).highlightColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: InkWell(
-          onLongPress: () {
+          onTap: () {
             showDialog(
                 context: context,
                 builder: (context) => DialogTimerPicker(
