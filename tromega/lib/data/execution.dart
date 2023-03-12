@@ -26,17 +26,16 @@ class Execution {
     exercise = Exercise.fromJSON(importMap['exercise'] ?? {});
     notes = importMap['notes'].map<String>((note) => note.toString()).toList();
     sets = importMap['sets'].map<ExecutionSet>((setMap) => ExecutionSet.fromJSON(setMap)).toList();
-    date = DateTime.parse(importMap['date'] ?? '19700101');
+    date = DateTime.parse(
+        importMap['date']?.toString().substring(0, 10) ?? '19700101');
     done = false;
   }
 
   Map<String, dynamic> toJson() {
     return {
-      //'userId': userId, --> in later version
       'exercise': exercise.toJson(),
       'notes': notes,
       'sets': sets.map((e) => e.toJson()).toList(),
-      //'date': DateTime.now().toIso8601String(),
     };
   }
 }

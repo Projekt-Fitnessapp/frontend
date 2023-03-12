@@ -39,10 +39,10 @@ class _SetDisplayState extends State<SetDisplay> {
           highlighted: widget.highlighted,
         ),
         ChangeableRowItem(
-          value: thisSet.weight.toString(),
+          value: thisSet.weight,
           displayFor: 'weight',
           highlighted: widget.highlighted,
-          onChangeValue: (value) {
+          onChange: (value) {
             setState(() {
               thisSet.weight = value;
             });
@@ -50,10 +50,10 @@ class _SetDisplayState extends State<SetDisplay> {
           },
         ),
         ChangeableRowItem(
-          value: thisSet.reps.toString(),
+          value: thisSet.reps,
           displayFor: 'reps',
           highlighted: widget.highlighted,
-          onChangeValue: (value) {
+          onChange: (value) {
             setState(() {
               thisSet.reps = value;
             });
@@ -96,7 +96,7 @@ class _SetDisplayState extends State<SetDisplay> {
 
   void recalculate10RM() {
     setState(() {
-      thisSet.tenRM = ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498).round();
+      thisSet.tenRM = ((thisSet.weight * (36 / (37 - thisSet.reps))) * 0.7498);
     });
   }
 }

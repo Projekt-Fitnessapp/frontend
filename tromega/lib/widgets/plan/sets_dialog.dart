@@ -28,10 +28,9 @@ class _SetsDialogState extends State<SetsDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                         title: "Sätze",
-                        stepSize: 1,
+                        forReps: true,
                         startValue: widget.sets,
-                        isDecimal: false,
-                        onChangeValue: (int value) {
+                        onSubmit: (int value) {
                           //Aktualisierung der Satzanzahl im trainingsplan
                           setState(() {});
                           super.setState(() {

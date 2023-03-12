@@ -51,7 +51,10 @@ class _PlanViewColumnState extends State<PlanViewColumn> {
             await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TrackingView(trainingDayId: trainingId),
+                  builder: (context) => TrackingView(
+                    trainingDayId: trainingId,
+                    trainingPlanId: widget.trainingPlan.getId,
+                  ),
                 ));
           }),
           child: const Text("Training starten")),

@@ -8,7 +8,7 @@ enum ExecutionType {
 
 class ExecutionSet {
   late ExecutionType executionType;
-  late int weight, tenRM;
+  late double weight, tenRM;
   late int reps;
   late bool done;
 
@@ -33,8 +33,10 @@ class ExecutionSet {
     } else {
       reps = importMap['reps'].round();
     }
-    weight = importMap['weight'] ?? 0;
-    tenRM = importMap['tenRM'] ?? 0;
+    weight = importMap['weight']?.toDouble() ?? 0.0;
+
+    // calculate manually, backend does not send information
+    tenRM = ((weight * (36 / (37 - reps))) * 0.7498);
     done = false;
   }
 

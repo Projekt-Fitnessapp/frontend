@@ -134,7 +134,6 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
     TrainingPlan trainingPlan =
         TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
     var response = await planHttpHelper.putActivePlan(userId, id);
-    print(response);
     if (response) {
       showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
     } else {

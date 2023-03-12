@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/execution.dart';
 import 'package:tromega/data/execution_set.dart';
+import 'package:tromega/data/exercise.dart';
 import 'package:tromega/data/training_day.dart';
 import 'package:tromega/data/training_session.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ class TrackingHttpHelper {
 
   final String authority = 'api.fitnessapp.gang-of-fork.de';
 
-  Future<TrainingSession> getLastSession(String trainingDayId) async {
+  Future<TrainingSession> getNextTrainingSession(String trainingDayId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     /// Sets the userId to a specific existing user for showcase and debugging
@@ -29,20 +30,27 @@ class TrackingHttpHelper {
       },
     );
 
+    // get a session from current Plan
+    TrainingDay td = await getTrainingDay(trainingDayId);
+    TrainingSession nextSession = TrainingSession.fromTrainingDay(td);
+
+    // this trainingDay has been trained before
     if (res.statusCode == 200) {
-      print(res.body);
       TrainingSession lastSession =
           TrainingSession.fromJSON(jsonDecode(res.body));
-      if (lastSession.executions.isNotEmpty) {
-        return lastSession;
+
+      for (var exec in nextSession.executions) {
+        int indexOfExec = lastSession.executions
+            .indexWhere((e) => e.exercise.getId == exec.exercise.getId);
+
+        // check if exercise was done last time
+        if (indexOfExec != -1) {
+          exec.sets = lastSession.executions[indexOfExec].sets;
+        }
       }
     }
 
-    /// By now there is No session completed by user
-    TrainingDay td = await getTrainingDay(trainingDayId);
-
-    /// creates empty Session
-    return TrainingSession.fromTrainingDay(td);
+    return nextSession;
   }
 
   Future<TrainingDay> getTrainingDay(String trainingDayId) async {
@@ -71,7 +79,11 @@ class TrackingHttpHelper {
       return false;
     }
 
-    Uri uri = Uri.https(authority, '/trainingSession');
+    Map<String, dynamic> queries = {
+      'trainingPlanId': session.trainingDayId,
+    };
+
+    Uri uri = Uri.https(authority, '/trainingSession', queries);
 
     session.userId = userId;
 
@@ -81,7 +93,9 @@ class TrackingHttpHelper {
       return Execution(e.id, userId, e.exercise, e.notes, newSets, e.done);
     }).toList();
 
-    /// reates a json from the current Session and sends it
+    print(session.toJson());
+
+    /// creates a json from the current Session and sends it
     http.Response res = await http.post(
       uri,
       body: jsonEncode(session.toJson()),
@@ -91,7 +105,7 @@ class TrackingHttpHelper {
       },
     );
 
-    return res.statusCode == 201;
+    return res.statusCode == 201 || res.statusCode == 202;
   }
 
   Future<Execution?> getLastExecution(
@@ -116,12 +130,15 @@ class TrackingHttpHelper {
     if (res.body.isNotEmpty) {
       TrainingSession lastSession =
           TrainingSession.fromJSON(jsonDecode(res.body));
+      print(jsonDecode(res.body));
 
       /// gets the execution from the last completed training
       int pos = lastSession.executions
           .indexWhere((exec) => exec.exercise.getId == exerciseId);
       if (pos >= 0) {
-        return lastSession.executions[pos];
+        Execution lastExecution = lastSession.executions[pos];
+        lastExecution.date = lastSession.date;
+        return lastExecution;
       }
     }
     return null;

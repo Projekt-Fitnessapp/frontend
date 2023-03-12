@@ -8,7 +8,13 @@ import 'all_sets_display.dart';
 
 class ExecutionPage extends StatefulWidget {
   const ExecutionPage(
-      {Key? key, required this.execution, required this.trainingDayId, required this.position, required this.onRebuild, required this.onFinishSet, required this.toNextExecution})
+      {Key? key,
+      required this.execution,
+      required this.trainingDayId,
+      required this.position,
+      required this.onRebuild,
+      required this.onFinishSet,
+      required this.toNextExecution})
       : super(key: key);
   final Execution execution;
   final String trainingDayId;
@@ -39,11 +45,16 @@ class _ExecutionPageState extends State<ExecutionPage> {
         children: [
           Row(
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  exec.exercise.name,
-                  style: Theme.of(context).textTheme.headlineLarge,
+              Container(
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.82),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    exec.exercise.name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
                 ),
               ),
               Align(
@@ -55,12 +66,13 @@ class _ExecutionPageState extends State<ExecutionPage> {
                       builder: (BuildContext context) {
                         return ExecutionSettings(
                           exec: exec,
+                          trainingDayId: widget.trainingDayId,
                         );
                       },
                     );
                   },
                   icon: Icon(
-                    Icons.settings,
+                    Icons.info_outline,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
@@ -123,7 +135,8 @@ class _ExecutionPageState extends State<ExecutionPage> {
               executionSets: exec.sets,
               onAddSet: () {
                 setState(() {
-                  ExecutionSet tempSet = ExecutionSet(ExecutionType.WORKING, 10, 0, 0, false);
+                  ExecutionSet tempSet =
+                      ExecutionSet(ExecutionType.WORKING, 10, 0, 0, false);
                   if (exec.sets.isNotEmpty) {
                     tempSet = ExecutionSet.clone(exec.sets.last);
                     tempSet.done = false;

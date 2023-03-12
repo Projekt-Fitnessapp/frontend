@@ -3,7 +3,9 @@ import 'package:tromega/data/execution.dart';
 import '../../../data/tracking_http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
-  const HistoryDataBlock({Key? key, required this.exerciseId, required this.trainingDayId}) : super(key: key);
+  const HistoryDataBlock(
+      {Key? key, required this.exerciseId, required this.trainingDayId})
+      : super(key: key);
   final String exerciseId, trainingDayId;
 
   @override
@@ -36,6 +38,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Center(
                       child: Padding(
@@ -75,19 +78,33 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets.asMap().entries.map((entry) => buildHistoryDataCell(context, entry.key.toString())).toList(),
+                          children: lastExecution!.sets
+                              .asMap()
+                              .entries
+                              .map((entry) => buildHistoryDataCell(
+                                  context, (entry.key +1).toString()))
+                              .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.weight.toString())).toList(),
+                          children: lastExecution!.sets
+                              .map((elem) => buildHistoryDataCell(
+                                  context, elem.weight.toString()))
+                              .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.reps.toString())).toList(),
+                          children: lastExecution!.sets
+                              .map((elem) => buildHistoryDataCell(
+                                  context, elem.reps.toString()))
+                              .toList(),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: lastExecution!.sets.map((elem) => buildHistoryDataCell(context, elem.tenRM.toString())).toList(),
+                          children: lastExecution!.sets
+                              .map((elem) => buildHistoryDataCell(
+                                  context, elem.tenRM.toStringAsFixed(1)))
+                              .toList(),
                         ),
                       ],
                     ),
@@ -112,9 +129,10 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
   }
 
   void fetchData() async {
-    Execution? exec = await httpHelper.getLastExecution(widget.trainingDayId, widget.exerciseId);
+    Execution? exec = await httpHelper.getLastExecution(
+        widget.trainingDayId, widget.exerciseId);
 
-    if (mounted && exec!=null) {
+    if (mounted && exec != null) {
       setState(() {
         lastExecution = exec;
         fetching = false;

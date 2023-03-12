@@ -10,31 +10,44 @@ import '../../widgets/tracking/displays/execution_page.dart';
 import '../../widgets/tracking/interactives/exercise_thumbnail.dart';
 
 class TrackingView extends StatefulWidget {
-  const TrackingView({Key? key, required this.trainingDayId}) : super(key: key);
+  const TrackingView(
+      {Key? key, required this.trainingDayId, required this.trainingPlanId})
+      : super(key: key);
   final String trainingDayId;
+  final String trainingPlanId;
   @override
   State<TrackingView> createState() => _TrackingViewState();
 }
 
-class _TrackingViewState extends State<TrackingView> {
+class _TrackingViewState extends State<TrackingView>
+    with TickerProviderStateMixin {
   late TrainingSession lastSession;
   late TrainingSession thisSession;
   late TrackingHttpHelper trackingHttpHelper;
   late CustomTimerController _timerController;
+  late int timerSeconds;
   late String trainingDayId;
+  late String trainingPlanId;
   bool trainingFinished = false;
   bool fetching = true;
   int highlightedPage = 0;
-
 
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
   initState() {
-    /// hardcoded for debugging purposes
     trainingDayId = widget.trainingDayId;
+    trainingPlanId = widget.trainingPlanId;
     trackingHttpHelper = const TrackingHttpHelper();
-    _timerController = CustomTimerController();
+
+    // value is initial, can be changed at later points
+    timerSeconds = 180;
+    _timerController = CustomTimerController(
+      vsync: this,
+      begin: Duration(seconds: timerSeconds),
+      end: const Duration(),
+    );
+    
     fetchData();
     super.initState();
   }
@@ -50,6 +63,7 @@ class _TrackingViewState extends State<TrackingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar_Icon(
+        withBackButton: false,
         actions: fetching
             ? []
             : [
@@ -135,6 +149,13 @@ class _TrackingViewState extends State<TrackingView> {
                         visible: !trainingFinished,
                         child: PauseTimer(
                           controller: _timerController,
+                          duration: timerSeconds,
+                          updateTimer: (value) => setState(() {
+                            timerSeconds = value;
+                            _timerController.begin =
+                                Duration(seconds: timerSeconds);
+                            _timerController.reset();
+                          }),
                         ),
                       ),
                     ],
@@ -155,7 +176,8 @@ class _TrackingViewState extends State<TrackingView> {
   void fetchData() async {
     // hard coded for now
     TrainingSession initSession =
-        await trackingHttpHelper.getLastSession(trainingDayId);
+        await trackingHttpHelper.getNextTrainingSession(trainingDayId);
+
     setState(() {
       lastSession = initSession;
       thisSession = TrainingSession.clone(initSession);
