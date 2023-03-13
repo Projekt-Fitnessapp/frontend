@@ -24,22 +24,34 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   late TextEditingController changedName;
   late TextEditingController changedHeight;
   late TextEditingController changedWeight;
-  late TextEditingController pushUps;
+  late TextEditingController push_ups;
+  late TextEditingController pull_ups;
+  late TextEditingController crunches;
+  late TextEditingController squads;
   late Body thisBody;
   late Account thisAccount;
-  late Benchmarking thisBenchmarking;
+  late Benchmarking thisPushUps;
+  late Benchmarking thisPullUps;
+  late Benchmarking thisSquads;
+  late Benchmarking thisCrunches;
 
   @override
   void initState() {
     thisBody = Body("", "", DateTime.now(), 0, 0);
     thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
-    thisBenchmarking = Benchmarking("", "", "", 0, 0);
+    thisPushUps = Benchmarking("", "", "", 0, 0);
+    thisPullUps = Benchmarking("", "", "", 0, 0);
+    thisSquads = Benchmarking("", "", "", 0, 0);
+    thisCrunches = Benchmarking("", "", "", 0, 0);
     accountHttpHelper = AccountHttpHelper();
     changedBirthday = TextEditingController();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
     changedWeight = TextEditingController();
-    pushUps = TextEditingController();
+    push_ups = TextEditingController();
+    pull_ups = TextEditingController();
+    crunches = TextEditingController();
+    squads = TextEditingController();
     super.initState();
   }
 
@@ -106,14 +118,29 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 maxLength: 3,
                 hintText: "0",
                 suffixText: "",
-                controller: pushUps,
+                controller: push_ups,
                 regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: pull_ups,
+                regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Kniebeugen schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: squads,
+                regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Crunches schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: crunches,
+                regExp: '[0-9]'),
             RouteButtonWidget(
                 color: color,
                 text: 'Registrieren',
@@ -124,10 +151,18 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                     thisAccount.birthdate = format.parse(changedBirthday.text);
                     thisAccount.name = changedName.text;
                     thisAccount.sex = gender;
-                    thisBenchmarking.exercise_amount = int.parse(pushUps.text);
-                    thisBenchmarking.exercise_name = "push_ups";
+                    thisPushUps.exercise_amount = int.parse(push_ups.text);
+                    thisPushUps.exercise_name = "push_ups";
+                    thisPullUps.exercise_amount =
+                        int.parse(pull_ups.text);
+                    thisPullUps.exercise_name = "pull_ups";
+                    thisSquads.exercise_amount = int.parse(squads.text);
+                    thisSquads.exercise_name = "squads";
+                    thisCrunches.exercise_amount =
+                        int.parse(crunches.text);
+                    thisCrunches.exercise_name = "crunches";
                   });
-                  widget.onFinished(thisAccount, thisBody, thisBenchmarking);
+                  widget.onFinished(thisAccount, thisBody, thisPushUps, thisPullUps, thisSquads, thisCrunches);
                 })
           ],
         ),

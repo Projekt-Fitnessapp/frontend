@@ -21,7 +21,10 @@ class _ProfileViewState extends State<ProfileView> {
   final GoogleSignInService _googleSignInService = GoogleSignInService();
   late Account lastAccount;
   late Body lastBody;
-  late Benchmarking lastBenchmarking;
+  late Map<String, dynamic> lastPushUps;
+  late Map<String, dynamic>  lastPullUps;
+  late Map<String, dynamic>  lastSquads;
+  late Map<String, dynamic>  lastCrunches;
   late AccountHttpHelper accountHttpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
@@ -126,8 +129,19 @@ class _ProfileViewState extends State<ProfileView> {
                 text1: 'Geschlecht', text2: lastAccount.sex.toString()),
             const SizedBox(height: 24),
             buildDataRow(
-                text1: 'Liegestütze',
-                text2: lastBenchmarking.exercise_amount.toString()),
+                text1: 'Liegestütze', text2: lastPushUps['exercise_amount'].toString()),
+            const SizedBox(height: 24),
+            buildDataRow(
+                text1: 'Klimmzüge',
+                text2: lastPullUps['exercise_amount'].toString()),
+            const SizedBox(height: 24),
+            buildDataRow(
+                text1: 'Kniebeugen',
+                text2: lastSquads['exercise_amount'].toString()),
+            const SizedBox(height: 24),
+            buildDataRow(
+                text1: 'Crunches',
+                text2: lastCrunches['exercise_amount'].toString()),
           ],
         ));
   }
@@ -163,17 +177,28 @@ class _ProfileViewState extends State<ProfileView> {
 
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('userId'));
+    print(prefs.getString('googleId'));
     Account account =
         await accountHttpHelper.getAccount(prefs.getString('googleId') ?? '');
     Body body =
         await accountHttpHelper.getBody(prefs.getString('userId') ?? '');
-    Benchmarking benchmarking = await accountHttpHelper.getBenchmarking(
+    List<dynamic> pushUps = await accountHttpHelper.getBenchmarking(
         prefs.getString('userId') ?? '', "push_ups");
+    List<dynamic> pullUps = await accountHttpHelper.getBenchmarking(
+        prefs.getString('userId') ?? '', "pull_ups");
+    List<dynamic> squads = await accountHttpHelper.getBenchmarking(
+        prefs.getString('userId') ?? '', "squads");
+    List<dynamic> crunches = await accountHttpHelper.getBenchmarking(
+        prefs.getString('userId') ?? '', "crunches");
 
     setState(() {
       lastAccount = account;
       lastBody = body;
-      lastBenchmarking = benchmarking;
+      lastPushUps = pushUps.last;
+      lastPullUps = pullUps.last;
+      lastSquads = squads.last;
+      lastCrunches = crunches.last;
       fetching = false;
     });
   }

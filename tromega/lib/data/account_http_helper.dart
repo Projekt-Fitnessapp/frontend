@@ -123,9 +123,9 @@ class AccountHttpHelper {
     }
   }
 
-  Future<Benchmarking> getBenchmarking(String userId, String exercise_name) async {
-    Benchmarking benchmarking;
-    String newPath = '/body';
+  Future<dynamic> getBenchmarking(String userId, String exercise_name) async {
+    List<dynamic> benchmarking;
+    String newPath = '/benchmarking';
     Map<String, dynamic> querys = Map();
     querys["userId"] = userId;
     querys["exercise_name"] = exercise_name;
@@ -139,8 +139,11 @@ class AccountHttpHelper {
       },
     );
 
-    if(res.statusCode == 200) {
-        benchmarking = Benchmarking.fromJSON(jsonDecode(res.body));
+    if (res.statusCode == 200) {
+      print("Benchmarking klappt");
+      benchmarking = json.decode(res.body.toString());
+      print(res.body);
+      print(benchmarking);
     } else {
       throw Exception("failed to get benchmarking");
     }

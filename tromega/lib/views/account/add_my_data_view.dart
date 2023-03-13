@@ -32,16 +32,29 @@ class _AddMyDataViewState extends State<AddMyDataView> {
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(height: 24),
-          QuestionWidget(onFinished:
-              (Account account, Body body, Benchmarking benchmarking) {
+          QuestionWidget(onFinished: (Account account,
+              Body body,
+              Benchmarking pushUps,
+              Benchmarking pullUps,
+              Benchmarking squads,
+              Benchmarking crunches) {
             accountHttpHelper.postAccount(account).then((account) {
-              SharedPreferences.getInstance().then((prefs) {
+              SharedPreferences.getInstance().then((prefs) async {
                 String userId = prefs.getString('userId') ?? '';
                 body.userId = userId;
-                benchmarking.userId = userId;
-                accountHttpHelper.postBenchmarking(benchmarking);
-                accountHttpHelper.postBody(body).then(
-                    (value) => Navigator.pushNamed(context, '/myProfile'));
+                pushUps.userId = userId;
+                pullUps.userId = userId;
+                squads.userId = userId;
+                crunches.userId = userId;
+
+                await Future.wait([
+                accountHttpHelper.postBody(body),
+                accountHttpHelper.postBenchmarking(pushUps),
+                accountHttpHelper.postBenchmarking(pullUps),
+                accountHttpHelper.postBenchmarking(squads),
+                accountHttpHelper.postBenchmarking(crunches),
+                ]);
+                Navigator.pushNamed(context, '/myProfile');
               });
             });
           })
