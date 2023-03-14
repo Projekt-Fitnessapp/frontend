@@ -140,10 +140,7 @@ class AccountHttpHelper {
     );
 
     if (res.statusCode == 200) {
-      print("Benchmarking klappt");
       benchmarking = json.decode(res.body.toString());
-      print(res.body);
-      print(benchmarking);
     } else {
       throw Exception("failed to get benchmarking");
     }
