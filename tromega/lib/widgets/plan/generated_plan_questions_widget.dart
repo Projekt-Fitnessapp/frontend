@@ -35,7 +35,7 @@ class _SecondGeneratePlanQuestionWidget
   }
 
   // Erstellen der Dropdown Optionen für die Präfernezen des generierten Plans
-  final List<String> numberOfTrainingssessionOptions = [
+  final List<String> numberOfTrainingssessionsOptions = [
     "2",
     "3",
     "4",
@@ -43,7 +43,7 @@ class _SecondGeneratePlanQuestionWidget
     "6",
     "7"
   ];
-  late String numberOfTrainingssession = numberOfTrainingssessionOptions[0];
+  late String numberOfTrainingssessions = numberOfTrainingssessionsOptions[0];
 
   // Bei Trainings Status und Typ jeweils auch Englische Version für die
   // Kommunikation mit dem Backend
@@ -71,11 +71,11 @@ class _SecondGeneratePlanQuestionWidget
             buildQuestion(text: 'Wie oft willst du trainieren?'),
             DropDownWidget(
               color: color,
-              items: numberOfTrainingssessionOptions,
-              currentValue: numberOfTrainingssession,
-              itemCallBack: (String numberOfTrainingssession) {
+              items: numberOfTrainingssessionsOptions,
+              currentValue: numberOfTrainingssessions,
+              itemCallBack: (String numberOfTrainingssessions) {
                 setState(() {
-                  this.numberOfTrainingssession = numberOfTrainingssession;
+                  this.numberOfTrainingssessions = numberOfTrainingssessions;
                 });
               },
             ),
@@ -120,8 +120,8 @@ class _SecondGeneratePlanQuestionWidget
                 text: 'Plan generieren',
                 onClick: () {
                   setState(() {
-                    preferences.numberOfTrainingssession =
-                        int.parse(numberOfTrainingssession);
+                    preferences.numberOfTrainingssessions =
+                        int.parse(numberOfTrainingssessions);
                     // Getätigte Auswahl in Englisch übersetzen, damit das
                     // Backend die Daten verarbeiten kann
                     if (trainingsStatus == trainingStatusOptions[0]) {
