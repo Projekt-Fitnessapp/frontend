@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_signin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/account.dart';
+import 'package:tromega/data/benchmarking.dart';
 import 'package:tromega/data/body.dart';
 import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/views/account/edit_benchmarking.dart';
@@ -88,7 +89,12 @@ class _ProfileViewState extends State<ProfileView> {
                                   builder: ((context) =>
                                       const EditBenchmarking())));
                         },
-                        child: const Text('Benchmarking ändern', style: TextStyle( fontWeight: FontWeight.bold,),),
+                        child: const Text(
+                          'Benchmarking ändern',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ]),
                 Padding(
@@ -214,10 +220,18 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       lastAccount = account;
       lastBody = body;
-      lastPushUps = pushUps.last;
-      lastPullUps = pullUps.last;
-      lastSquads = squads.last;
-      lastCrunches = crunches.last;
+      lastPushUps = pushUps.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : pushUps.last;
+      lastPullUps = pullUps.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : pullUps.last;
+      lastSquads = squads.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : squads.last;
+      lastCrunches = crunches.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : crunches.last;
       fetching = false;
     });
   }

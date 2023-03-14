@@ -83,28 +83,26 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                     ),
                   ]),
                 ),
-                Expanded(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
                       PushDialog(
                           pushUps: lastPushUps['exercise_amount'],
                           changePushUps: _changePushUps),
                       PullDialog(
                           pullUps: lastPullUps['exercise_amount'],
                           changePullUps: _changePullUps),
-                    ])),
-                Expanded(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                    ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
                       SquadsDialog(
                           squads: lastSquads['exercise_amount'],
                           changeSquads: _changeSquads),
                       CrunchesDialog(
                           crunches: lastCrunches['exercise_amount'],
                           changeCrunches: _changeCrunches),
-                    ])),
+                    ]),
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
@@ -163,10 +161,18 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
         prefs.getString('userId') ?? '', "crunches");
 
     setState(() {
-      lastPushUps = pushUps.last;
-      lastPullUps = pullUps.last;
-      lastSquads = squads.last;
-      lastCrunches = crunches.last;
+      lastPushUps = pushUps.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : pushUps.last;
+      lastPullUps = pullUps.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : pullUps.last;
+      lastSquads = squads.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : squads.last;
+      lastCrunches = crunches.isEmpty
+          ? Benchmarking("", "", "", 0, 0).toJson()
+          : crunches.last;
       fetching = false;
     });
   }
