@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tromega/data/generatedPlanPreferences.dart';
+import 'package:tromega/data/classes/generated_plan_preferences.dart';
 import 'package:tromega/widgets/shared/data_widget.dart';
 import 'package:tromega/widgets/shared/dropdown_widget.dart';
 import 'package:tromega/widgets/shared/routebutton_widget.dart';

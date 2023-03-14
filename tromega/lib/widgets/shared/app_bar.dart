@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppBar_Icon extends StatelessWidget with PreferredSizeWidget {
-  AppBar_Icon({Key? key, required this.actions, this.withBackButton = true})
+class AppBarIcon extends StatelessWidget with PreferredSizeWidget {
+  AppBarIcon({Key? key, required this.actions, this.withBackButton = true})
       : super(key: key);
   final List<Widget> actions;
   final bool withBackButton;

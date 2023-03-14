@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/stats_http_helper.dart';
+import 'package:tromega/data/http_helper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:tromega/data/stats_pair.dart';
-import 'package:tromega/views/stats/graph.dart';
-import '../../widgets/bottom_menu.dart';
-import 'package:intl/intl.dart';
-import '../../widgets/shared/app_bar.dart';
-import '../../widgets/shared/theme.dart';
+import 'package:tromega/data/classes/stats_pair.dart';
 
 class Graph extends StatefulWidget {
   final String exercise;
@@ -20,13 +15,13 @@ class Graph extends StatefulWidget {
 class _GraphState extends State<Graph> {
   bool fetching = true;
 
-  late List<StatsPair> stats_pairs = [];
+  late List<StatsPair> statsPairs = [];
 
-  late StatsHttpHelper statsHttpHelper;
+  late HttpHelper httpHelper;
 
   @override
   void initState() {
-    statsHttpHelper = StatsHttpHelper();
+    httpHelper = const HttpHelper();
     fetchData(widget.exercise);
     super.initState();
   }
@@ -44,7 +39,7 @@ class _GraphState extends State<Graph> {
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
-                Container(
+                SizedBox(
                   height: 300,
                   child: SfCartesianChart(
                       margin: const EdgeInsets.all(30.0),
@@ -52,7 +47,7 @@ class _GraphState extends State<Graph> {
                       series: <ChartSeries<StatsPair, String>>[
                         // Renders column chart
                         LineSeries<StatsPair, String>(
-                          dataSource: stats_pairs,
+                          dataSource: statsPairs,
                           xValueMapper: (StatsPair data, _) =>
                               "${data.date.day}-${data.date.month}-${data.date.year}",
                           //data.date.toString(),
@@ -69,10 +64,10 @@ class _GraphState extends State<Graph> {
   void fetchData(String exercise) async {
     //gets the trainingsdata of last week (when has the user trained)
     List<StatsPair> stats =
-        await StatsHttpHelper().getBenchmarking(exercise.toLowerCase());
+        await httpHelper.getBenchmarking(exercise.toLowerCase());
 
     setState(() {
-      stats_pairs = stats;
+      statsPairs = stats;
       fetching = false;
     });
   }

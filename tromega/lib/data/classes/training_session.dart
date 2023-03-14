@@ -1,6 +1,4 @@
-import 'package:tromega/data/planned_exercise.dart';
-
-import './execution.dart';
+import 'execution.dart';
 import 'execution_set.dart';
 import 'training_day.dart';
 
@@ -34,7 +32,7 @@ class TrainingSession {
   TrainingSession.fromTrainingDay(TrainingDay td) {
     id = '';
     userId = '';
-    trainingDayId = td.id;
+    trainingDayId = td.getId;
     date = DateTime.now();
     executions = td.exercises.map<Execution>((plannedExercise) {
       List<ExecutionSet> newSets = [];
@@ -47,12 +45,12 @@ class TrainingSession {
     }).toList();
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJSON() {
     return {
       'userId': userId,
       'trainingDayId': trainingDayId,
       'date': DateTime.now().toIso8601String(),
-      'executions': executions.map((e) => e.toJson()).toList(),
+      'executions': executions.map((e) => e.toJSON()).toList(),
     };
   }
 }

@@ -17,7 +17,7 @@ class Exercise {
     return _id;
   }
 
-  Map toJson() => {
+  Map toJSON() => {
         '_id': _id,
         'name': name,
         'instruction': instruction,

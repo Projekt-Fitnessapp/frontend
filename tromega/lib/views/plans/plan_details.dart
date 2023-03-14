@@ -1,14 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/plan_http_helper.dart';
-import '../../widgets/plan/edit_plan_view_column.dart';
+import '../../data/http_helper.dart';
 import '../../widgets/plan/plan_view_column.dart';
 import './edit_training_view.dart';
-import '../../widgets/plan/trainingstagBtn.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 
 class PlanDetailsView extends StatefulWidget {
   //View für die Visualisierung eines Trainingsplans mit seinen Trainingstagen
@@ -24,11 +21,11 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   late PageController _pageViewController;
   int pageIndex = 0;
 
-  late PlanHttpHelper planHttpHelper;
+  late HttpHelper httpHelper;
 
   @override
   initState() {
-    planHttpHelper = PlanHttpHelper();
+    httpHelper = const HttpHelper();
     super.initState();
     _pageViewController = PageController(initialPage: 0);
   }
@@ -42,7 +39,7 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
@@ -131,9 +128,7 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
     final prefs = await SharedPreferences.getInstance();
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
-    TrainingPlan trainingPlan =
-        TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
-    var response = await planHttpHelper.putActivePlan(userId, id);
+    var response = await httpHelper.putActivePlan(userId, id);
     if (response) {
       showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
     } else {

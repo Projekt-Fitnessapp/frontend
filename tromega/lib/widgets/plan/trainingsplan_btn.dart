@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/views/plans/plan_details.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 
 class TrainingsplanBtn extends StatelessWidget {
   //Button mit dem jeweiligen Trainigsplan der Plan Overview View

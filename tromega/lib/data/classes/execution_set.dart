@@ -12,10 +12,12 @@ class ExecutionSet {
   late int reps;
   late bool done;
 
-  ExecutionSet(this.executionType, this.reps, this.weight, this.tenRM, this.done);
+  ExecutionSet(
+      this.executionType, this.reps, this.weight, this.tenRM, this.done);
 
   ExecutionSet.clone(ExecutionSet executionSet)
-      : this(executionSet.executionType, executionSet.reps, executionSet.weight, executionSet.tenRM, executionSet.done);
+      : this(executionSet.executionType, executionSet.reps, executionSet.weight,
+            executionSet.tenRM, executionSet.done);
 
   ExecutionSet.fromJSON(Map<String, dynamic> importMap) {
     switch (importMap['executionType']) {
@@ -40,7 +42,7 @@ class ExecutionSet {
     done = false;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJSON() {
     return {
       'executionType': typeToString(executionType),
       'weight': weight,

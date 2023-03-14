@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/account.dart';
-import 'package:tromega/data/account_http_helper.dart';
-import 'package:tromega/data/body.dart';
+import 'package:tromega/data/classes/account.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
@@ -18,7 +18,7 @@ class QuestionWidget extends StatefulWidget {
 }
 
 class _SecondQuestionWidget extends State<QuestionWidget> {
-  late AccountHttpHelper accountHttpHelper;
+  late HttpHelper httpHelper;
   late TextEditingController changedBirthday;
   late TextEditingController changedName;
   late TextEditingController changedHeight;
@@ -30,7 +30,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   void initState() {
     thisBody = Body("", "", DateTime.now(), 0, 0);
     thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
-    accountHttpHelper = AccountHttpHelper();
+    httpHelper = const HttpHelper();
     changedBirthday = TextEditingController();
     changedName = TextEditingController();
     changedHeight = TextEditingController();

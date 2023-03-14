@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/interactives/finish_training_button.dart';
 import 'package:tromega/widgets/tracking/interactives/pause_timer.dart';
 import 'package:tromega/widgets/tracking/interactives/training_options_button.dart';
-import '../../data/training_session.dart';
-import '../../data/tracking_http_helper.dart';
+import '../../data/classes/training_session.dart';
+import '../../data/http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/tracking/displays/execution_page.dart';
 import '../../widgets/tracking/interactives/exercise_thumbnail.dart';
@@ -23,7 +23,7 @@ class _TrackingViewState extends State<TrackingView>
     with TickerProviderStateMixin {
   late TrainingSession lastSession;
   late TrainingSession thisSession;
-  late TrackingHttpHelper trackingHttpHelper;
+  late HttpHelper httpHelper;
   late CustomTimerController _timerController;
   late int timerSeconds;
   late String trainingDayId;
@@ -38,7 +38,7 @@ class _TrackingViewState extends State<TrackingView>
   initState() {
     trainingDayId = widget.trainingDayId;
     trainingPlanId = widget.trainingPlanId;
-    trackingHttpHelper = const TrackingHttpHelper();
+    httpHelper = const HttpHelper();
 
     // value is initial, can be changed at later points
     timerSeconds = 180;
@@ -47,7 +47,7 @@ class _TrackingViewState extends State<TrackingView>
       begin: Duration(seconds: timerSeconds),
       end: const Duration(),
     );
-    
+
     fetchData();
     super.initState();
   }
@@ -62,7 +62,7 @@ class _TrackingViewState extends State<TrackingView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(
+      appBar: AppBarIcon(
         withBackButton: false,
         actions: fetching
             ? []
@@ -176,7 +176,7 @@ class _TrackingViewState extends State<TrackingView>
   void fetchData() async {
     // hard coded for now
     TrainingSession initSession =
-        await trackingHttpHelper.getNextTrainingSession(trainingDayId);
+        await httpHelper.getNextTrainingSession(trainingDayId);
 
     setState(() {
       lastSession = initSession;

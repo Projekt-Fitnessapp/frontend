@@ -38,9 +38,9 @@ class _DropDownWidgetState extends State<DropDownWidget> {
 
   @override
   void didUpdateWidget(DropDownWidget oldWidget) {
-    if (this.currentValue != widget.currentValue) {
+    if (currentValue != widget.currentValue) {
       setState(() {
-        this.currentValue = widget.currentValue;
+        currentValue = widget.currentValue;
       });
     }
     super.didUpdateWidget(oldWidget);

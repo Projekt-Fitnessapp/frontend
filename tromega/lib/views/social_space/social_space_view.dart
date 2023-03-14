@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/shared/app_bar.dart';
-import '../../data/article.dart';
+import '../../data/classes/article.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import 'article_view.dart';
@@ -172,7 +172,7 @@ Zusammenfassend kann gesagt werden, dass eine ausgewogene Ernährung, die ausrei
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: ListView(
         shrinkWrap: true,
         children: [

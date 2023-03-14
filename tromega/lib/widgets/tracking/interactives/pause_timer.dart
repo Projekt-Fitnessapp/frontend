@@ -1,8 +1,6 @@
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:tromega/widgets/tracking/Dialogs/dialog_timer_picker.dart';
-import 'package:tromega/widgets/tracking/interactives/value_picker.dart';
 
 class PauseTimer extends StatefulWidget {
   const PauseTimer(

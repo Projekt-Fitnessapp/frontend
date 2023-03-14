@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/plan/rs_dialog_plan.dart';
-import '../../data/exerciseSetsReps.dart';
+import '../../data/classes/exercise_sets_reps.dart';
 import './exercise_gif.dart';
 
 class ExerciseContainerPlan extends StatefulWidget {
@@ -45,7 +45,7 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
                       height: 50,
                       child: Text(widget.exercise.exercise.name,
                           maxLines: 2,
-                          textHeightBehavior: TextHeightBehavior(
+                          textHeightBehavior: const TextHeightBehavior(
                               applyHeightToLastDescent: true),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,

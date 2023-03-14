@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/displays/row_item.dart';
 import 'package:tromega/widgets/tracking/interactives/changeable_row_item.dart';
-import '../../../data/execution_set.dart';
+import '../../../data/classes/execution_set.dart';
 
 class SetDisplay extends StatefulWidget {
   const SetDisplay(

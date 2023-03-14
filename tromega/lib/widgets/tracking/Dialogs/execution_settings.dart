@@ -3,7 +3,7 @@ import 'package:gif/gif.dart';
 import 'package:tromega/widgets/tracking/Dialogs/execution_infos.dart';
 import 'package:tromega/widgets/tracking/displays/history_data_block.dart';
 
-import '../../../data/execution.dart';
+import '../../../data/classes/execution.dart';
 
 class ExecutionSettings extends StatefulWidget {
   const ExecutionSettings({Key? key, required this.exec, required this.trainingDayId}) : super(key: key);
