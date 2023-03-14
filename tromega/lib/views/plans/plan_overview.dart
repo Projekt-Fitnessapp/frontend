@@ -1,9 +1,8 @@
 import '../../widgets/plan/trainingsplanBtn.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import 'package:tromega/data/plan_http_helper.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 import './edit_training_view.dart';
 import './generate_training_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,12 +24,12 @@ class _PlanOverviewState extends State<PlanOverview> {
 
   late List<TrainingPlan> trainingPlans = [];
 
-  late PlanHttpHelper planHttpHelper;
+  late HttpHelper planHttpHelper;
   bool fetching = true;
 
   @override
   initState() {
-    planHttpHelper = PlanHttpHelper();
+    planHttpHelper = const HttpHelper();
     fetchData();
     super.initState();
   }

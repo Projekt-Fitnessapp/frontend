@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../app.dart';
-import '../../widgets/bottom_menu.dart';
-import './plan_overview.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/plan/edit_plan_view_column.dart';
-import '../../data/trainingDay.dart';
-import '../../data/plan_http_helper.dart';
-import '../../data/trainingPlan.dart';
+import '../../data/classes/training_day.dart';
+import '../../data/http_helper.dart';
+import '../../data/classes/training_plan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditPlanView extends StatefulWidget {
@@ -27,7 +25,9 @@ class EditPlanView extends StatefulWidget {
 }
 
 class _EditPlanViewState extends State<EditPlanView> {
-  late PlanHttpHelper planHttpHelper;
+  late HttpHelper httpHelper;
+
+  // ignore: unused_field
   int _count = 0;
 
   //Methode zum aktualisieren von Daten, wird an Child View weitergegeben
@@ -41,7 +41,7 @@ class _EditPlanViewState extends State<EditPlanView> {
   @override
   initState() {
     super.initState();
-    planHttpHelper = PlanHttpHelper();
+    httpHelper = const HttpHelper();
     _pageViewController = PageController(initialPage: 0);
   }
 
@@ -155,7 +155,7 @@ class _EditPlanViewState extends State<EditPlanView> {
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
     var response =
-        await planHttpHelper.putTrainingPlan(trainingPlan.getId, trainingPlan);
+        await httpHelper.putTrainingPlan(trainingPlan.getId, trainingPlan);
     if (response) {
       await Navigator.push(
           context,
@@ -177,7 +177,7 @@ class _EditPlanViewState extends State<EditPlanView> {
         "",
         "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",
         []);
-    var response = await planHttpHelper.postTrainingDay(trainingDay, userId);
+    var response = await httpHelper.postTrainingDay(trainingDay, userId);
     widget.trainingPlanCopy.trainingDays.add(TrainingDay(
         response,
         "Tag ${widget.trainingPlanCopy.trainingDays.isNotEmpty ? widget.trainingPlanCopy.trainingDays.length + 1 : "1"}",

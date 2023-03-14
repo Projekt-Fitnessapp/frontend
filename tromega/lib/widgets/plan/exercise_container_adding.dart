@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../data/exerciseSetsReps.dart';
-import '../../data/trainingDay.dart';
+import '../../data/classes/exercise_sets_reps.dart';
+import '../../data/classes/training_day.dart';
 import './exercise_gif.dart';
 
 class ExerciseContainerAdding extends StatelessWidget {

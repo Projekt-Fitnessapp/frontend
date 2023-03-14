@@ -1,4 +1,4 @@
-import '../../data/trainday.dart';
+import '../data/classes/trainday.dart';
 
 //class TraindayOld {
 //  late DateTime date;

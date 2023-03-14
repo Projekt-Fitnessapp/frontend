@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/views/plans/plan_day.dart';
-import 'package:tromega/data/trainingDay.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/classes/training_day.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 
 class TrainingstagBtn extends StatefulWidget {
   //Button mit dem jeweiligen Trainingstag der Plan Detail View

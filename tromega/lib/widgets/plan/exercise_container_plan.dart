@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/plan/rs_dialog_plan.dart';
-import '../../data/exerciseSetsReps.dart';
+import '../../data/classes/exercise_sets_reps.dart';
 import './exercise_gif.dart';
 
 class ExerciseContainerPlan extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../data/exerciseSetsReps.dart';
+import '../../data/classes/exercise_sets_reps.dart';
 import 'sets_dialog.dart';
 import 'reps_dialog.dart';
 import 'exercise_gif.dart';

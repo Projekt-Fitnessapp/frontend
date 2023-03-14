@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/tracking_http_helper.dart';
-import 'package:tromega/data/training_session.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/training_session.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_options.dart';
 import 'package:tromega/widgets/tracking/Dialogs/confirmation_dialog.dart';
 
 class TrainingOptionsButton extends StatelessWidget {
   const TrainingOptionsButton({super.key, required this.thisSession});
   final TrainingSession thisSession;
-  final TrackingHttpHelper _trackingHttpHelper = const TrackingHttpHelper();
+  final HttpHelper _trackingHttpHelper = const HttpHelper();
 
   @override
   Widget build(BuildContext context) {

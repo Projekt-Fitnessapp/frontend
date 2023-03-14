@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/execution.dart';
-import '../../../data/tracking_http_helper.dart';
+import 'package:tromega/data/classes/execution.dart';
+import '../../../data/http_helper.dart';
 
 class HistoryDataBlock extends StatefulWidget {
   const HistoryDataBlock(
@@ -14,12 +14,12 @@ class HistoryDataBlock extends StatefulWidget {
 
 class _HistoryDataBlockState extends State<HistoryDataBlock> {
   late Execution? lastExecution;
-  late TrackingHttpHelper httpHelper;
+  late HttpHelper httpHelper;
   bool fetching = true;
 
   @override
   void initState() {
-    httpHelper = const TrackingHttpHelper();
+    httpHelper = const HttpHelper();
     fetchData();
     super.initState();
   }
@@ -82,7 +82,7 @@ class _HistoryDataBlockState extends State<HistoryDataBlock> {
                               .asMap()
                               .entries
                               .map((entry) => buildHistoryDataCell(
-                                  context, (entry.key +1).toString()))
+                                  context, (entry.key + 1).toString()))
                               .toList(),
                         ),
                         Column(

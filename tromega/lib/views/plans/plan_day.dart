@@ -5,8 +5,8 @@ import '../../widgets/plan/exercise_container_plan.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import 'package:tromega/data/trainingDay.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/classes/training_day.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 
 class PlanDayView extends StatefulWidget {
   //Visualisierung von einem Tag eines Trainingsplans

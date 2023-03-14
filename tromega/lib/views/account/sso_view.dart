@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:tromega/data/account_signin_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tromega/data/account_http_helper.dart';
+import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -14,18 +14,19 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final GoogleSignInService _googleSignInService = GoogleSignInService();
-  late AccountHttpHelper accountHttpHelper;
+  late HttpHelper httpHelper;
   late SharedPreferences prefs;
 
   @override
   void initState() {
     checkForUser();
     super.initState();
-    accountHttpHelper = AccountHttpHelper();
+    httpHelper = const HttpHelper();
   }
 
+  @override
   void didChangeDependencies() {
-    precacheImage(AssetImage("public/TrOmega_dark.png"), context);
+    precacheImage( const AssetImage("public/TrOmega_dark.png"), context);
     super.didChangeDependencies();
   }
 
@@ -38,12 +39,12 @@ class _LoginViewState extends State<LoginView> {
         prefs.setString('token', value.accessToken ?? '');
       });
       prefs.setString('googleId', _googleSignInService.user?.id ?? '');
-      accountHttpHelper
+      httpHelper
           .accountExist(_googleSignInService.user?.id ?? '')
           .then((exists) {
         if (exists) {
-          accountHttpHelper
-              .getAccount(_googleSignInService.user?.id ?? '')
+          httpHelper
+              .getAccountWithGoogleId(_googleSignInService.user?.id ?? '')
               .then((account) {
             prefs.setString('userId', account.getId());
             Navigator.of(context).pushNamed('/app');
@@ -68,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(200, 50),
           maximumSize: const Size(200, 50),
-          primary: Color.fromARGB(1000, 0, 48, 80),
+          primary: const Color.fromARGB(1000, 0, 48, 80),
         ),
         onPressed: handleSignIn,
         label: const Text(

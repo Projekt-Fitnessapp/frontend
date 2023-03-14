@@ -1,7 +1,7 @@
 import 'package:loading_gifs/loading_gifs.dart';
 
 import '../../widgets/shared/app_bar.dart';
-import '../../data/article.dart';
+import '../../data/classes/article.dart';
 import 'dart:ui' as ui;
 import 'dart:async';
 import 'package:flutter/material.dart';

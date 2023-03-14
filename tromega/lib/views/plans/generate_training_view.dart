@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/plan/generated_plan_questions_widget.dart';
-import '../../data/generate_plan_http_helper.dart';
-import '../../data/generatedPlanPreferences.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import '../../data/http_helper.dart';
+import '../../data/classes/generated_plan_preferences.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 import './plan_details.dart';
 
 class GeneratePlanView extends StatefulWidget {
@@ -15,13 +15,13 @@ class GeneratePlanView extends StatefulWidget {
 }
 
 class _GeneratePlanViewState extends State<GeneratePlanView> {
-  late GeneratePlanHttpHelper generatePlanHttpHelper;
+  late HttpHelper httpHelper;
 
   late TrainingPlan generatedTrainingsplan;
 
   @override
   void initState() {
-    generatePlanHttpHelper = GeneratePlanHttpHelper();
+    httpHelper = const HttpHelper();
     super.initState();
   }
 
@@ -38,7 +38,7 @@ class _GeneratePlanViewState extends State<GeneratePlanView> {
             // und warten bis generierter Plan zurückgegeben wird
             onFinished:
                 (GeneratedPlanPreferences generatedPlanPreferences) async {
-              generatedTrainingsplan = await generatePlanHttpHelper
+              generatedTrainingsplan = await httpHelper
                   .postGeneratedPlanPreferences(generatedPlanPreferences);
               // Generierten Plan an die Plan Detailansicht View übergeben
               Navigator.push(
