@@ -26,7 +26,7 @@ class _AddMyDataViewState extends State<AddMyDataView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [

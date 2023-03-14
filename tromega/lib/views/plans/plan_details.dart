@@ -39,7 +39,7 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
@@ -128,8 +128,6 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
     final prefs = await SharedPreferences.getInstance();
     var userId = prefs.getString("userId");
     userId ??= "634dad62663403c8063adc41";
-    TrainingPlan trainingPlan =
-        TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
     var response = await httpHelper.putActivePlan(userId, id);
     if (response) {
       showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");

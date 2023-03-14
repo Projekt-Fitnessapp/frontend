@@ -46,8 +46,8 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(
-        actions: [],
+      appBar: AppBarIcon(
+        actions: const [],
       ),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
@@ -76,7 +76,7 @@ class _ProfileViewState extends State<ProfileView> {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(200, 50),
                         maximumSize: const Size(200, 50),
-                        primary: Color.fromARGB(1000, 0, 48, 80),
+                        primary: const Color.fromARGB(1000, 0, 48, 80),
                       ),
                       onPressed: handleSignOut,
                       label: const Text(
@@ -159,10 +159,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
-    Account account =
-        await httpHelper.getAccountWithGoogleId(prefs.getString('googleId') ?? '');
-    Body body =
-        await httpHelper.getBody(prefs.getString('userId') ?? '');
+    Account account = await httpHelper
+        .getAccountWithGoogleId(prefs.getString('googleId') ?? '');
+    Body body = await httpHelper.getBody(prefs.getString('userId') ?? '');
 
     setState(() {
       lastAccount = account;

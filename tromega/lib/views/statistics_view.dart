@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tromega/views/stats/graph.dart';
 import '../../widgets/shared/app_bar.dart';
 
-const Color darkBlue =  Color.fromARGB(255, 18, 32, 47);
+const Color darkBlue = Color.fromARGB(255, 18, 32, 47);
 
 class StatisticsView extends StatefulWidget {
   const StatisticsView({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(
+      appBar: AppBarIcon(
         actions: const [],
       ),
       body: ListView(

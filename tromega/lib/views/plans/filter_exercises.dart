@@ -1,14 +1,6 @@
-import 'package:tromega/views/plans/add_exercise.dart';
-import 'package:tromega/views/plans/edit_training_view.dart';
-import 'package:tromega/views/in_training/track_training_view.dart';
-
-import '../../widgets/plan/exercise_container_plan.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import 'package:tromega/data/classes/training_day.dart';
 import 'package:tromega/data/classes/filter.dart';
-import 'package:tromega/data/classes/training_plan.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class FilterView extends StatefulWidget {
@@ -70,7 +62,7 @@ class _FilterViewState extends State<FilterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: Column(
         children: [
           Center(

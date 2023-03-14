@@ -23,7 +23,7 @@ class _TrackingViewState extends State<TrackingView>
     with TickerProviderStateMixin {
   late TrainingSession lastSession;
   late TrainingSession thisSession;
-  late HttpHelper trackingHttpHelper;
+  late HttpHelper httpHelper;
   late CustomTimerController _timerController;
   late int timerSeconds;
   late String trainingDayId;
@@ -38,7 +38,7 @@ class _TrackingViewState extends State<TrackingView>
   initState() {
     trainingDayId = widget.trainingDayId;
     trainingPlanId = widget.trainingPlanId;
-    trackingHttpHelper = const HttpHelper();
+    httpHelper = const HttpHelper();
 
     // value is initial, can be changed at later points
     timerSeconds = 180;
@@ -62,7 +62,7 @@ class _TrackingViewState extends State<TrackingView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(
+      appBar: AppBarIcon(
         withBackButton: false,
         actions: fetching
             ? []
@@ -176,7 +176,7 @@ class _TrackingViewState extends State<TrackingView>
   void fetchData() async {
     // hard coded for now
     TrainingSession initSession =
-        await trackingHttpHelper.getNextTrainingSession(trainingDayId);
+        await httpHelper.getNextTrainingSession(trainingDayId);
 
     setState(() {
       lastSession = initSession;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
-import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_type_picker.dart';
 
 class ChangeableRowItem extends StatefulWidget {
   const ChangeableRowItem(
@@ -51,7 +50,7 @@ class _ChangeableRowItemState extends State<ChangeableRowItem> {
                   context: context,
                   builder: (BuildContext context) {
                     return widget.displayFor == 'type'
-                        ? const BottomDialogTypePicker()
+                        ? Container()
                         : BottomDialogPicker(
                             title: widget.displayFor == 'reps'
                                 ? 'Wiederholungen'

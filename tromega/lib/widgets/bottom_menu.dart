@@ -6,7 +6,7 @@ class BottomMenu extends StatelessWidget {
   const BottomMenu({Key? key, required this.index, required this.onSelectTab})
       : super(key: key);
   final int index;
-  final onSelectTab;
+  final Function onSelectTab;
 
   @override
   Widget build(BuildContext context) {

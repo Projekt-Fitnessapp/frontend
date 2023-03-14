@@ -1,4 +1,4 @@
-import '../../widgets/plan/trainingsplanBtn.dart';
+import '../../widgets/plan/trainingsplan_btn.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/shared/app_bar.dart';
 import 'package:tromega/data/http_helper.dart';
@@ -37,7 +37,7 @@ class _PlanOverviewState extends State<PlanOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
           : Row(

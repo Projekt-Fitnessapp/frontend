@@ -1,11 +1,8 @@
-import 'package:loading_gifs/loading_gifs.dart';
-
 import '../../widgets/shared/app_bar.dart';
 import '../../data/classes/article.dart';
 import 'dart:ui' as ui;
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 
 class ArticleView extends StatelessWidget {
@@ -18,12 +15,12 @@ class ArticleView extends StatelessWidget {
       article.picture,
     );
     Completer<ui.Image> completer = Completer<ui.Image>();
-    image.image.resolve(ImageConfiguration()).addListener(
+    image.image.resolve(const ImageConfiguration()).addListener(
         ImageStreamListener((ImageInfo info, bool synchronousCall) {
       completer.complete(info.image);
     }));
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(children: [

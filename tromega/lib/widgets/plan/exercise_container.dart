@@ -73,7 +73,7 @@ class _ExerciseContainerState extends State<ExerciseContainer>
               padding: const EdgeInsets.all(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: const [
                   Icon(Icons.delete, color: Colors.white),
                   Text('Löschen der Übung',
                       style: TextStyle(color: Colors.white)),
@@ -90,7 +90,7 @@ class _ExerciseContainerState extends State<ExerciseContainer>
               padding: const EdgeInsets.all(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children: const [
                   Icon(Icons.delete, color: Colors.white),
                   Text('Löschen der Übung',
                       style: TextStyle(color: Colors.white)),

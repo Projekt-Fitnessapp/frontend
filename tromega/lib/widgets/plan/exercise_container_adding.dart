@@ -49,7 +49,7 @@ class ExerciseContainerAdding extends StatelessWidget {
                               height: 50,
                               child: Text(exercise.exercise.name,
                                   maxLines: 2,
-                                  textHeightBehavior: TextHeightBehavior(
+                                  textHeightBehavior: const TextHeightBehavior(
                                       applyHeightToFirstAscent: false),
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.start,

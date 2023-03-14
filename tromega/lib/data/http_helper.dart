@@ -28,7 +28,7 @@ class HttpHelper {
   //----------------------------------------------------------------------------------------
   Future<bool> accountExist(String googleId) async {
     String newPath = '/account';
-    Map<String, dynamic> querys = Map();
+    Map<String, dynamic> querys = {};
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,7 +49,7 @@ class HttpHelper {
   Future<Account> getAccountWithGoogleId(String googleId) async {
     Account account;
     String newPath = '/account';
-    Map<String, dynamic> querys = Map();
+    Map<String, dynamic> querys = {};
     querys["googleId"] = googleId;
     Uri uri = Uri.https(authority, newPath, querys);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -128,7 +128,7 @@ class HttpHelper {
   Future<Body> getBody(String userId) async {
     Body body;
     String newPath = '/body';
-    Map<String, dynamic> querys = Map();
+    Map<String, dynamic> querys = {};
     querys["userId"] = userId;
     Uri uri = Uri.https(authority, newPath, querys);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -240,9 +240,9 @@ class HttpHelper {
     List<dynamic> data = json.decode(response.body)['data'];
 
     //turns the data into TrainDays
-    data.forEach((element) {
+    for (var element in data) {
       days.add(TrainDay.fromJSON((element)));
-    });
+    }
 
     Trainweek lastSevenDays = Trainweek("week", days);
 
@@ -562,7 +562,6 @@ class HttpHelper {
     if (res.body.isNotEmpty) {
       TrainingSession lastSession =
           TrainingSession.fromJSON(jsonDecode(res.body));
-      print(jsonDecode(res.body));
 
       /// gets the execution from the last completed training
       int pos = lastSession.executions

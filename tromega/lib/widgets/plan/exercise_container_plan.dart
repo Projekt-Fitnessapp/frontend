@@ -45,7 +45,7 @@ class _ExerciseContainerPlanState extends State<ExerciseContainerPlan>
                       height: 50,
                       child: Text(widget.exercise.exercise.name,
                           maxLines: 2,
-                          textHeightBehavior: TextHeightBehavior(
+                          textHeightBehavior: const TextHeightBehavior(
                               applyHeightToLastDescent: true),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
