@@ -21,7 +21,6 @@ class _PlanOverviewState extends State<PlanOverview> {
   var createTrainingsplanChoice1 = 'Manuell erstellen';
   var createTrainingsplanChoice2 = 'Automatisch erstellen';
   var trainingsplanCnt = 3;
-  var generatedTrainingsplan = TrainingPlan("", "", 0, 0, []);
 
   late List<TrainingPlan> trainingPlans = [];
 
@@ -90,10 +89,7 @@ class _PlanOverviewState extends State<PlanOverview> {
                                                     .elevatedButtonTheme
                                                     .style,
                                                 onPressed: () async {
-                                                  setState(() {
-                                                    generatedTrainingsplan =
-                                                        newGeneratedTrainingPlan();
-                                                  });
+                                                  newGeneratedTrainingPlan();
                                                 },
                                                 child: Text(
                                                     createTrainingsplanChoice2))
@@ -178,9 +174,9 @@ class _PlanOverviewState extends State<PlanOverview> {
     }
   }
 
-  newGeneratedTrainingPlan() async {
+  void newGeneratedTrainingPlan() async {
     //navigation zur generierung eines neuen Plans
-    return await Navigator.push(
+    await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const GeneratePlanView(),
