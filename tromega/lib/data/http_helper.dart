@@ -437,6 +437,41 @@ class HttpHelper {
     return false;
   }
 
+  Future<String> getActivePlanId(String userId) async {
+    String id = '';
+    final queryParameters = {
+      'userId': userId,
+    };
+
+    String newPath = '/myPlans/active';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+    http.Response res =
+        await http.get(uri, headers: {"Content-Type": "application/json"});
+
+    if (res.statusCode == 200) {
+      if (res.body.isNotEmpty) {
+        id = jsonDecode(res.body)['_id'] ?? '';
+      }
+    }
+    return id;
+  }
+
+  Future<bool> deleteTrainingsplan(String userId, String trainingPlanId) async {
+    final queryParameters = {
+      'userId': userId,
+      'trainingPlanId': trainingPlanId,
+    };
+
+    String newPath = '/trainingPlan';
+    Uri uri = Uri.https(authority, newPath, queryParameters);
+    http.Response response =
+        await http.delete(uri, headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   Future<TrainingPlan> postGeneratedPlanPreferences(
       GeneratedPlanPreferences generatedPlanPreferences) async {
     // Die gesammelten Präferenzen für generieten Trainingsplan ans Bakcned

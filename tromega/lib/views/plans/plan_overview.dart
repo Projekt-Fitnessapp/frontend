@@ -23,6 +23,7 @@ class _PlanOverviewState extends State<PlanOverview> {
   var trainingsplanCnt = 3;
 
   late List<TrainingPlan> trainingPlans = [];
+  late String activePlanId;
 
   late HttpHelper planHttpHelper;
   bool fetching = true;
@@ -114,7 +115,7 @@ class _PlanOverviewState extends State<PlanOverview> {
                                 Colors.purple
                               ],
                               stops: [
-                                0.0,
+                                0.00,
                                 0.05,
                                 0.95,
                                 1.0
@@ -122,14 +123,18 @@ class _PlanOverviewState extends State<PlanOverview> {
                             ).createShader(rect);
                           },
                           blendMode: BlendMode.dstOut,
-                          child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: trainingPlans.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TrainingsplanBtn(
-                                    trainingPlan: trainingPlans[index]);
-                              }),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: trainingPlans.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TrainingsplanBtn(
+                                      trainingPlan: trainingPlans[index],
+                                      activePlanId: activePlanId);
+                                }),
+                          ),
                         ),
                       ),
                     ],
@@ -147,6 +152,7 @@ class _PlanOverviewState extends State<PlanOverview> {
     userId ??= "634dad62663403c8063adc41";
     List<TrainingPlan> initTrainingPlans =
         await planHttpHelper.getTrainingPlans(userId);
+    activePlanId = await planHttpHelper.getActivePlanId(userId);
     setState(() {
       trainingPlans = initTrainingPlans;
       fetching = false;
