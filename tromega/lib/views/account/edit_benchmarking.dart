@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tromega/data/benchmarking.dart';
-import '../../data/account_http_helper.dart';
+import 'package:tromega/data/classes/benchmarking.dart';
+import 'package:tromega/data/http_helper.dart';
 import '../../widgets/account/crunches_dialog.dart';
 import '../../widgets/account/pull_dialog.dart';
 import '../../widgets/account/push_dialog.dart';
@@ -20,7 +20,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
   late Map<String, dynamic> lastPullUps;
   late Map<String, dynamic> lastSquads;
   late Map<String, dynamic> lastCrunches;
-  late AccountHttpHelper accountHttpHelper;
+  late HttpHelper httpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
 
@@ -42,7 +42,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
 
   @override
   void initState() {
-    accountHttpHelper = AccountHttpHelper();
+    httpHelper = HttpHelper();
     fetchData();
     super.initState();
   }
@@ -51,8 +51,8 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
     return Scaffold(
-      appBar: AppBar_Icon(
-        actions: [],
+      appBar: AppBarIcon(
+        actions: const [],
       ),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
@@ -136,10 +136,10 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
       Benchmarking squads, Benchmarking crunches) async {
     final prefs = await SharedPreferences.getInstance();
     var userId = prefs.getString("userId");
-    var response = await accountHttpHelper.postBenchmarking(pushUps);
-    var response2 = await accountHttpHelper.postBenchmarking(pullUps);
-    var response3 = await accountHttpHelper.postBenchmarking(squads);
-    var response4 = await accountHttpHelper.postBenchmarking(crunches);
+    var response = await httpHelper.postBenchmarking(pushUps);
+    var response2 = await httpHelper.postBenchmarking(pullUps);
+    var response3 = await httpHelper.postBenchmarking(squads);
+    var response4 = await httpHelper.postBenchmarking(crunches);
 
     if (response && response2 && response3 && response4) {
       Navigator.pushNamed(context, '/myProfile');
@@ -151,14 +151,10 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
 
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
-    List<dynamic> pushUps = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "push_ups");
-    List<dynamic> pullUps = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "pull_ups");
-    List<dynamic> squads = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "squads");
-    List<dynamic> crunches = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "crunches");
+    List<dynamic> pushUps = await httpHelper.getBenchmarking("push_ups");
+    List<dynamic> pullUps = await httpHelper.getBenchmarking("pull_ups");
+    List<dynamic> squads = await httpHelper.getBenchmarking("squads");
+    List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
 
     setState(() {
       lastPushUps = pushUps.isEmpty

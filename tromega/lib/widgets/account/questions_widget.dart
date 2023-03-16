@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/benchmarking.dart';
+import 'package:tromega/data/classes/benchmarking.dart';
 import 'package:tromega/data/classes/account.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/data/classes/body.dart';
