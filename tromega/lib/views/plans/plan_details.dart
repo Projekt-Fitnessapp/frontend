@@ -156,36 +156,42 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   void activatePlan(String id) async {
     //Erstellung eines neuen leeren Trainingsplans
     final prefs = await SharedPreferences.getInstance();
-    var userId = prefs.getString("userId");
-    userId ??= "634dad62663403c8063adc41";
-    var response = await httpHelper.putActivePlan(userId, id);
-    if (response) {
-      showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
-      await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => App(currentIndex: 0),
-          ));
+    var userId = prefs.getString("userId") ?? "";
+    if (userId == "") {
+      await Navigator.pushNamed(context, "/");
     } else {
-      showInSnackbarError(context, "Fehler bei der Aktivierung");
+      var response = await httpHelper.putActivePlan(userId, id);
+      if (response) {
+        showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => App(currentIndex: 0),
+            ));
+      } else {
+        showInSnackbarError(context, "Fehler bei der Aktivierung");
+      }
     }
   }
 
   void deletePlan(String id) async {
     //Erstellung eines neuen leeren Trainingsplans
     final prefs = await SharedPreferences.getInstance();
-    var userId = prefs.getString("userId");
-    userId ??= "634dad62663403c8063adc41";
-    var response = await httpHelper.deleteTrainingsplan(userId, id);
-    if (response) {
-      showInSnackbar(context, "Trainingsplan erfolgreich gelöscht");
-      await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => App(currentIndex: 1),
-          ));
+    var userId = prefs.getString("userId") ?? "";
+    if (userId == "") {
+      await Navigator.pushNamed(context, "/");
     } else {
-      showInSnackbarError(context, "Fehler bei der Löschung");
+      var response = await httpHelper.deleteTrainingsplan(userId, id);
+      if (response) {
+        showInSnackbar(context, "Trainingsplan erfolgreich gelöscht");
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => App(currentIndex: 1),
+            ));
+      } else {
+        showInSnackbarError(context, "Fehler bei der Löschung");
+      }
     }
   }
 
