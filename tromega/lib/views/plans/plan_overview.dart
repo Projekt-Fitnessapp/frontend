@@ -1,9 +1,8 @@
-import '../../widgets/plan/trainingsplanBtn.dart';
+import '../../widgets/plan/trainingsplan_btn.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import 'package:tromega/data/plan_http_helper.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 import './edit_training_view.dart';
 import './generate_training_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,12 +24,12 @@ class _PlanOverviewState extends State<PlanOverview> {
 
   late List<TrainingPlan> trainingPlans = [];
 
-  late PlanHttpHelper planHttpHelper;
+  late HttpHelper planHttpHelper;
   bool fetching = true;
 
   @override
   initState() {
-    planHttpHelper = PlanHttpHelper();
+    planHttpHelper = const HttpHelper();
     fetchData();
     super.initState();
   }
@@ -38,7 +37,7 @@ class _PlanOverviewState extends State<PlanOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
           : Row(
@@ -162,7 +161,6 @@ class _PlanOverviewState extends State<PlanOverview> {
     TrainingPlan trainingPlan =
         TrainingPlan("", "Neuer Trainingsplan", 1, 0, []);
     var response = await planHttpHelper.postTrainingPlan(userId, trainingPlan);
-    print(response);
     if (response != "") {
       trainingPlan.setId = response; //setzen der id für spätere updates
       //navigation zur editierung des neuen Plans

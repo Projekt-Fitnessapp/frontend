@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/account.dart';
-import 'package:tromega/data/account_http_helper.dart';
 import 'package:tromega/data/benchmarking.dart';
-import 'package:tromega/data/body.dart';
+import 'package:tromega/data/classes/account.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
 import 'package:tromega/widgets/account/data_widget.dart';
 import 'package:tromega/widgets/account/dropdown_widget.dart';
@@ -19,7 +19,7 @@ class QuestionWidget extends StatefulWidget {
 }
 
 class _SecondQuestionWidget extends State<QuestionWidget> {
-  late AccountHttpHelper accountHttpHelper;
+  late HttpHelper httpHelper;
   late TextEditingController changedBirthday;
   late TextEditingController changedName;
   late TextEditingController changedHeight;
@@ -39,11 +39,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   void initState() {
     thisBody = Body("", "", DateTime.now(), 0, 0);
     thisAccount = Account("", "", "", DateTime.now(), "", "", List.empty());
-    thisPushUps = Benchmarking("", "", "", 0, 0);
-    thisPullUps = Benchmarking("", "", "", 0, 0);
-    thisSquads = Benchmarking("", "", "", 0, 0);
-    thisCrunches = Benchmarking("", "", "", 0, 0);
-    accountHttpHelper = AccountHttpHelper();
+    httpHelper = const HttpHelper();
     changedBirthday = TextEditingController();
     changedName = TextEditingController();
     changedHeight = TextEditingController();
@@ -52,6 +48,10 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     pull_ups = TextEditingController();
     crunches = TextEditingController();
     squads = TextEditingController();
+    thisPushUps = Benchmarking("", "", "", 0, 0);
+    thisPullUps = Benchmarking("", "", "", 0, 0);
+    thisSquads = Benchmarking("", "", "", 0, 0);
+    thisCrunches = Benchmarking("", "", "", 0, 0);
     super.initState();
   }
 
@@ -153,16 +153,15 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                     thisAccount.sex = gender;
                     thisPushUps.exercise_amount = int.parse(push_ups.text);
                     thisPushUps.exercise_name = "push_ups";
-                    thisPullUps.exercise_amount =
-                        int.parse(pull_ups.text);
+                    thisPullUps.exercise_amount = int.parse(pull_ups.text);
                     thisPullUps.exercise_name = "pull_ups";
                     thisSquads.exercise_amount = int.parse(squads.text);
                     thisSquads.exercise_name = "squads";
-                    thisCrunches.exercise_amount =
-                        int.parse(crunches.text);
+                    thisCrunches.exercise_amount = int.parse(crunches.text);
                     thisCrunches.exercise_name = "crunches";
                   });
-                  widget.onFinished(thisAccount, thisBody, thisPushUps, thisPullUps, thisSquads, thisCrunches);
+                  widget.onFinished(thisAccount, thisBody, thisPushUps,
+                      thisPullUps, thisSquads, thisCrunches);
                 })
           ],
         ),

@@ -1,16 +1,20 @@
 class GeneratedPlanPreferences {
   late String _id, trainingsStatus, trainingsType;
-  late int numberOfTrainingssession;
+  late int numberOfTrainingssessions;
 
-  GeneratedPlanPreferences(this._id, this.numberOfTrainingssession,
+  GeneratedPlanPreferences(this._id, this.numberOfTrainingssessions,
       this.trainingsStatus, this.trainingsType);
 
-  Map toJson() {
+  Map toJSON() {
     return {
       'user_id': _id,
-      'numberOfTrainingssession': numberOfTrainingssession,
+      'numberOfTrainingssessions': numberOfTrainingssessions,
       'trainingsStatus': trainingsStatus,
       'trainingsType': trainingsType
     };
+  }
+
+  String getId() {
+    return _id;
   }
 }

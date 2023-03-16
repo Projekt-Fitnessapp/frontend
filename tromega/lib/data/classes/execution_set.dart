@@ -8,14 +8,16 @@ enum ExecutionType {
 
 class ExecutionSet {
   late ExecutionType executionType;
-  late int weight, tenRM;
+  late double weight, tenRM;
   late int reps;
   late bool done;
 
-  ExecutionSet(this.executionType, this.reps, this.weight, this.tenRM, this.done);
+  ExecutionSet(
+      this.executionType, this.reps, this.weight, this.tenRM, this.done);
 
   ExecutionSet.clone(ExecutionSet executionSet)
-      : this(executionSet.executionType, executionSet.reps, executionSet.weight, executionSet.tenRM, executionSet.done);
+      : this(executionSet.executionType, executionSet.reps, executionSet.weight,
+            executionSet.tenRM, executionSet.done);
 
   ExecutionSet.fromJSON(Map<String, dynamic> importMap) {
     switch (importMap['executionType']) {
@@ -33,12 +35,14 @@ class ExecutionSet {
     } else {
       reps = importMap['reps'].round();
     }
-    weight = importMap['weight'] ?? 0;
-    tenRM = importMap['tenRM'] ?? 0;
+    weight = importMap['weight']?.toDouble() ?? 0.0;
+
+    // calculate manually, backend does not send information
+    tenRM = ((weight * (36 / (37 - reps))) * 0.7498);
     done = false;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJSON() {
     return {
       'executionType': typeToString(executionType),
       'weight': weight,

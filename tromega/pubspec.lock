@@ -68,9 +68,10 @@ packages:
     dependency: "direct main"
     description:
       name: custom_timer
-      url: "https://pub.dartlang.org"
+      sha256: "65af2d6a3f6f232b224ad1dd06dbab9f8473be69800a32934cbd1e6d90276348"
+      url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.2.3"
   draw_graph:
     dependency: "direct main"
     description:
@@ -174,14 +175,16 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      url: "https://pub.dartlang.org"
+      sha256: "6a740e8498920ecf5fc2849ae0e4412536d700230bc3169493a1d031fdfe1cca"
+      url: "https://pub.dev"
     source: hosted
     version: "6.1.8"
   google_sign_in_ios:
     dependency: transitive
     description:
       name: google_sign_in_ios
-      url: "https://pub.dartlang.org"
+      sha256: "2e1df687b17f7fddcaf9a0c7f994d0d19b5d41e8ce1d943013befd0a0ae67403"
+      url: "https://pub.dev"
     source: hosted
     version: "5.6.1"
   google_sign_in_platform_interface:
@@ -307,7 +310,8 @@ packages:
     dependency: transitive
     description:
       name: path_provider_linux
-      url: "https://pub.dartlang.org"
+      sha256: "2ae08f2216225427e64ad224a24354221c2c7907e448e6e0e8b57b1eb9f10ad1"
+      url: "https://pub.dev"
     source: hosted
     version: "2.1.10"
   path_provider_platform_interface:
@@ -321,7 +325,8 @@ packages:
     dependency: transitive
     description:
       name: path_provider_windows
-      url: "https://pub.dartlang.org"
+      sha256: f53720498d5a543f9607db4b0e997c4b5438884de25b0f73098cc2671a51b130
+      url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
   platform:
@@ -384,21 +389,24 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      url: "https://pub.dartlang.org"
+      sha256: ad423a80fe7b4e48b50d6111b3ea1027af0e959e49d485712e134863d9c1c521
+      url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
   shared_preferences_foundation:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      url: "https://pub.dartlang.org"
+      sha256: "1e755f8583229f185cfca61b1d80fb2344c9d660e1c69ede5450d8f478fa5310"
+      url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
   shared_preferences_linux:
     dependency: transitive
     description:
       name: shared_preferences_linux
-      url: "https://pub.dartlang.org"
+      sha256: "3a59ed10890a8409ad0faad7bb2957dab4b92b8fbe553257b05d30ed8af2c707"
+      url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
   shared_preferences_platform_interface:
@@ -412,14 +420,16 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_web
-      url: "https://pub.dartlang.org"
+      sha256: "0dc2633f215a3d4aa3184c9b2c5766f4711e4e5a6b256e62aafee41f89f1bfb8"
+      url: "https://pub.dev"
     source: hosted
     version: "2.0.6"
   shared_preferences_windows:
     dependency: transitive
     description:
       name: shared_preferences_windows
-      url: "https://pub.dartlang.org"
+      sha256: "71bcd669bb9cdb6b39f22c4a7728b6d49e934f6cba73157ffa5a54f1eed67436"
+      url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
   sky_engine:
@@ -459,14 +469,16 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      url: "https://pub.dartlang.org"
+      sha256: "51c8ed241312bd01bfd242979249d3a69ea0a46486509275dc10b1c9d288f027"
+      url: "https://pub.dev"
     source: hosted
     version: "20.4.53"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      url: "https://pub.dartlang.org"
+      sha256: ab3eac31638e80663eae19c71e362012e1e2f67dfd527dc5c07d9397cd4238f2
+      url: "https://pub.dev"
     source: hosted
     version: "20.4.53"
   term_glyph:

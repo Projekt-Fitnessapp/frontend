@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'exercise_container.dart';
-import '../../data/trainingDay.dart';
-import '../../data/trainingPlan.dart';
-import '../../data/filter.dart';
+import '../../data/classes/training_day.dart';
+import '../../data/classes/training_plan.dart';
+import '../../data/classes/filter.dart';
 import '../../views/plans/add_exercise.dart';
-import '../../views/plans/filter_exercises.dart';
 
 class EditPlanViewColumn extends StatefulWidget {
   //View einzelner Trainingstage der Edit Training View
@@ -25,6 +24,7 @@ class EditPlanViewColumn extends StatefulWidget {
 }
 
 class _EditPlanViewColumnState extends State<EditPlanViewColumn> {
+  // ignore: unused_field
   int _count = 0;
 
   //Methode zum aktualisieren von Daten, wird an Child View weitergegeben

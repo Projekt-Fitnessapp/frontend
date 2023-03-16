@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/widgets/plan/exercise_container_plan.dart';
-import '../../data/plan_http_helper.dart';
 import '../../views/in_training/track_training_view.dart';
-import 'exercise_container.dart';
-import '../../data/trainingDay.dart';
-import '../../data/trainingPlan.dart';
-import '../../data/filter.dart';
-import '../../views/plans/add_exercise.dart';
-import '../../views/plans/filter_exercises.dart';
+import '../../data/classes/training_day.dart';
+import '../../data/classes/training_plan.dart';
 
 class PlanViewColumn extends StatefulWidget {
   //View einzelner Trainingstage der Edit Training View
@@ -25,9 +18,11 @@ class PlanViewColumn extends StatefulWidget {
 }
 
 class _PlanViewColumnState extends State<PlanViewColumn> {
+  // ignore: unused_field
   int _count = 0;
 
   //Methode zum aktualisieren von Daten, wird an Child View weitergegeben
+  // ignore: unused_element
   void _update(int count) {
     setState(() => _count = count);
   }
@@ -51,7 +46,10 @@ class _PlanViewColumnState extends State<PlanViewColumn> {
             await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TrackingView(trainingDayId: trainingId),
+                  builder: (context) => TrackingView(
+                    trainingDayId: trainingId,
+                    trainingPlanId: widget.trainingPlan.getId,
+                  ),
                 ));
           }),
           child: const Text("Training starten")),

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class Account {
   late String _id, google_id, name, sex, activePlan;
   late DateTime birthdate;
@@ -18,7 +20,7 @@ class Account {
         .toList();
   }
 
-  Map toJson() {
+  Map toJSON() {
     return {
       '_id': _id,
       'name': name,
@@ -29,7 +31,7 @@ class Account {
     };
   }
 
-  Map toJsonNewActivePlan(String newActivePlan) => {
+  Map toJSONNewActivePlan(String newActivePlan) => {
         '_id': _id,
         'name': name,
         'google_id': google_id,

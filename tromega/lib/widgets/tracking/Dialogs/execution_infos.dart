@@ -32,15 +32,18 @@ class _ExecutionInfosState extends State<ExecutionInfos> with TickerProviderStat
                 _gifController.repeat();
               }
             },
-            child: Gif(
-              image: Image.network(
-                widget.gifUrl,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ).image,
-              controller: _gifController,
-              autostart: Autostart.no,
-              placeholder: (context) => const CircularProgressIndicator(),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Gif(
+                image: Image.network(
+                  widget.gifUrl,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ).image,
+                controller: _gifController,
+                autostart: Autostart.no,
+                placeholder: (context) => const CircularProgressIndicator(),
+              ),
             ),
           ),
           Text(

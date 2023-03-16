@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/tracking_http_helper.dart';
-import '../../../data/training_session.dart';
+import 'package:tromega/data/http_helper.dart';
+import '../../../data/classes/training_session.dart';
 
 class FinishTrainingButton extends StatelessWidget {
   const FinishTrainingButton(
       {super.key, required this.trainingFinished, required this.thisSession});
   final bool trainingFinished;
   final TrainingSession thisSession;
-  final TrackingHttpHelper _trackingHttpHelper = const TrackingHttpHelper();
+  final HttpHelper _trackingHttpHelper = const HttpHelper();
 
   @override
   Widget build(BuildContext context) {

@@ -13,12 +13,16 @@ class Body {
     weight = importMap['weight'] ?? 1;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJSON() {
     return {
       "userId": userId,
       "date": date.toIso8601String(),
       "height": height,
       "weight": weight,
     };
+  }
+
+  String getId() {
+    return _id;
   }
 }

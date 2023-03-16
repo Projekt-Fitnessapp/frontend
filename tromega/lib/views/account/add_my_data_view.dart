@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tromega/data/account.dart';
-import 'package:tromega/data/account_http_helper.dart';
-import 'package:tromega/data/benchmarking.dart';
-import 'package:tromega/data/body.dart';
+import 'package:tromega/data/classes/account.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/questions_widget.dart';
 
@@ -16,45 +15,29 @@ class AddMyDataView extends StatefulWidget {
 }
 
 class _AddMyDataViewState extends State<AddMyDataView> {
-  late AccountHttpHelper accountHttpHelper;
+  late HttpHelper httpHelper;
 
   @override
   void initState() {
-    accountHttpHelper = AccountHttpHelper();
+    httpHelper = const HttpHelper();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(height: 24),
-          QuestionWidget(onFinished: (Account account,
-              Body body,
-              Benchmarking pushUps,
-              Benchmarking pullUps,
-              Benchmarking squads,
-              Benchmarking crunches) {
-            accountHttpHelper.postAccount(account).then((account) {
-              SharedPreferences.getInstance().then((prefs) async {
+          QuestionWidget(onFinished: (Account account, Body body) {
+            httpHelper.postAccount(account).then((account) {
+              SharedPreferences.getInstance().then((prefs) {
                 String userId = prefs.getString('userId') ?? '';
                 body.userId = userId;
-                pushUps.userId = userId;
-                pullUps.userId = userId;
-                squads.userId = userId;
-                crunches.userId = userId;
-
-                await Future.wait([
-                accountHttpHelper.postBody(body),
-                accountHttpHelper.postBenchmarking(pushUps),
-                accountHttpHelper.postBenchmarking(pullUps),
-                accountHttpHelper.postBenchmarking(squads),
-                accountHttpHelper.postBenchmarking(crunches),
-                ]);
-                Navigator.pushNamed(context, '/myProfile');
+                httpHelper.postBody(body).then(
+                    (value) => Navigator.pushNamed(context, '/myProfile'));
               });
             });
           })

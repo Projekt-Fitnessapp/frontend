@@ -33,7 +33,7 @@ class BottomDialogOptions extends StatelessWidget {
     );
   }
 
-  Widget buildOptionsButton({icon: Icon, text: String, onPressed: Function}) {
+  Widget buildOptionsButton({icon = Icon, text = String, onPressed = Function}) {
     return TextButton(
       onPressed: onPressed,
       child: Padding(

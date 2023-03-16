@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/exerciseSetsReps.dart';
+import 'package:tromega/data/classes/exercise_sets_reps.dart';
 import 'package:tromega/widgets/plan/exercise_container_adding.dart';
 import '../../views/plans/filter_exercises.dart';
-import '../../widgets/bottom_menu.dart';
 import '../../widgets/shared/app_bar.dart';
-import '../../data/trainingDay.dart';
-import '../../data/filter.dart';
-import '../../data/plan_http_helper.dart';
-import 'package:collection/collection.dart';
+import '../../data/classes/training_day.dart';
+import '../../data/classes/filter.dart';
+import '../../data/http_helper.dart';
 
 class AddExercise extends StatefulWidget {
   //View zum Hinzufügen von Übungen zu einem Trainingsplan
@@ -26,12 +24,12 @@ class _AddExerciseState extends State<AddExercise> {
 
   String searchWord = "";
 
-  late PlanHttpHelper planHttpHelper;
+  late HttpHelper httpHelper;
   bool fetching = true;
 
   @override
   initState() {
-    planHttpHelper = PlanHttpHelper();
+    httpHelper = const HttpHelper();
     fetchData(); //Übungen abfragen
     super.initState();
   }
@@ -56,7 +54,7 @@ class _AddExerciseState extends State<AddExercise> {
     var searchController = TextEditingController(text: searchWord);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar_Icon(actions: const []),
+      appBar: AppBarIcon(actions: const []),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
           : Column(children: <Widget>[
@@ -153,7 +151,7 @@ class _AddExerciseState extends State<AddExercise> {
 
   void fetchData() async {
     initExercises =
-        await planHttpHelper.getExercise(); //Abfragen der Übungen von der API
+        await httpHelper.getExercise(); //Abfragen der Übungen von der API
     initExercises = filterData(initExercises);
     setState(() {
       exercises = initExercises;

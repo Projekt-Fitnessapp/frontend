@@ -2,20 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../app.dart';
-import '../widgets/bottom_menu.dart';
-import 'social_space/social_space_view.dart';
-import '../views/plans/plan_overview.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
-import '../../data/home_http_helper.dart';
-import '../../data/trainday.dart';
-import '../../data/quote.dart';
+import '../../data/http_helper.dart';
+import '../data/classes/trainday.dart';
+import '../data/classes/quote.dart';
 import '../views/in_training/track_training_view.dart';
-import '../views/plans/plan_overview.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key, this.onSelectTab}) : super(key: key);
-  final onSelectTab;
+  const HomeView({Key? key, required this.onSelectTab}) : super(key: key);
+  final Function onSelectTab;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -24,7 +19,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late DateTime dateToday;
   late Color colorDot;
-  late HomeHttpHelper homeHttpHelper;
+  late HttpHelper httpHelper;
   late Trainweek trainigsDaten;
   late String nextTraining;
   bool fetching = true;
@@ -46,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    homeHttpHelper = HomeHttpHelper();
+    httpHelper = const HttpHelper();
     rnd = rng.nextInt(4);
     fetchData();
     dateToday = DateTime.now();
@@ -133,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Text(quotes[rnd].quote),
                     Text(quotes[rnd].author),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
                     Container(
@@ -186,16 +181,17 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                                 onPressed: () {
                                   nextTraining != 'Kein Plan ausgewählt'
-                                      ? homeHttpHelper
+                                      ? httpHelper
                                           .getNextTrainingDayId()
-                                          .then((trainingDayId) {
+                                          .then((ids) {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       TrackingView(
                                                         trainingDayId:
-                                                            trainingDayId,
+                                                            ids[0],
+                                                        trainingPlanId: ids[1],
                                                       )));
                                         })
                                       : showInSnackbar(context,
@@ -232,8 +228,8 @@ class _HomeViewState extends State<HomeView> {
 
   void fetchData() async {
     //gets the trainingsdata of last week (when has the user trained)
-    Trainweek trainweek = await homeHttpHelper.getLastTrainday();
-    String nextTrainingName = await homeHttpHelper.getNextTrainingDayName();
+    Trainweek trainweek = await httpHelper.getLastTrainday();
+    String nextTrainingName = await httpHelper.getNextTrainingDayName();
 
     setState(() {
       fetching = false;

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tromega/data/tracking_http_helper.dart';
-import 'package:tromega/data/training_session.dart';
+import 'package:tromega/data/http_helper.dart';
+import 'package:tromega/data/classes/training_session.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_options.dart';
 import 'package:tromega/widgets/tracking/Dialogs/confirmation_dialog.dart';
 
 class TrainingOptionsButton extends StatelessWidget {
   const TrainingOptionsButton({super.key, required this.thisSession});
   final TrainingSession thisSession;
-  final TrackingHttpHelper _trackingHttpHelper = const TrackingHttpHelper();
+  final HttpHelper _trackingHttpHelper = const HttpHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class TrainingOptionsButton extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmationDialog(
-                      question:
-                          'Sind Sie sich sicher? Dein Fortschritt geht dabei verloren.',
-                      onConfirm: () =>
-                          Navigator.popAndPushNamed(context, '/app'),
-                    );
+                        question:
+                            'Sind Sie sich sicher? Ihr Fortschritt geht dabei verloren.',
+                        onConfirm: () {
+                          Navigator.popAndPushNamed(context, '/app');
+                        });
                   },
                 );
               },
@@ -44,7 +44,7 @@ class TrainingOptionsButton extends StatelessWidget {
                     builder: (context) {
                       return ConfirmationDialog(
                         question:
-                            'Sie haben noch nicht alle Übungen abgeschlossen. Trotzdem beenden?',
+                            'Sie haben noch nicht alle Übungen abgeschlossen. Training trotzdem beenden?',
                         onConfirm: () {
                           _trackingHttpHelper
                               .saveSession(thisSession)

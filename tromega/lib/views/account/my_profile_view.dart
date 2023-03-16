@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_signin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tromega/data/account.dart';
-import 'package:tromega/data/benchmarking.dart';
-import 'package:tromega/data/body.dart';
-import 'package:tromega/data/account_http_helper.dart';
-import 'package:tromega/views/account/edit_benchmarking.dart';
+import 'package:tromega/data/classes/account.dart';
+import 'package:tromega/data/classes/body.dart';
+import 'package:tromega/data/http_helper.dart';
+import '../../data/classes/benchmarking.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 import 'package:intl/intl.dart';
+
+import 'edit_benchmarking.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -26,13 +27,13 @@ class _ProfileViewState extends State<ProfileView> {
   late Map<String, dynamic> lastPullUps;
   late Map<String, dynamic> lastSquads;
   late Map<String, dynamic> lastCrunches;
-  late AccountHttpHelper accountHttpHelper;
+  late HttpHelper httpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
 
   @override
   void initState() {
-    accountHttpHelper = AccountHttpHelper();
+    httpHelper = const HttpHelper();
     fetchData();
     super.initState();
   }
@@ -53,8 +54,8 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
     return Scaffold(
-      appBar: AppBar_Icon(
-        actions: [],
+      appBar: AppBarIcon(
+        actions: const [],
       ),
       body: fetching
           ? const Center(child: CircularProgressIndicator())
@@ -204,18 +205,14 @@ class _ProfileViewState extends State<ProfileView> {
 
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
-    Account account =
-        await accountHttpHelper.getAccount(prefs.getString('googleId') ?? '');
-    Body body =
-        await accountHttpHelper.getBody(prefs.getString('userId') ?? '');
-    List<dynamic> pushUps = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "push_ups");
-    List<dynamic> pullUps = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "pull_ups");
-    List<dynamic> squads = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "squads");
-    List<dynamic> crunches = await accountHttpHelper.getBenchmarking(
-        prefs.getString('userId') ?? '', "crunches");
+    Account account = await httpHelper
+        .getAccountWithGoogleId(prefs.getString('googleId') ?? '');
+    Body body = await httpHelper.getBody(prefs.getString('userId') ?? '');
+        List<dynamic> pushUps = await httpHelper.getBenchmarking("push_ups");
+    List<dynamic> pullUps = await httpHelper.getBenchmarking( "pull_ups");
+    List<dynamic> squads = await httpHelper.getBenchmarking("squads");
+    List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
+
 
     setState(() {
       lastAccount = account;

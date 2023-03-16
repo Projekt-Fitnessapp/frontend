@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/app.dart';
-import 'package:tromega/data/trainingPlan.dart';
+import 'package:tromega/data/classes/training_plan.dart';
 import 'package:tromega/widgets/shared/theme.dart';
 
 // Main Views
-import './views/home_view.dart';
 import 'views/plans/plan_overview.dart';
 import './views/statistics_view.dart';
 import 'views/social_space/social_space_view.dart';
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
       theme: tromegaTheme(),
       routes: {
         '/': (context) => const LoginView(),
-        '/home': (context) => const HomeView(),
         '/app': (context) => App(currentIndex: 0),
         '/myWorkoutPlans': (context) => const PlanOverview(),
         '/myStatistics': (context) => const StatisticsView(),
