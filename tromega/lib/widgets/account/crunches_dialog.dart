@@ -27,7 +27,7 @@ class _CrunchesDialogState extends State<CrunchesDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                           title: "Crunches",
-                          forReps: false,
+                          forReps: true,
                           startValue: widget.crunches,
                           onSubmit: (int value) {
                             //Aktualisierung der Satzanzahl im Trainingsplan

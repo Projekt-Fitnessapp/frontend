@@ -26,7 +26,7 @@ class _SquadsDialogState extends State<SquadsDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                           title: "Kniebeugen",
-                          forReps: false,
+                          forReps: true,
                           startValue: widget.squads,
                           onSubmit: (int value) {
                             //Aktualisierung der Satzanzahl im Trainingsplan

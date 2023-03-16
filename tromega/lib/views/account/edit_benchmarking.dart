@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/benchmarking.dart';
+import 'package:tromega/data/classes/stats_pair.dart';
 import 'package:tromega/data/http_helper.dart';
 import '../../widgets/account/crunches_dialog.dart';
 import '../../widgets/account/pull_dialog.dart';
@@ -16,33 +17,41 @@ class EditBenchmarking extends StatefulWidget {
 }
 
 class _EditBenchmarkingState extends State<EditBenchmarking> {
-  late Map<String, dynamic> lastPushUps;
-  late Map<String, dynamic> lastPullUps;
-  late Map<String, dynamic> lastSquads;
-  late Map<String, dynamic> lastCrunches;
+  late StatsPair lastPushUps;
+  late StatsPair lastPullUps;
+  late StatsPair lastSquads;
+  late StatsPair lastCrunches;
+  late Benchmarking thisPushUps;
+  late Benchmarking thisPullUps;
+  late Benchmarking thisSquads;
+  late Benchmarking thisCrunches;
   late HttpHelper httpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
 
   void _changePushUps(pushUps) {
-    setState(() => lastPushUps['exercise_amount'] = pushUps);
+    setState(() => lastPushUps.exerciseAmount = pushUps);
   }
 
   void _changePullUps(int pullUps) {
-    setState(() => lastPullUps['exercise_amount'] = pullUps);
+    setState(() => lastPullUps.exerciseAmount = pullUps);
   }
 
   void _changeSquads(int squads) {
-    setState(() => lastSquads['exercise_amount'] = squads);
+    setState(() => lastSquads.exerciseAmount = squads);
   }
 
   void _changeCrunches(int crunches) {
-    setState(() => lastCrunches['exercise_amount'] = crunches);
+    setState(() => lastCrunches.exerciseAmount = crunches);
   }
 
   @override
   void initState() {
     httpHelper = HttpHelper();
+    thisPushUps = Benchmarking("", "", "", 0, 0);
+    thisPullUps = Benchmarking("", "", "", 0, 0);
+    thisSquads = Benchmarking("", "", "", 0, 0);
+    thisCrunches = Benchmarking("", "", "", 0, 0);
     fetchData();
     super.initState();
   }
@@ -87,20 +96,20 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       PushDialog(
-                          pushUps: lastPushUps['exercise_amount'],
+                          pushUps: lastPushUps.exerciseAmount,
                           changePushUps: _changePushUps),
                       PullDialog(
-                          pullUps: lastPullUps['exercise_amount'],
+                          pullUps: lastPullUps.exerciseAmount,
                           changePullUps: _changePullUps),
                     ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SquadsDialog(
-                          squads: lastSquads['exercise_amount'],
+                          squads: lastSquads.exerciseAmount,
                           changeSquads: _changeSquads),
                       CrunchesDialog(
-                          crunches: lastCrunches['exercise_amount'],
+                          crunches: lastCrunches.exerciseAmount,
                           changeCrunches: _changeCrunches),
                     ]),
                 Padding(
@@ -115,8 +124,23 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                             primary: const Color.fromARGB(1000, 0, 48, 80),
                           ),
                           onPressed: () {
-                            //sendBenchmarking(, pullUps, squads, crunches)
-                            Navigator.pushNamed(context, '/myProfile');
+                            setState(() {
+                              thisPushUps.exercise_amount =
+                                  lastPushUps.exerciseAmount;
+                              thisPushUps.exercise_name = "push_ups";
+                              thisPullUps.exercise_amount =
+                                  lastPullUps.exerciseAmount;
+                              thisPullUps.exercise_name = "pull_ups";
+                              thisSquads.exercise_amount =
+                                  lastSquads.exerciseAmount;
+                              thisSquads.exercise_name = "squads";
+                              thisCrunches.exercise_amount =
+                                  lastCrunches.exerciseAmount;
+                              thisCrunches.exercise_name = "crunches";
+                            });
+                            sendBenchmarking(thisPushUps, thisPullUps,
+                                thisSquads, thisCrunches);
+                            //Navigator.pushNamed(context, '/myProfile');
                           },
                           child: const Text(
                             'Benchmarking aktualisieren',
@@ -135,18 +159,18 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
   void sendBenchmarking(Benchmarking pushUps, Benchmarking pullUps,
       Benchmarking squads, Benchmarking crunches) async {
     final prefs = await SharedPreferences.getInstance();
-    var userId = prefs.getString("userId");
-    var response = await httpHelper.postBenchmarking(pushUps);
-    var response2 = await httpHelper.postBenchmarking(pullUps);
-    var response3 = await httpHelper.postBenchmarking(squads);
-    var response4 = await httpHelper.postBenchmarking(crunches);
-
-    if (response && response2 && response3 && response4) {
-      Navigator.pushNamed(context, '/myProfile');
-    } else {
-      //Visualisierung des fehlerhaften speicherns (api request failed)
-      showInSnackbar(context, "Aktualisierung fehlgeschlagen");
-    }
+    var userId = prefs.getString("userId") ?? '';
+    pullUps.userId = userId;
+    pushUps.userId = userId;
+    squads.userId = userId;
+    crunches.userId = userId;
+    await Future.wait([
+      httpHelper.postBenchmarking(pushUps),
+      httpHelper.postBenchmarking(pullUps),
+      httpHelper.postBenchmarking(squads),
+      httpHelper.postBenchmarking(crunches),
+    ]);
+    Navigator.pushNamed(context, '/myProfile');
   }
 
   void fetchData() async {

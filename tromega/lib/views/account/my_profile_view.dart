@@ -4,6 +4,7 @@ import 'package:tromega/data/account_signin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/account.dart';
 import 'package:tromega/data/classes/body.dart';
+import 'package:tromega/data/classes/stats_pair.dart';
 import 'package:tromega/data/http_helper.dart';
 import '../../data/classes/benchmarking.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -23,10 +24,10 @@ class _ProfileViewState extends State<ProfileView> {
   final GoogleSignInService _googleSignInService = GoogleSignInService();
   late Account lastAccount;
   late Body lastBody;
-  late Map<String, dynamic> lastPushUps;
-  late Map<String, dynamic> lastPullUps;
-  late Map<String, dynamic> lastSquads;
-  late Map<String, dynamic> lastCrunches;
+  late StatsPair lastPushUps;
+  late StatsPair lastPullUps;
+  late StatsPair lastSquads;
+  late StatsPair lastCrunches;
   late HttpHelper httpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
@@ -158,19 +159,19 @@ class _ProfileViewState extends State<ProfileView> {
           const SizedBox(height: 24),
           buildDataRow(
               text1: 'Liegestütze',
-              text2: lastPushUps['exercise_amount'].toString()),
+              text2: lastPushUps.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
               text1: 'Klimmzüge',
-              text2: lastPullUps['exercise_amount'].toString()),
+              text2: lastPullUps.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
               text1: 'Kniebeugen',
-              text2: lastSquads['exercise_amount'].toString()),
+              text2: lastSquads.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
               text1: 'Crunches',
-              text2: lastCrunches['exercise_amount'].toString()),
+              text2: lastCrunches.exerciseAmount.toString()),
         ]));
   }
 
