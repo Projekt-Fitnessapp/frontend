@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/benchmarking.dart';
 import 'package:tromega/data/classes/stats_pair.dart';
 import 'package:tromega/data/http_helper.dart';
+import '../../app.dart';
 import '../../widgets/account/crunches_dialog.dart';
 import '../../widgets/account/pull_dialog.dart';
 import '../../widgets/account/push_dialog.dart';
@@ -170,7 +171,11 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
       httpHelper.postBenchmarking(squads),
       httpHelper.postBenchmarking(crunches),
     ]);
-    Navigator.pushNamed(context, '/myProfile');
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => App(currentIndex: 4),
+        ));
   }
 
   void fetchData() async {
@@ -181,18 +186,13 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
     List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
 
     setState(() {
-      lastPushUps = pushUps.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : pushUps.last;
-      lastPullUps = pullUps.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : pullUps.last;
-      lastSquads = squads.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : squads.last;
-      lastCrunches = crunches.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : crunches.last;
+      lastPushUps =
+          pushUps.isEmpty ? StatsPair(0, DateTime(2023)) : pushUps.last;
+      lastPullUps =
+          pullUps.isEmpty ? StatsPair(0, DateTime(2023)) : pullUps.last;
+      lastSquads = squads.isEmpty ? StatsPair(0, DateTime(2023)) : squads.last;
+      lastCrunches =
+          crunches.isEmpty ? StatsPair(0, DateTime(2023)) : crunches.last;
       fetching = false;
     });
   }

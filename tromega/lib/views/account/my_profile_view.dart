@@ -162,16 +162,13 @@ class _ProfileViewState extends State<ProfileView> {
               text2: lastPushUps.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
-              text1: 'Klimmzüge',
-              text2: lastPullUps.exerciseAmount.toString()),
+              text1: 'Klimmzüge', text2: lastPullUps.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
-              text1: 'Kniebeugen',
-              text2: lastSquads.exerciseAmount.toString()),
+              text1: 'Kniebeugen', text2: lastSquads.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
-              text1: 'Crunches',
-              text2: lastCrunches.exerciseAmount.toString()),
+              text1: 'Crunches', text2: lastCrunches.exerciseAmount.toString()),
         ]));
   }
 
@@ -209,27 +206,21 @@ class _ProfileViewState extends State<ProfileView> {
     Account account = await httpHelper
         .getAccountWithGoogleId(prefs.getString('googleId') ?? '');
     Body body = await httpHelper.getBody(prefs.getString('userId') ?? '');
-        List<dynamic> pushUps = await httpHelper.getBenchmarking("push_ups");
-    List<dynamic> pullUps = await httpHelper.getBenchmarking( "pull_ups");
+    List<dynamic> pushUps = await httpHelper.getBenchmarking("push_ups");
+    List<dynamic> pullUps = await httpHelper.getBenchmarking("pull_ups");
     List<dynamic> squads = await httpHelper.getBenchmarking("squads");
     List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
-
 
     setState(() {
       lastAccount = account;
       lastBody = body;
-      lastPushUps = pushUps.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : pushUps.last;
-      lastPullUps = pullUps.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : pullUps.last;
-      lastSquads = squads.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : squads.last;
-      lastCrunches = crunches.isEmpty
-          ? Benchmarking("", "", "", 0, 0).toJson()
-          : crunches.last;
+      lastPushUps =
+          pushUps.isEmpty ? StatsPair(0, DateTime(2023)) : pushUps.last;
+      lastPullUps =
+          pullUps.isEmpty ? StatsPair(0, DateTime(2023)) : pullUps.last;
+      lastSquads = squads.isEmpty ? StatsPair(0, DateTime(2023)) : squads.last;
+      lastCrunches =
+          crunches.isEmpty ? StatsPair(0, DateTime(2023)) : crunches.last;
       fetching = false;
     });
   }
