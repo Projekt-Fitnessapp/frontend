@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
 
 class CrunchesDialog extends StatefulWidget {
-  CrunchesDialog({Key? key, required this.crunches, required this.changeCrunches})
+  CrunchesDialog(
+      {Key? key, required this.crunches, required this.changeCrunches})
       : super(key: key);
-  
+
   int crunches;
   final ValueChanged<int> changeCrunches;
   @override
@@ -26,10 +27,9 @@ class _CrunchesDialogState extends State<CrunchesDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                           title: "Crunches",
-                          isDecimal: false,
-                          stepSize: 1,
+                          forReps: false,
                           startValue: widget.crunches,
-                          onChangeValue: (int value) {
+                          onSubmit: (int value) {
                             //Aktualisierung der Satzanzahl im Trainingsplan
                             setState(() {});
                             super.setState(() {

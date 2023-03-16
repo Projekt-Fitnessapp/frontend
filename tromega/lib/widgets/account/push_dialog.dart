@@ -26,10 +26,9 @@ class _PushDialogState extends State<PushDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                           title: "Liegestützen",
-                          isDecimal: false,
-                          stepSize: 1,
+                          forReps: false,
                           startValue: widget.pushUps,
-                          onChangeValue: (int value) {
+                          onSubmit: (int value) {
                             //Aktualisierung der Satzanzahl im Trainingsplan
                             setState(() {});
                             super.setState(() {

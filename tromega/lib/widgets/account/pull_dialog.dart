@@ -26,10 +26,9 @@ class _PullDialogState extends State<PullDialog> {
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
                           title: "Klimmzüge",
-                          isDecimal: false,
-                          stepSize: 1,
+                          forReps: false,
                           startValue: widget.pullUps,
-                          onChangeValue: (int value) {
+                          onSubmit: (int value) {
                             //Aktualisierung der Satzanzahl im Trainingsplan
                             setState(() {});
                             super.setState(() {
