@@ -11,8 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class EditPlanView extends StatefulWidget {
   //View zum editieren von Trainingsplänen
 
-  EditPlanView({Key? key, required this.trainingPlan}) : super(key: key);
+  EditPlanView(
+      {Key? key, required this.trainingPlan, this.withBackButton = true})
+      : super(key: key);
   final TrainingPlan trainingPlan;
+  final bool withBackButton;
   late TrainingPlan trainingPlanCopy = TrainingPlan(
       trainingPlan.getId,
       trainingPlan.name,
@@ -55,7 +58,10 @@ class _EditPlanViewState extends State<EditPlanView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBarIcon(actions: const []),
+      appBar: AppBarIcon(
+        actions: const [],
+        withBackButton: widget.withBackButton,
+      ),
       body: Column(children: [
         Row(children: <Widget>[
           Flexible(

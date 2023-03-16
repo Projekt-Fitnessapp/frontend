@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../app.dart';
 import '../../data/http_helper.dart';
 import '../../widgets/plan/plan_view_column.dart';
 import './edit_training_view.dart';
@@ -9,9 +10,11 @@ import 'package:tromega/data/classes/training_plan.dart';
 
 class PlanDetailsView extends StatefulWidget {
   //View für die Visualisierung eines Trainingsplans mit seinen Trainingstagen
-  const PlanDetailsView({Key? key, required this.trainingPlan})
+  PlanDetailsView(
+      {Key? key, required this.trainingPlan, required this.activePlanId})
       : super(key: key);
   final TrainingPlan trainingPlan;
+  String activePlanId;
 
   @override
   State<PlanDetailsView> createState() => _PlanDetailsViewState();
@@ -73,19 +76,46 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
             ],
           ),
         ),
-        widget.trainingPlan.trainingDays.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: ElevatedButton(
-                      onPressed: (() {
-                        activatePlan(widget.trainingPlan.getId);
-                      }),
-                      child: const Text("Plan aktivieren")),
-                ),
-              )
-            : const Text(""),
+        Row(
+          children: [
+            widget.trainingPlan.trainingDays.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: widget.activePlanId != widget.trainingPlan.getId
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green),
+                              onPressed: (() {
+                                activatePlan(widget.trainingPlan.getId);
+                              }),
+                              child: const Text("Plan aktivieren"))
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary:
+                                    const Color.fromARGB(1000, 200, 200, 200),
+                              ),
+                              child: const Text("Plan aktiv"),
+                              onPressed: (() {}),
+                            ),
+                    ),
+                  )
+                : const Text(""),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                    onPressed: (() {
+                      deletePlan(widget.trainingPlan.getId);
+                    }),
+                    child: const Text("Plan löschen")),
+              ),
+            ),
+          ],
+        ),
         SizedBox(
             height: 50,
             child: SizedBox(
@@ -126,13 +156,42 @@ class _PlanDetailsViewState extends State<PlanDetailsView> {
   void activatePlan(String id) async {
     //Erstellung eines neuen leeren Trainingsplans
     final prefs = await SharedPreferences.getInstance();
-    var userId = prefs.getString("userId");
-    userId ??= "634dad62663403c8063adc41";
-    var response = await httpHelper.putActivePlan(userId, id);
-    if (response) {
-      showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
+    var userId = prefs.getString("userId") ?? "";
+    if (userId == "") {
+      await Navigator.pushNamed(context, "/");
     } else {
-      showInSnackbarError(context, "Fehler bei der Aktivierung");
+      var response = await httpHelper.putActivePlan(userId, id);
+      if (response) {
+        showInSnackbar(context, "Trainingsplan erfolgreich aktiviert");
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => App(currentIndex: 0),
+            ));
+      } else {
+        showInSnackbarError(context, "Fehler bei der Aktivierung");
+      }
+    }
+  }
+
+  void deletePlan(String id) async {
+    //Erstellung eines neuen leeren Trainingsplans
+    final prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString("userId") ?? "";
+    if (userId == "") {
+      await Navigator.pushNamed(context, "/");
+    } else {
+      var response = await httpHelper.deleteTrainingsplan(userId, id);
+      if (response) {
+        showInSnackbar(context, "Trainingsplan erfolgreich gelöscht");
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => App(currentIndex: 1),
+            ));
+      } else {
+        showInSnackbarError(context, "Fehler bei der Löschung");
+      }
     }
   }
 

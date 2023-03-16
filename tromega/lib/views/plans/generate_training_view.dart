@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tromega/views/plans/edit_training_view.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/plan/generated_plan_questions_widget.dart';
 import '../../data/http_helper.dart';
@@ -44,16 +45,11 @@ class _GeneratePlanViewState extends State<GeneratePlanView> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        PlanDetailsView(trainingPlan: generatedTrainingsplan),
+                    builder: (context) => EditPlanView(
+                      trainingPlan: generatedTrainingsplan,
+                      withBackButton: false,
+                    ),
                   ));
-              /*
-                  .then((value) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => App(currentIndex: 1),
-                      )));
-                      */
             },
           )
         ],
