@@ -47,6 +47,7 @@ class _GraphState extends State<Graph> {
                       series: <ChartSeries<StatsPair, String>>[
                         // Renders column chart
                         LineSeries<StatsPair, String>(
+                          markerSettings: const MarkerSettings(isVisible: true),
                           dataSource: statsPairs,
                           xValueMapper: (StatsPair data, _) =>
                               "${data.date.day}-${data.date.month}-${data.date.year}",
@@ -65,10 +66,9 @@ class _GraphState extends State<Graph> {
     //gets the trainingsdata of last week (when has the user trained)
     List<StatsPair> stats =
         await httpHelper.getBenchmarking(exercise.toLowerCase());
-    print(stats.last.getExerciseAmount);
 
     setState(() {
-      statsPairs = stats;
+      statsPairs = List.from(stats.reversed);
       fetching = false;
     });
   }
