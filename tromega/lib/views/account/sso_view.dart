@@ -26,7 +26,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void didChangeDependencies() {
-    precacheImage( const AssetImage("public/TrOmega_dark.png"), context);
+    precacheImage(const AssetImage("public/TrOmega_dark.png"), context);
     super.didChangeDependencies();
   }
 
@@ -115,6 +115,8 @@ class _LoginViewState extends State<LoginView> {
 
   void checkForUser() async {
     prefs = await SharedPreferences.getInstance();
-    prefs.containsKey("userId") ? Navigator.of(context).pushNamed('/app') : "";
+    prefs.containsKey("userId") && prefs.containsKey("googleId")
+        ? Navigator.of(context).pushNamed('/app')
+        : "";
   }
 }
