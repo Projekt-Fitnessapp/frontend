@@ -8,8 +8,10 @@ class BottomDialogPicker extends StatefulWidget {
     required this.onSubmit,
     required this.forReps,
     required this.startValue,
+    this.maxValue = 25,
   }) : super(key: key);
   final String title;
+  final int maxValue;
   final Function onSubmit;
   final bool forReps;
   final num startValue;
@@ -84,7 +86,7 @@ class _BottomDialogPickerState extends State<BottomDialogPicker> {
   Widget buildRepetitionPicker() {
     return ValuePicker(
       minValue: 0,
-      maxValue: 25,
+      maxValue: widget.maxValue,
       stepSize: 1,
       onChange: (newValue) => value = newValue,
       onSubmit: (newValue) {

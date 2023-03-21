@@ -26,6 +26,7 @@ class _CrunchesDialogState extends State<CrunchesDialog> {
                 builder: (context) =>
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
+                          maxValue: 200,
                           title: "Crunches",
                           forReps: true,
                           startValue: widget.crunches,

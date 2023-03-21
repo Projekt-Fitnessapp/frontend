@@ -21,9 +21,10 @@ class _StatisticsViewState extends State<StatisticsView> {
       body: ListView(
         shrinkWrap: true,
         children: const [
-          Graph(exercise: "Pullups"),
-          Graph(exercise: "Pushups"),
-          Graph(exercise: "Weightlifting"),
+          Graph(exercise: "Liegestütze"),
+          Graph(exercise: "Klimmzüge"),
+          Graph(exercise: "Kniebeugen"),
+          Graph(exercise: "Crunches"),
         ],
       ),
     );

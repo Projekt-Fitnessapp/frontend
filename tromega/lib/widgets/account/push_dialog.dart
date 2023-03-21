@@ -4,7 +4,7 @@ import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
 class PushDialog extends StatefulWidget {
   PushDialog({Key? key, required this.pushUps, required this.changePushUps})
       : super(key: key);
-  
+
   int pushUps;
   final ValueChanged<int> changePushUps;
   @override
@@ -25,6 +25,7 @@ class _PushDialogState extends State<PushDialog> {
                 builder: (context) =>
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
+                          maxValue: 200,
                           title: "Liegestützen",
                           forReps: true,
                           startValue: widget.pushUps,

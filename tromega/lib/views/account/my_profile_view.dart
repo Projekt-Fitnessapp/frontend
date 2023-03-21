@@ -206,10 +206,12 @@ class _ProfileViewState extends State<ProfileView> {
     Account account = await httpHelper
         .getAccountWithGoogleId(prefs.getString('googleId') ?? '');
     Body body = await httpHelper.getBody(prefs.getString('userId') ?? '');
-    List<dynamic> pushUps = await httpHelper.getBenchmarking("push_ups");
-    List<dynamic> pullUps = await httpHelper.getBenchmarking("pull_ups");
-    List<dynamic> squads = await httpHelper.getBenchmarking("squads");
+    List<dynamic> pushUps = await httpHelper.getBenchmarking("liegestütze");
+    List<dynamic> pullUps = await httpHelper.getBenchmarking("klimmzüge");
+    List<dynamic> squads = await httpHelper.getBenchmarking("kniebeugen");
     List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
+
+    print((pushUps.last as StatsPair).getExerciseAmount);
 
     setState(() {
       lastAccount = account;

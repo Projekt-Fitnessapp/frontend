@@ -65,6 +65,7 @@ class _GraphState extends State<Graph> {
     //gets the trainingsdata of last week (when has the user trained)
     List<StatsPair> stats =
         await httpHelper.getBenchmarking(exercise.toLowerCase());
+    print(stats.last.getExerciseAmount);
 
     setState(() {
       statsPairs = stats;

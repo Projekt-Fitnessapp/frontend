@@ -128,13 +128,13 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                             setState(() {
                               thisPushUps.exercise_amount =
                                   lastPushUps.exerciseAmount;
-                              thisPushUps.exercise_name = "push_ups";
+                              thisPushUps.exercise_name = "liegestütze";
                               thisPullUps.exercise_amount =
                                   lastPullUps.exerciseAmount;
-                              thisPullUps.exercise_name = "pull_ups";
+                              thisPullUps.exercise_name = "klimmzüge";
                               thisSquads.exercise_amount =
                                   lastSquads.exerciseAmount;
-                              thisSquads.exercise_name = "squads";
+                              thisSquads.exercise_name = "kniebeugen";
                               thisCrunches.exercise_amount =
                                   lastCrunches.exerciseAmount;
                               thisCrunches.exercise_name = "crunches";
@@ -180,9 +180,9 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
 
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
-    List<dynamic> pushUps = await httpHelper.getBenchmarking("push_ups");
-    List<dynamic> pullUps = await httpHelper.getBenchmarking("pull_ups");
-    List<dynamic> squads = await httpHelper.getBenchmarking("squads");
+    List<dynamic> pushUps = await httpHelper.getBenchmarking("liegestütze");
+    List<dynamic> pullUps = await httpHelper.getBenchmarking("klimmzüge");
+    List<dynamic> squads = await httpHelper.getBenchmarking("kniebeugen");
     List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
 
     setState(() {

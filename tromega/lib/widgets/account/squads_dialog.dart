@@ -4,7 +4,7 @@ import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
 class SquadsDialog extends StatefulWidget {
   SquadsDialog({Key? key, required this.squads, required this.changeSquads})
       : super(key: key);
-  
+
   int squads;
   final ValueChanged<int> changeSquads;
   @override
@@ -25,6 +25,7 @@ class _SquadsDialogState extends State<SquadsDialog> {
                 builder: (context) =>
                     StatefulBuilder(builder: (context, setState) {
                       return BottomDialogPicker(
+                          maxValue: 200,
                           title: "Kniebeugen",
                           forReps: true,
                           startValue: widget.squads,
