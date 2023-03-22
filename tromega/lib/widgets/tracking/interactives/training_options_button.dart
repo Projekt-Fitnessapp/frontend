@@ -1,3 +1,4 @@
+// Author: Matthias
 import 'package:flutter/material.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/data/classes/training_session.dart';

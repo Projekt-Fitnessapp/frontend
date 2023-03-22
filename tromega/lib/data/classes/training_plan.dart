@@ -1,3 +1,4 @@
+// Author: Steffen
 import 'training_day.dart';
 
 class TrainingPlan {

@@ -7,7 +7,11 @@ import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/questions_widget.dart';
 
+//Erstellt von Rebekka Miguez//
+
 class AddMyDataView extends StatefulWidget {
+  //View zur Speicherung der einmaligen Registrierung eines neuen Users
+
   const AddMyDataView({super.key, required this.googleId});
   final String googleId;
 

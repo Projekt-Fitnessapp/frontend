@@ -1,3 +1,5 @@
+// Erstellt von Tobias Fitzke //
+
 class GeneratedPlanPreferences {
   late String _id, trainingsStatus, trainingsType;
   late int numberOfTrainingssessions;

@@ -1,3 +1,4 @@
+// Author: Maik
 import 'dart:math';
 
 import 'package:flutter/gestures.dart';
@@ -126,6 +127,7 @@ class _HomeViewState extends State<HomeView> {
                 height: 270,
                 child: Column(
                   children: [
+                    //Picks a random qoute
                     Text(quotes[rnd].quote),
                     Text(quotes[rnd].author),
                     const SizedBox(
@@ -165,8 +167,6 @@ class _HomeViewState extends State<HomeView> {
                                     1.0, 1.0, 1.0, 30.0),
                                 child: Text(
                                   nextTraining,
-                                  //style: Theme.of(context).textTheme.titleLarge,
-                                  //textAlign: TextAlign.center,
                                 ),
                               ),
                               ElevatedButton(
@@ -189,8 +189,7 @@ class _HomeViewState extends State<HomeView> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       TrackingView(
-                                                        trainingDayId:
-                                                            ids[0],
+                                                        trainingDayId: ids[0],
                                                         trainingPlanId: ids[1],
                                                       )));
                                         })
@@ -239,6 +238,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void showInSnackbar(BuildContext context, String value) {
+    // Shows a message to the user
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

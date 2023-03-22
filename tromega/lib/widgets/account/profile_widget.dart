@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//Erstellt von Rebekka Miguez//
+
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
   final bool isEdit;

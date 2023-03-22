@@ -1,3 +1,4 @@
+// Author: Matthias, Steffen
 import 'package:flutter/material.dart';
 
 //please add the colors you need for your views in this theme

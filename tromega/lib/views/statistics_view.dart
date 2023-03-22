@@ -1,3 +1,5 @@
+// Author: Maik
+
 import 'package:flutter/material.dart';
 import 'package:tromega/views/stats/graph.dart';
 import '../../widgets/shared/app_bar.dart';
@@ -21,6 +23,7 @@ class _StatisticsViewState extends State<StatisticsView> {
       body: ListView(
         shrinkWrap: true,
         children: const [
+          // Creates a graph for the given exercise
           Graph(exercise: "Liegestütze"),
           Graph(exercise: "Klimmzüge"),
           Graph(exercise: "Kniebeugen"),

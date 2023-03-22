@@ -1,3 +1,4 @@
+// Author: Matthias
 import 'package:flutter/material.dart';
 
 class ConfirmationDialog extends StatelessWidget {

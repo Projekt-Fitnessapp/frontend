@@ -1,3 +1,5 @@
+// Author: Steffen
+
 import '../../widgets/shared/app_bar.dart';
 import '../../data/classes/article.dart';
 import 'dart:ui' as ui;

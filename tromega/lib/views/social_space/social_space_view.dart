@@ -1,3 +1,4 @@
+// Author: Steffen
 import 'package:flutter/material.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../data/classes/article.dart';
