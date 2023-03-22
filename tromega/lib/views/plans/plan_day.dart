@@ -1,3 +1,5 @@
+// Author: Steffen
+
 import 'package:tromega/views/plans/edit_training_view.dart';
 import 'package:tromega/views/in_training/track_training_view.dart';
 

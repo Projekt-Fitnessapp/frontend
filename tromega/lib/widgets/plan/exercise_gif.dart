@@ -1,3 +1,4 @@
+// Author: Steffen
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
 

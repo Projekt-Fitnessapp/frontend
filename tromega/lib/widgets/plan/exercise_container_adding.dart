@@ -1,3 +1,5 @@
+// Author: Steffen
+
 import 'package:flutter/material.dart';
 import '../../data/classes/exercise_sets_reps.dart';
 import '../../data/classes/training_day.dart';

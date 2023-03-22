@@ -1,3 +1,5 @@
+// Author: Steffen
+
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/plan/rs_dialog_plan.dart';
 import '../../data/classes/exercise_sets_reps.dart';
