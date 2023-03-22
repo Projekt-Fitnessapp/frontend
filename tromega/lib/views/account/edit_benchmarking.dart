@@ -10,7 +10,10 @@ import '../../widgets/account/push_dialog.dart';
 import '../../widgets/account/squads_dialog.dart';
 import '../../widgets/shared/app_bar.dart';
 
+// Erstellt von Rebekka Miguez //
+
 class EditBenchmarking extends StatefulWidget {
+//View zur Aktualisierung der neuen Benchmarks
   const EditBenchmarking({Key? key}) : super(key: key);
 
   @override
@@ -30,6 +33,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
   late SharedPreferences prefs;
   bool fetching = true;
 
+  // Aktualisierung der neuen Dialog Values der Übungen
   void _changePushUps(pushUps) {
     setState(() => lastPushUps.exerciseAmount = pushUps);
   }
@@ -93,6 +97,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                     ),
                   ]),
                 ),
+                // Die Dialoge zur Aktualisierung der Benchmarks
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -125,6 +130,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                             primary: const Color.fromARGB(1000, 0, 48, 80),
                           ),
                           onPressed: () {
+                            // Speicherung der neuen Benchmarkwerte
                             setState(() {
                               thisPushUps.exercise_amount =
                                   lastPushUps.exerciseAmount;
@@ -139,9 +145,9 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                                   lastCrunches.exerciseAmount;
                               thisCrunches.exercise_name = "crunches";
                             });
+                            // Neue Benchmark Werte senden
                             sendBenchmarking(thisPushUps, thisPullUps,
                                 thisSquads, thisCrunches);
-                            //Navigator.pushNamed(context, '/myProfile');
                           },
                           child: const Text(
                             'Benchmarking aktualisieren',
@@ -165,6 +171,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
     pushUps.userId = userId;
     squads.userId = userId;
     crunches.userId = userId;
+    //Post Request der neuen Benchmark Werte
     await Future.wait([
       httpHelper.postBenchmarking(pushUps),
       httpHelper.postBenchmarking(pullUps),
@@ -177,7 +184,8 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
           builder: (context) => App(currentIndex: 4),
         ));
   }
-
+  
+  //Aktuelle Benchmarkwerte erhalten
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
     List<dynamic> pushUps = await httpHelper.getBenchmarking("liegestütze");
