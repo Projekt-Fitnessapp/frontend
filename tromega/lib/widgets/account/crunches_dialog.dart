@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
 
+//Erstellt von Rebekka Miguez//
+
 class CrunchesDialog extends StatefulWidget {
+  //Dialog zur Eingabe der Crunches
   CrunchesDialog(
       {Key? key, required this.crunches, required this.changeCrunches})
       : super(key: key);
