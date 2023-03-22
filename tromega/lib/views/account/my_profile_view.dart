@@ -9,7 +9,10 @@ import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 import 'package:intl/intl.dart';
 
+//Erstellt von Rebekka Miguez//
+
 class ProfileView extends StatefulWidget {
+  //View über die Profildaten 
   const ProfileView({Key? key}) : super(key: key);
 
   @override
@@ -32,12 +35,14 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void handleSignOut() async {
+    //Aktueller User ausloggen
     await _googleSignInService.signOut().then((value) {
       if (!value) {
         showInSnackbar(context, "Logout gescheitert", true);
       } else {
         showInSnackbar(context, "Logout erfolgreich", false);
         prefs.clear();
+        //Bei erfolgreichem Logout Navigation ins LoginView 
         Navigator.pushNamed(context, "/");
       }
     });
@@ -69,6 +74,7 @@ class _ProfileViewState extends State<ProfileView> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
+                    // Sign Out Button
                     ElevatedButton.icon(
                       icon: const FaIcon(
                         FontAwesomeIcons.google,
@@ -105,6 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
         ],
       );
 
+  // Ausgabe Profil Daten
   Widget buildData() {
     DateFormat formatter = DateFormat.yMMMMd('de_DE');
     var formattedDate = formatter.format(lastAccount.birthdate);
