@@ -1,3 +1,4 @@
+// Author: Steffen
 class TrainDay {
   late DateTime date;
   late bool trained;

@@ -5,7 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
 
+//Erstellt von Rebekka Miguez//
+
 class LoginView extends StatefulWidget {
+  //Erste View zum Einloggen mit SSO
+
   const LoginView({super.key});
 
   @override
@@ -31,6 +35,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void handleSignIn() async {
+    //Einloggen
     await _googleSignInService.signIn()
         ? showInSnackbar(context, "Login erfolgreich", false)
         : showInSnackbar(context, "Login gescheitert", true);
@@ -39,6 +44,7 @@ class _LoginViewState extends State<LoginView> {
         prefs.setString('token', value.accessToken ?? '');
       });
       prefs.setString('googleId', _googleSignInService.user?.id ?? '');
+      //Prüfung ob der Account bereits existiert
       httpHelper
           .accountExist(_googleSignInService.user?.id ?? '')
           .then((exists) {
@@ -47,9 +53,11 @@ class _LoginViewState extends State<LoginView> {
               .getAccountWithGoogleId(_googleSignInService.user?.id ?? '')
               .then((account) {
             prefs.setString('userId', account.getId());
+            //Navigation zur Home View
             Navigator.of(context).pushNamed('/app');
           });
         } else {
+          //Navigation zur einmaligen Registrierung
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => AddMyDataView(
                     googleId: _googleSignInService.user?.id ?? '',
@@ -113,8 +121,10 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
+  //Prüfung, ob User noch angemeldet ist
   void checkForUser() async {
     prefs = await SharedPreferences.getInstance();
+    //Navigation HomeView
     prefs.containsKey("userId") ? Navigator.of(context).pushNamed('/app') : "";
   }
 }

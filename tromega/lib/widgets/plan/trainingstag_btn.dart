@@ -1,3 +1,4 @@
+// Author: Steffen
 import 'package:flutter/material.dart';
 import 'package:tromega/views/plans/plan_day.dart';
 import 'package:tromega/data/classes/training_day.dart';

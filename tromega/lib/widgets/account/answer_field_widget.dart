@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+//Erstellt von Rebekka Miguez//
+
+
 class AnswerFieldWidget extends StatefulWidget {
+  //Texfelder zum Antworten auf die Registrierungsfragen
+
   final int maxLength;
   final String regExp;
   final String hintText;
@@ -29,7 +34,7 @@ class _AnswerFieldWidgetState extends State<AnswerFieldWidget> {
 
     controller = TextEditingController();
   }
-
+  
   @override
   void dispose() {
     controller.dispose();

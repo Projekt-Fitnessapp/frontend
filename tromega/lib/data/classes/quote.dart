@@ -1,3 +1,4 @@
+// Author: Steffen
 class Quote {
   late String author, quote;
 

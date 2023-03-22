@@ -1,3 +1,5 @@
+// Author: Maik
+
 import 'package:flutter/material.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -48,9 +50,9 @@ class _GraphState extends State<Graph> {
                         // Renders column chart
                         LineSeries<StatsPair, String>(
                           dataSource: statsPairs,
+                          // x and y Value are assigend
                           xValueMapper: (StatsPair data, _) =>
-                              "${data.date.day}-${data.date.month}-${data.date.year}",
-                          //data.date.toString(),
+                              "${data.date.day}-${data.date.month}-${data.date.year}", //Date is transformed in right format,
                           yValueMapper: (StatsPair data, _) =>
                               data.exerciseAmount,
                         )

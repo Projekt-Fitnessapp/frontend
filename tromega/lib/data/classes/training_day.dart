@@ -1,3 +1,4 @@
+// Author: Matthias, Steffen
 import 'exercise_sets_reps.dart';
 
 class TrainingDay {

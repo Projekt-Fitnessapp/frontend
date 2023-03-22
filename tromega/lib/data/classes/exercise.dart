@@ -1,3 +1,4 @@
+// Author: Matthias, Steffen
 class Exercise {
   late String _id, name, instruction, gifUrl, muscle, equipment;
 
