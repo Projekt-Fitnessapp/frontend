@@ -1,3 +1,5 @@
+// Erstellt von Tobias Fitzke //
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/generated_plan_preferences.dart';
