@@ -1,3 +1,5 @@
+//Erstellt von Rebekka Miguez//
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/account.dart';
@@ -6,8 +8,6 @@ import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/questions_widget.dart';
-
-//Erstellt von Rebekka Miguez//
 
 class AddMyDataView extends StatefulWidget {
   //View zur Speicherung der einmaligen Registrierung eines neuen Users
@@ -41,9 +41,11 @@ class _AddMyDataViewState extends State<AddMyDataView> {
               Benchmarking pushUps,
               Benchmarking pullUps,
               Benchmarking squads,
-              Benchmarking crunches) {
+              Benchmarking crunches) async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            account.google_id = prefs.getString('googleId') ?? '';
             httpHelper.postAccount(account).then((account) {
-              SharedPreferences.getInstance().then((prefs) async{
+              SharedPreferences.getInstance().then((prefs) async {
                 String userId = prefs.getString('userId') ?? '';
                 body.userId = userId;
                 pullUps.userId = userId;

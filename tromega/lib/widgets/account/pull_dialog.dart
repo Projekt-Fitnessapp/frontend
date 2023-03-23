@@ -1,7 +1,7 @@
+// Erstellt von Rebekka Miguez //
+
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
-
-// Erstellt von Rebekka Miguez //
 
 class PullDialog extends StatefulWidget {
   //Dialog zur Eingabe der Klimmzüge
@@ -33,7 +33,7 @@ class _PullDialogState extends State<PullDialog> {
                           forReps: true,
                           startValue: widget.pullUps,
                           onSubmit: (int value) {
-                            //Aktualisierung der Satzanzahl im Trainingsplan
+                            //Aktualisierung der Anzahl der Klimmzüge
                             setState(() {});
                             super.setState(() {
                               widget.pullUps = value;

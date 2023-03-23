@@ -1,15 +1,15 @@
+//Erstellt von Rebekka Miguez//
+
 import 'package:flutter/material.dart';
 import 'package:tromega/data/classes/benchmarking.dart';
 import 'package:tromega/data/classes/account.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
-import 'package:tromega/widgets/account/data_widget.dart';
-import 'package:tromega/widgets/account/dropdown_widget.dart';
-import 'package:tromega/widgets/account/routebutton_widget.dart';
 import 'package:intl/intl.dart';
-
-//Erstellt von Rebekka Miguez//
+import '../shared/data_widget.dart';
+import '../shared/dropdown_widget.dart';
+import '../shared/routebutton_widget.dart';
 
 class QuestionWidget extends StatefulWidget {
   //Die Widget zur Eintragung der einzelnen Profil Daten
@@ -30,12 +30,12 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   late TextEditingController push_ups;
   late TextEditingController pull_ups;
   late TextEditingController crunches;
-  late TextEditingController squads;
+  late TextEditingController squats;
   late Body thisBody;
   late Account thisAccount;
   late Benchmarking thisPushUps;
   late Benchmarking thisPullUps;
-  late Benchmarking thisSquads;
+  late Benchmarking thisSquats;
   late Benchmarking thisCrunches;
 
   @override
@@ -50,10 +50,10 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     push_ups = TextEditingController();
     pull_ups = TextEditingController();
     crunches = TextEditingController();
-    squads = TextEditingController();
+    squats = TextEditingController();
     thisPushUps = Benchmarking("", "", "", 0, 0);
     thisPullUps = Benchmarking("", "", "", 0, 0);
-    thisSquads = Benchmarking("", "", "", 0, 0);
+    thisSquats = Benchmarking("", "", "", 0, 0);
     thisCrunches = Benchmarking("", "", "", 0, 0);
     super.initState();
   }
@@ -72,6 +72,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            //Einzelne Blöcke mit Fragen und Antwortfeldern
             buildQuestion(text: 'Wie heißt du?'),
             AnswerFieldWidget(
               maxLength: 30,
@@ -135,7 +136,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                 maxLength: 3,
                 hintText: "0",
                 suffixText: "",
-                controller: squads,
+                controller: squats,
                 regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Crunches schaffst du?'),
             AnswerFieldWidget(
@@ -156,16 +157,16 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                     thisAccount.name = changedName.text;
                     thisAccount.sex = gender;
                     thisPushUps.exercise_amount = int.parse(push_ups.text);
-                    thisPushUps.exercise_name = "push_ups";
+                    thisPushUps.exercise_name = "liegestütze";
                     thisPullUps.exercise_amount = int.parse(pull_ups.text);
-                    thisPullUps.exercise_name = "pull_ups";
-                    thisSquads.exercise_amount = int.parse(squads.text);
-                    thisSquads.exercise_name = "squads";
+                    thisPullUps.exercise_name = "klimmzüge";
+                    thisSquats.exercise_amount = int.parse(squats.text);
+                    thisSquats.exercise_name = "kniebeugen";
                     thisCrunches.exercise_amount = int.parse(crunches.text);
                     thisCrunches.exercise_name = "crunches";
                   });
                   widget.onFinished(thisAccount, thisBody, thisPushUps,
-                      thisPullUps, thisSquads, thisCrunches);
+                      thisPullUps, thisSquats, thisCrunches);
                 })
           ],
         ),

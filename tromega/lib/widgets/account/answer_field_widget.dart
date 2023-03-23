@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 //Erstellt von Rebekka Miguez//
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AnswerFieldWidget extends StatefulWidget {
   //Texfelder zum Antworten auf die Registrierungsfragen

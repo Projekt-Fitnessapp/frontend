@@ -1,7 +1,7 @@
+//Erstellt von Rebekka Miguez//
+
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
-
-//Erstellt von Rebekka Miguez//
 
 class CrunchesDialog extends StatefulWidget {
   //Dialog zur Eingabe der Crunches
@@ -34,7 +34,7 @@ class _CrunchesDialogState extends State<CrunchesDialog> {
                           forReps: true,
                           startValue: widget.crunches,
                           onSubmit: (int value) {
-                            //Aktualisierung der Satzanzahl im Trainingsplan
+                            //Aktualisierung der Anzahl der Crunches
                             setState(() {});
                             super.setState(() {
                               widget.crunches = value;

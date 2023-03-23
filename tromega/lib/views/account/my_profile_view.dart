@@ -1,3 +1,5 @@
+// Erstellt von Rebekka Miguez //
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_signin_service.dart';
@@ -10,7 +12,6 @@ import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 import 'package:intl/intl.dart';
 import 'edit_benchmarking.dart';
-//Erstellt von Rebekka Miguez//
 
 class ProfileView extends StatefulWidget {
   //View über die Profildaten 
@@ -26,7 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
   late Body lastBody;
   late StatsPair lastPushUps;
   late StatsPair lastPullUps;
-  late StatsPair lastSquads;
+  late StatsPair lastSquats;
   late StatsPair lastCrunches;
   late HttpHelper httpHelper;
   late SharedPreferences prefs;
@@ -168,7 +169,7 @@ class _ProfileViewState extends State<ProfileView> {
               text1: 'Klimmzüge', text2: lastPullUps.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
-              text1: 'Kniebeugen', text2: lastSquads.exerciseAmount.toString()),
+              text1: 'Kniebeugen', text2: lastSquats.exerciseAmount.toString()),
           const SizedBox(height: 24),
           buildDataRow(
               text1: 'Crunches', text2: lastCrunches.exerciseAmount.toString()),
@@ -211,10 +212,8 @@ class _ProfileViewState extends State<ProfileView> {
     Body body = await httpHelper.getBody(prefs.getString('userId') ?? '');
     List<dynamic> pushUps = await httpHelper.getBenchmarking("liegestütze");
     List<dynamic> pullUps = await httpHelper.getBenchmarking("klimmzüge");
-    List<dynamic> squads = await httpHelper.getBenchmarking("kniebeugen");
+    List<dynamic> squats = await httpHelper.getBenchmarking("kniebeugen");
     List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
-
-    print((pushUps.last as StatsPair).getExerciseAmount);
 
     setState(() {
       lastAccount = account;
@@ -223,7 +222,7 @@ class _ProfileViewState extends State<ProfileView> {
           pushUps.isEmpty ? StatsPair(0, DateTime(2023)) : pushUps.last;
       lastPullUps =
           pullUps.isEmpty ? StatsPair(0, DateTime(2023)) : pullUps.last;
-      lastSquads = squads.isEmpty ? StatsPair(0, DateTime(2023)) : squads.last;
+      lastSquats = squats.isEmpty ? StatsPair(0, DateTime(2023)) : squats.last;
       lastCrunches =
           crunches.isEmpty ? StatsPair(0, DateTime(2023)) : crunches.last;
       fetching = false;

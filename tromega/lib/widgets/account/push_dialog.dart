@@ -1,7 +1,7 @@
+// Erstellt von Rebekka Miguez //
+
 import 'package:flutter/material.dart';
 import 'package:tromega/widgets/tracking/Dialogs/bottom_dialog_picker.dart';
-
-// Erstellt von Rebekka Miguez //
 
 class PushDialog extends StatefulWidget {
   //Dialog zur Eingabe der Liegestütze
@@ -33,7 +33,7 @@ class _PushDialogState extends State<PushDialog> {
                           forReps: true,
                           startValue: widget.pushUps,
                           onSubmit: (int value) {
-                            //Aktualisierung der Satzanzahl im Trainingsplan
+                            //Aktualisierung der Anzahl der Ligestütze
                             setState(() {});
                             super.setState(() {
                               widget.pushUps = value;

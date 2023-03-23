@@ -1,11 +1,11 @@
+//Erstellt von Rebekka Miguez//
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:tromega/data/account_signin_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/views/account/add_my_data_view.dart';
-
-//Erstellt von Rebekka Miguez//
 
 class LoginView extends StatefulWidget {
   //Erste View zum Einloggen mit SSO

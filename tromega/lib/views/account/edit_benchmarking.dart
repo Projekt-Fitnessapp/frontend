@@ -1,3 +1,5 @@
+// Erstellt von Rebekka Miguez //
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/benchmarking.dart';
@@ -6,11 +8,9 @@ import 'package:tromega/data/http_helper.dart';
 import '../../app.dart';
 import '../../widgets/account/crunches_dialog.dart';
 import '../../widgets/account/pull_dialog.dart';
-import '../../widgets/account/push_dialog.dart';
 import '../../widgets/account/squads_dialog.dart';
+import '../../widgets/account/push_dialog.dart';
 import '../../widgets/shared/app_bar.dart';
-
-// Erstellt von Rebekka Miguez //
 
 class EditBenchmarking extends StatefulWidget {
 //View zur Aktualisierung der neuen Benchmarks
@@ -23,11 +23,11 @@ class EditBenchmarking extends StatefulWidget {
 class _EditBenchmarkingState extends State<EditBenchmarking> {
   late StatsPair lastPushUps;
   late StatsPair lastPullUps;
-  late StatsPair lastSquads;
+  late StatsPair lastSquats;
   late StatsPair lastCrunches;
   late Benchmarking thisPushUps;
   late Benchmarking thisPullUps;
-  late Benchmarking thisSquads;
+  late Benchmarking thisSquats;
   late Benchmarking thisCrunches;
   late HttpHelper httpHelper;
   late SharedPreferences prefs;
@@ -42,8 +42,8 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
     setState(() => lastPullUps.exerciseAmount = pullUps);
   }
 
-  void _changeSquads(int squads) {
-    setState(() => lastSquads.exerciseAmount = squads);
+  void _changeSquats(int squads) {
+    setState(() => lastSquats.exerciseAmount = squads);
   }
 
   void _changeCrunches(int crunches) {
@@ -55,7 +55,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
     httpHelper = HttpHelper();
     thisPushUps = Benchmarking("", "", "", 0, 0);
     thisPullUps = Benchmarking("", "", "", 0, 0);
-    thisSquads = Benchmarking("", "", "", 0, 0);
+    thisSquats = Benchmarking("", "", "", 0, 0);
     thisCrunches = Benchmarking("", "", "", 0, 0);
     fetchData();
     super.initState();
@@ -112,8 +112,8 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SquadsDialog(
-                          squads: lastSquads.exerciseAmount,
-                          changeSquads: _changeSquads),
+                          squads: lastSquats.exerciseAmount,
+                          changeSquads: _changeSquats),
                       CrunchesDialog(
                           crunches: lastCrunches.exerciseAmount,
                           changeCrunches: _changeCrunches),
@@ -138,16 +138,16 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
                               thisPullUps.exercise_amount =
                                   lastPullUps.exerciseAmount;
                               thisPullUps.exercise_name = "klimmzüge";
-                              thisSquads.exercise_amount =
-                                  lastSquads.exerciseAmount;
-                              thisSquads.exercise_name = "kniebeugen";
+                              thisSquats.exercise_amount =
+                                  lastSquats.exerciseAmount;
+                              thisSquats.exercise_name = "kniebeugen";
                               thisCrunches.exercise_amount =
                                   lastCrunches.exerciseAmount;
                               thisCrunches.exercise_name = "crunches";
                             });
                             // Neue Benchmark Werte senden
                             sendBenchmarking(thisPushUps, thisPullUps,
-                                thisSquads, thisCrunches);
+                                thisSquats, thisCrunches);
                           },
                           child: const Text(
                             'Benchmarking aktualisieren',
@@ -184,7 +184,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
           builder: (context) => App(currentIndex: 4),
         ));
   }
-  
+
   //Aktuelle Benchmarkwerte erhalten
   void fetchData() async {
     prefs = await SharedPreferences.getInstance();
@@ -198,7 +198,7 @@ class _EditBenchmarkingState extends State<EditBenchmarking> {
           pushUps.isEmpty ? StatsPair(0, DateTime(2023)) : pushUps.last;
       lastPullUps =
           pullUps.isEmpty ? StatsPair(0, DateTime(2023)) : pullUps.last;
-      lastSquads = squads.isEmpty ? StatsPair(0, DateTime(2023)) : squads.last;
+      lastSquats = squads.isEmpty ? StatsPair(0, DateTime(2023)) : squads.last;
       lastCrunches =
           crunches.isEmpty ? StatsPair(0, DateTime(2023)) : crunches.last;
       fetching = false;
