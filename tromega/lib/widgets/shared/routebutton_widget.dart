@@ -1,4 +1,4 @@
-// Erstellt von Tobias Fitzke //
+// Erstellt von Tobias Fitzke und Rebekka Miguez//
 
 import 'package:flutter/material.dart';
 

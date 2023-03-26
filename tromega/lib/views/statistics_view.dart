@@ -24,9 +24,10 @@ class _StatisticsViewState extends State<StatisticsView> {
         shrinkWrap: true,
         children: const [
           // Creates a graph for the given exercise
-          Graph(exercise: "Pullups"),
-          Graph(exercise: "Pushups"),
-          Graph(exercise: "Weightlifting"),
+          Graph(exercise: "Liegestütze"),
+          Graph(exercise: "Klimmzüge"),
+          Graph(exercise: "Kniebeugen"),
+          Graph(exercise: "Crunches"),
         ],
       ),
     );

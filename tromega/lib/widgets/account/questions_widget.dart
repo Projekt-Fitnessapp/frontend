@@ -1,14 +1,15 @@
+//Erstellt von Rebekka Miguez//
+
 import 'package:flutter/material.dart';
+import 'package:tromega/data/classes/benchmarking.dart';
 import 'package:tromega/data/classes/account.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/account/answer_field_widget.dart';
-import 'package:tromega/widgets/account/data_widget.dart';
-import 'package:tromega/widgets/account/dropdown_widget.dart';
-import 'package:tromega/widgets/account/routebutton_widget.dart';
 import 'package:intl/intl.dart';
-
-//Erstellt von Rebekka Miguez//
+import '../shared/data_widget.dart';
+import '../shared/dropdown_widget.dart';
+import '../shared/routebutton_widget.dart';
 
 class QuestionWidget extends StatefulWidget {
   //Die Widget zur Eintragung der einzelnen Profil Daten
@@ -26,8 +27,16 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
   late TextEditingController changedName;
   late TextEditingController changedHeight;
   late TextEditingController changedWeight;
+  late TextEditingController push_ups;
+  late TextEditingController pull_ups;
+  late TextEditingController crunches;
+  late TextEditingController squats;
   late Body thisBody;
   late Account thisAccount;
+  late Benchmarking thisPushUps;
+  late Benchmarking thisPullUps;
+  late Benchmarking thisSquats;
+  late Benchmarking thisCrunches;
 
   @override
   void initState() {
@@ -38,18 +47,16 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
     changedName = TextEditingController();
     changedHeight = TextEditingController();
     changedWeight = TextEditingController();
+    push_ups = TextEditingController();
+    pull_ups = TextEditingController();
+    crunches = TextEditingController();
+    squats = TextEditingController();
+    thisPushUps = Benchmarking("", "", "", 0, 0);
+    thisPullUps = Benchmarking("", "", "", 0, 0);
+    thisSquats = Benchmarking("", "", "", 0, 0);
+    thisCrunches = Benchmarking("", "", "", 0, 0);
     super.initState();
   }
-
-  String trainingExperience = "Ja";
-  List<String> experienceOptions = ["Ja", "Ein bisschen", "Nein"];
-
-  String trainingGoal = "Muskeln aufbauen";
-  late List<String> trainingOptions = [
-    "Muskeln aufbauen",
-    "Ausdauer verbessern",
-    "Gewicht verlieren"
-  ];
 
   late String gender = "male";
   late List<String> genderOptions = ["male", "female"];
@@ -65,6 +72,7 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            //Einzelne Blöcke mit Fragen und Antwortfeldern
             buildQuestion(text: 'Wie heißt du?'),
             AnswerFieldWidget(
               maxLength: 30,
@@ -110,13 +118,33 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
             ),
             const SizedBox(height: 16),
             buildQuestion(text: 'Wie viele Liegestützen schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: push_ups,
+                regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Klimmzüge schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: pull_ups,
+                regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Kniebeugen schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: squats,
+                regExp: '[0-9]'),
             buildQuestion(text: 'Wie viele Crunches schaffst du?'),
-            buildTextField(color),
+            AnswerFieldWidget(
+                maxLength: 3,
+                hintText: "0",
+                suffixText: "",
+                controller: crunches,
+                regExp: '[0-9]'),
             RouteButtonWidget(
                 color: color,
                 text: 'Registrieren',
@@ -128,8 +156,17 @@ class _SecondQuestionWidget extends State<QuestionWidget> {
                     thisAccount.birthdate = format.parse(changedBirthday.text);
                     thisAccount.name = changedName.text;
                     thisAccount.sex = gender;
+                    thisPushUps.exercise_amount = int.parse(push_ups.text);
+                    thisPushUps.exercise_name = "liegestütze";
+                    thisPullUps.exercise_amount = int.parse(pull_ups.text);
+                    thisPullUps.exercise_name = "klimmzüge";
+                    thisSquats.exercise_amount = int.parse(squats.text);
+                    thisSquats.exercise_name = "kniebeugen";
+                    thisCrunches.exercise_amount = int.parse(crunches.text);
+                    thisCrunches.exercise_name = "crunches";
                   });
-                  widget.onFinished(thisAccount, thisBody);
+                  widget.onFinished(thisAccount, thisBody, thisPushUps,
+                      thisPullUps, thisSquats, thisCrunches);
                 })
           ],
         ),

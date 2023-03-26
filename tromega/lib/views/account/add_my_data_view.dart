@@ -1,12 +1,13 @@
+//Erstellt von Rebekka Miguez//
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/account.dart';
+import 'package:tromega/data/classes/benchmarking.dart';
 import 'package:tromega/data/http_helper.dart';
 import 'package:tromega/data/classes/body.dart';
 import 'package:tromega/widgets/shared/app_bar.dart';
 import '../../widgets/account/questions_widget.dart';
-
-//Erstellt von Rebekka Miguez//
 
 class AddMyDataView extends StatefulWidget {
   //View zur Speicherung der einmaligen Registrierung eines neuen Users
@@ -35,15 +36,30 @@ class _AddMyDataViewState extends State<AddMyDataView> {
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(height: 24),
-          QuestionWidget(onFinished: (Account account, Body body) {
-            //Account Daten versendet
+          QuestionWidget(onFinished: (Account account,
+              Body body,
+              Benchmarking pushUps,
+              Benchmarking pullUps,
+              Benchmarking squads,
+              Benchmarking crunches) async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            account.google_id = prefs.getString('googleId') ?? '';
             httpHelper.postAccount(account).then((account) {
-              SharedPreferences.getInstance().then((prefs) {
+              SharedPreferences.getInstance().then((prefs) async {
                 String userId = prefs.getString('userId') ?? '';
                 body.userId = userId;
-                //Body Daten versendet
-                httpHelper.postBody(body).then(
-                    (value) => Navigator.pushNamed(context, '/myProfile'));
+                pullUps.userId = userId;
+                pushUps.userId = userId;
+                squads.userId = userId;
+                crunches.userId = userId;
+                await Future.wait([
+                  httpHelper.postBody(body),
+                  httpHelper.postBenchmarking(pushUps),
+                  httpHelper.postBenchmarking(pullUps),
+                  httpHelper.postBenchmarking(squads),
+                  httpHelper.postBenchmarking(crunches),
+                ]);
+                Navigator.pushNamed(context, '/myProfile');
               });
             });
           })

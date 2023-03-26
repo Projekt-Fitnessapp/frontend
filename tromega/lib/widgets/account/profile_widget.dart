@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-
 //Erstellt von Rebekka Miguez//
 
+import 'package:flutter/material.dart';
+
 class ProfileWidget extends StatelessWidget {
+  // Profilbild Widget
   final String imagePath;
   final bool isEdit;
   final VoidCallback onClicked;

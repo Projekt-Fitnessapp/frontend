@@ -1,15 +1,17 @@
+// Erstellt von Rebekka Miguez //
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tromega/data/account_signin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tromega/data/classes/account.dart';
 import 'package:tromega/data/classes/body.dart';
+import 'package:tromega/data/classes/stats_pair.dart';
 import 'package:tromega/data/http_helper.dart';
 import '../../widgets/shared/app_bar.dart';
 import '../../widgets/account/profile_widget.dart';
 import 'package:intl/intl.dart';
-
-//Erstellt von Rebekka Miguez//
+import 'edit_benchmarking.dart';
 
 class ProfileView extends StatefulWidget {
   //View über die Profildaten 
@@ -23,6 +25,10 @@ class _ProfileViewState extends State<ProfileView> {
   final GoogleSignInService _googleSignInService = GoogleSignInService();
   late Account lastAccount;
   late Body lastBody;
+  late StatsPair lastPushUps;
+  late StatsPair lastPullUps;
+  late StatsPair lastSquats;
+  late StatsPair lastCrunches;
   late HttpHelper httpHelper;
   late SharedPreferences prefs;
   bool fetching = true;
@@ -50,6 +56,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: AppBarIcon(
         actions: const [],
@@ -72,27 +79,53 @@ class _ProfileViewState extends State<ProfileView> {
                 buildData(),
                 const SizedBox(height: 24),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    // Sign Out Button
-                    ElevatedButton.icon(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.google,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 50),
-                        maximumSize: const Size(200, 50),
-                        primary: const Color.fromARGB(1000, 0, 48, 80),
-                      ),
-                      onPressed: handleSignOut,
-                      label: const Text(
-                        'Sign Out',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(200, 50),
+                          maximumSize: const Size(200, 50),
+                          primary: const Color.fromARGB(1000, 0, 48, 80),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const EditBenchmarking())));
+                        },
+                        child: const Text(
+                          'Benchmarking ändern',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ]),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      ElevatedButton.icon(
+                        icon: const FaIcon(
+                          FontAwesomeIcons.google,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(200, 50),
+                          maximumSize: const Size(200, 50),
+                          primary: const Color.fromARGB(1000, 0, 48, 80),
+                        ),
+                        onPressed: handleSignOut,
+                        label: const Text(
+                          'Sign Out',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -117,22 +150,30 @@ class _ProfileViewState extends State<ProfileView> {
     var formattedDate = formatter.format(lastAccount.birthdate);
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            buildDataRow(text1: 'Alter', text2: formattedDate),
-            const SizedBox(height: 24),
-            buildDataRow(
-                text1: 'Größe', text2: "${lastBody.height.toString()} cm"),
-            const SizedBox(height: 24),
-            buildDataRow(
-                text1: 'Gewicht', text2: "${lastBody.weight.toString()} kg"),
-            const SizedBox(height: 24),
-            buildDataRow(
-                text1: 'Geschlecht', text2: lastAccount.sex.toString()),
-            const SizedBox(height: 24),
-            buildDataRow(text1: 'Trainingsziel', text2: "Muskeln aufbauen")
-          ],
-        ));
+        child: Column(children: [
+          buildDataRow(text1: 'Alter', text2: formattedDate),
+          const SizedBox(height: 24),
+          buildDataRow(
+              text1: 'Größe', text2: "${lastBody.height.toString()} cm"),
+          const SizedBox(height: 24),
+          buildDataRow(
+              text1: 'Gewicht', text2: "${lastBody.weight.toString()} kg"),
+          const SizedBox(height: 24),
+          buildDataRow(text1: 'Geschlecht', text2: lastAccount.sex.toString()),
+          const SizedBox(height: 24),
+          buildDataRow(
+              text1: 'Liegestütze',
+              text2: lastPushUps.exerciseAmount.toString()),
+          const SizedBox(height: 24),
+          buildDataRow(
+              text1: 'Klimmzüge', text2: lastPullUps.exerciseAmount.toString()),
+          const SizedBox(height: 24),
+          buildDataRow(
+              text1: 'Kniebeugen', text2: lastSquats.exerciseAmount.toString()),
+          const SizedBox(height: 24),
+          buildDataRow(
+              text1: 'Crunches', text2: lastCrunches.exerciseAmount.toString()),
+        ]));
   }
 
   Widget buildDataRow({required String text1, text2}) => Container(
@@ -169,10 +210,21 @@ class _ProfileViewState extends State<ProfileView> {
     Account account = await httpHelper
         .getAccountWithGoogleId(prefs.getString('googleId') ?? '');
     Body body = await httpHelper.getBody(prefs.getString('userId') ?? '');
+    List<dynamic> pushUps = await httpHelper.getBenchmarking("liegestütze");
+    List<dynamic> pullUps = await httpHelper.getBenchmarking("klimmzüge");
+    List<dynamic> squats = await httpHelper.getBenchmarking("kniebeugen");
+    List<dynamic> crunches = await httpHelper.getBenchmarking("crunches");
 
     setState(() {
       lastAccount = account;
       lastBody = body;
+      lastPushUps =
+          pushUps.isEmpty ? StatsPair(0, DateTime(2023)) : pushUps.last;
+      lastPullUps =
+          pullUps.isEmpty ? StatsPair(0, DateTime(2023)) : pullUps.last;
+      lastSquats = squats.isEmpty ? StatsPair(0, DateTime(2023)) : squats.last;
+      lastCrunches =
+          crunches.isEmpty ? StatsPair(0, DateTime(2023)) : crunches.last;
       fetching = false;
     });
   }

@@ -49,6 +49,7 @@ class _GraphState extends State<Graph> {
                       series: <ChartSeries<StatsPair, String>>[
                         // Renders column chart
                         LineSeries<StatsPair, String>(
+                          markerSettings: const MarkerSettings(isVisible: true),
                           dataSource: statsPairs,
                           // x and y Value are assigend
                           xValueMapper: (StatsPair data, _) =>
@@ -69,7 +70,7 @@ class _GraphState extends State<Graph> {
         await httpHelper.getBenchmarking(exercise.toLowerCase());
 
     setState(() {
-      statsPairs = stats;
+      statsPairs = List.from(stats.reversed);
       fetching = false;
     });
   }

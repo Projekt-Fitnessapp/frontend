@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'classes/account.dart';
+import 'classes/benchmarking.dart';
 import 'classes/body.dart';
 import 'classes/exercise.dart';
 import 'classes/exercise_sets_reps.dart';
@@ -163,6 +164,24 @@ class HttpHelper {
         HttpHeaders.contentTypeHeader: "application/json"
         //HttpHeaders.authorizationHeader: prefs.getString('token') ?? '',
       },
+      body: jsonBody,
+    );
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> postBenchmarking(Benchmarking benchmarking) async {
+    String newPath = '/benchmarking';
+    Uri uri = Uri.https(authority, newPath);
+
+    String jsonBody = jsonEncode(benchmarking.toJson());
+    http.Response res = await http.post(
+      uri,
+      headers: {HttpHeaders.contentTypeHeader: "application/json"},
       body: jsonBody,
     );
 
